@@ -100,3 +100,5 @@ class MyScene(Scene):
 | [Manim Community](https://github.com/ManimCommunity/manim)（生成的目标代码） | MIT |
 
 本项目生成的 Python 代码不包含上述依赖，仅运行结果受目标环境约束。
+
+## 最后更新时间：2026/08/19
