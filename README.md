@@ -1,6 +1,6 @@
 # 🧊 Manim Blocks
 
-拖积木生成 [Manim](https://github.com/ManimCommunity/manim) Python 动画脚本。用法和 Scratch 一样，不需要编程语言基础，可以同时学习数学和编程。在此特别感谢Scratch(https://scratch.mit.edu/)为本项目提供的灵感，它是我儿时的玩伴（可能并没那么要好）。
+拖积木生成 [Manim](https://github.com/ManimCommunity/manim) Python 动画脚本。用法和 Scratch 一样，不需要编程语言基础，可以同时学习数学和编程。在此特别感谢Scratch(https://scratch.mit.edu/) 为本项目提供的灵感，它是我儿时的玩伴（可能并没那么要好）。
 
 在线使用：**https://kaoyusiliao.github.io/manim-blocks/**
 
