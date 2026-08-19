@@ -151,8 +151,8 @@ function blockChainToCode(firstBlock, n) {
 
 /** 如果坐标非零则附加 .move_to() */
 function maybeMoveTo(block, n) {
-  const x = _v(block, 'X'), y = _v(block, 'Y');
-  if (x !== '0' || y !== '0') {
+  const x = parseFloat(_v(block, 'X')) || 0, y = parseFloat(_v(block, 'Y')) || 0;
+  if (x !== 0 || y !== 0) {
     return `\n${indent(n)}${_v(block, 'VAR')}.move_to(${x} * RIGHT + ${y} * UP)`;
   }
   return '';
@@ -947,10 +947,16 @@ export function generateCode(workspace) {
   for (const imp of pendingImports) imports.push(imp);
   pendingImports.clear();
 
-  // 生成 body
-  const body = topBlocks.length > 0
-    ? blockChainToCode(topBlocks[0], 2)
-    : indent(2) + 'pass  # 拖拽左侧积木开始创作';
+  // 生成 body：处理所有顶层积木（按 Y 坐标排序），
+  // 每个顶层积木可能是一整条咬合链，逐条生成。
+  // 这样用户即使没有把积木接起来，所有积木也都会执行。
+  let body;
+  if (topBlocks.length > 0) {
+    body = topBlocks.map(b => blockChainToCode(b, 2)).filter(Boolean).join('\n');
+    if (!body.trim()) body = indent(2) + 'pass';
+  } else {
+    body = indent(2) + 'pass  # 拖拽左侧积木开始创作';
+  }
 
   // 自动补 wait
   const lastType = topBlocks.length > 0 ? topBlocks[topBlocks.length - 1].type : null;
