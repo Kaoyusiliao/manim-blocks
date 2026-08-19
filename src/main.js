@@ -306,3 +306,355 @@ pause
 
 document.getElementById('downloadScriptBtn').addEventListener('click', downloadShellScript);
 document.getElementById('downloadScriptWinBtn').addEventListener('click', downloadBatchScript);
+
+// ════════════════════════════════════════════════════
+// 小白友好功能：示例模板 / 空白提示 / 系统检测 / 模态框
+// ════════════════════════════════════════════════════
+
+// ── 空白工作区提示 ──────────────────────────────────
+
+const emptyHint = document.getElementById('emptyHint');
+
+function updateEmptyHint() {
+  const hasBlocks = workspace.getTopBlocks(true).length > 0;
+  if (hasBlocks) emptyHint.classList.add('hidden');
+  else emptyHint.classList.remove('hidden');
+}
+
+// 在 changeListener 里也调用
+workspace.addChangeListener(updateEmptyHint);
+updateEmptyHint();
+
+document.getElementById('loadFirstExample').addEventListener('click', () => {
+  loadExample(0);
+});
+
+// ── 示例模板库 ──────────────────────────────────────
+
+/**
+ * 示例模板：每个示例包含一个 XML 积木定义。
+ * 用 Blockly.utils.xml.textToDom 解析后加载到工作区。
+ */
+const EXAMPLES = [
+  {
+    name: '✨ 第一个动画',
+    emoji: '🌈',
+    desc: '一个红色圆形从中心出现 —— 最简入门',
+    xml: `
+      <xml xmlns="https://developers.google.com/blockly/xml">
+        <block type="object_circle" x="30" y="30">
+          <field name="VAR">circle</field>
+          <field name="X">0</field>
+          <field name="Y">0</field>
+        </block>
+        <block type="property_color" x="30" y="100">
+          <field name="VAR">circle</field>
+          <field name="COLOR">RED</field>
+        </block>
+        <block type="animate_create" x="30" y="170">
+          <field name="VAR">circle</field>
+        </block>
+        <block type="scene_wait" x="30" y="240">
+          <field name="SECONDS">2</field>
+        </block>
+      </xml>`,
+  },
+  {
+    name: '📐 公式书写',
+    emoji: '∑',
+    desc: '爱因斯坦公式逐字写出，像老师板书',
+    xml: `
+      <xml xmlns="https://developers.google.com/blockly/xml">
+        <block type="object_math_tex" x="30" y="30">
+          <field name="VAR">formula</field>
+          <field name="TEX">E = mc^2</field>
+          <field name="X">0</field>
+          <field name="Y">1</field>
+        </block>
+        <block type="property_color" x="30" y="120">
+          <field name="VAR">formula</field>
+          <field name="COLOR">YELLOW</field>
+        </block>
+        <block type="animate_write" x="30" y="190">
+          <field name="VAR">formula</field>
+        </block>
+        <block type="scene_wait" x="30" y="260">
+          <field name="SECONDS">2</field>
+        </block>
+      </xml>`,
+  },
+  {
+    name: '🔁 旋转星形',
+    emoji: '⭐',
+    desc: '五角星重复旋转 5 次 —— 学会「重复」积木',
+    xml: `
+      <xml xmlns="https://developers.google.com/blockly/xml">
+        <block type="object_star" x="30" y="30">
+          <field name="VAR">star</field>
+          <field name="R">2</field>
+          <field name="X">0</field>
+          <field name="Y">0</field>
+        </block>
+        <block type="property_color" x="30" y="110">
+          <field name="VAR">star</field>
+          <field name="COLOR">ORANGE</field>
+        </block>
+        <block type="animate_create" x="30" y="180">
+          <field name="VAR">star</field>
+        </block>
+        <block type="control_repeat" x="30" y="250">
+          <field name="TIMES">5</field>
+          <statement name="DO">
+            <block type="animate_rotate">
+              <field name="VAR">star</field>
+              <field name="ANGLE">72</field>
+            </block>
+          </statement>
+        </block>
+        <block type="scene_wait" x="30" y="380">
+          <field name="SECONDS">2</field>
+        </block>
+      </xml>`,
+  },
+  {
+    name: '🧊 3D 立方体',
+    emoji: '🧊',
+    desc: '三维立方体旋转展示 —— 自动启用 3D 场景',
+    xml: `
+      <xml xmlns="https://developers.google.com/blockly/xml">
+        <block type="object3d_cube" x="30" y="30">
+          <field name="VAR">cube</field>
+          <field name="L">2</field>
+          <field name="X">0</field>
+          <field name="Y">0</field>
+          <field name="Z">0</field>
+        </block>
+        <block type="property_color" x="30" y="130">
+          <field name="VAR">cube</field>
+          <field name="COLOR">BLUE</field>
+        </block>
+        <block type="animate_create" x="30" y="200">
+          <field name="VAR">cube</field>
+        </block>
+        <block type="animate_rotating" x="30" y="270">
+          <field name="VAR">cube</field>
+          <field name="ANGLE">360</field>
+        </block>
+        <block type="scene_wait" x="30" y="340">
+          <field name="SECONDS">2</field>
+        </block>
+      </xml>`,
+  },
+  {
+    name: '📊 函数曲线',
+    emoji: '📈',
+    desc: '坐标轴上画 x² 抛物线 + 网格平面',
+    xml: `
+      <xml xmlns="https://developers.google.com/blockly/xml">
+        <block type="object_axes" x="30" y="30">
+          <field name="VAR">axes</field>
+          <field name="XMIN">-4</field>
+          <field name="XMAX">4</field>
+          <field name="YMIN">-1</field>
+          <field name="YMAX">5</field>
+        </block>
+        <block type="object_number_plane" x="30" y="130">
+          <field name="VAR">plane</field>
+          <field name="XMIN">-4</field>
+          <field name="XMAX">4</field>
+          <field name="YMIN">-1</field>
+          <field name="YMAX">5</field>
+          <field name="X">0</field>
+          <field name="Y">0</field>
+        </block>
+        <block type="object_graph" x="30" y="240">
+          <field name="AXES">axes</field>
+          <field name="VAR">graph</field>
+        </block>
+        <block type="scene_add" x="30" y="310">
+          <field name="VAR">plane</field>
+        </block>
+        <block type="scene_add" x="30" y="380">
+          <field name="VAR">axes</field>
+        </block>
+        <block type="animate_create" x="30" y="450">
+          <field name="VAR">graph</field>
+        </block>
+        <block type="scene_wait" x="30" y="520">
+          <field name="SECONDS">2</field>
+        </block>
+      </xml>`,
+  },
+  {
+    name: '💬 文字动画',
+    emoji: '🎨',
+    desc: '彩色文字 + 打字机效果 + 淡入淡出',
+    xml: `
+      <xml xmlns="https://developers.google.com/blockly/xml">
+        <block type="object_text" x="30" y="30">
+          <field name="VAR">text</field>
+          <field name="CONTENT">Hello, Manim!</field>
+          <field name="X">0</field>
+          <field name="Y">0</field>
+        </block>
+        <block type="property_color" x="30" y="130">
+          <field name="VAR">text</field>
+          <field name="COLOR">PURPLE</field>
+        </block>
+        <block type="animate_fade_in" x="30" y="200">
+          <field name="VAR">text</field>
+        </block>
+        <block type="scene_wait" x="30" y="270">
+          <field name="SECONDS">1</field>
+        </block>
+        <block type="animate_shift" x="30" y="340">
+          <field name="VAR">text</field>
+          <field name="DX">2</field>
+          <field name="DY">1</field>
+        </block>
+        <block type="animate_fade_out" x="30" y="410">
+          <field name="VAR">text</field>
+        </block>
+      </xml>`,
+  },
+  {
+    name: '🎯 变形动画',
+    emoji: '🔄',
+    desc: '圆形平滑变形为正方形 —— Transform 积木',
+    xml: `
+      <xml xmlns="https://developers.google.com/blockly/xml">
+        <block type="object_circle" x="30" y="30">
+          <field name="VAR">circle</field>
+          <field name="X">-2</field>
+          <field name="Y">0</field>
+        </block>
+        <block type="object_square" x="30" y="110">
+          <field name="VAR">square</field>
+          <field name="X">2</field>
+          <field name="Y">0</field>
+        </block>
+        <block type="property_color" x="30" y="190">
+          <field name="VAR">circle</field>
+          <field name="COLOR">RED</field>
+        </block>
+        <block type="property_color" x="30" y="260">
+          <field name="VAR">square</field>
+          <field name="COLOR">BLUE</field>
+        </block>
+        <block type="animate_create" x="30" y="330">
+          <field name="VAR">circle</field>
+        </block>
+        <block type="animate_create" x="30" y="400">
+          <field name="VAR">square</field>
+        </block>
+        <block type="scene_wait" x="30" y="470">
+          <field name="SECONDS">1</field>
+        </block>
+        <block type="animate_transform" x="30" y="540">
+          <field name="OBJ">circle</field>
+          <field name="TARGET">square</field>
+        </block>
+        <block type="scene_wait" x="30" y="610">
+          <field name="SECONDS">2</field>
+        </block>
+      </xml>`,
+  },
+];
+
+/** 加载示例到工作区 */
+function loadExample(index) {
+  const example = EXAMPLES[index];
+  if (!example) return;
+
+  // 清空工作区
+  workspace.clear();
+
+  // 解析 XML 并加载
+  const dom = Blockly.utils.xml.textToDom(example.xml);
+  Blockly.utils.xml.domToWorkspace(dom, workspace);
+
+  // 收起模态框
+  document.getElementById('examplesModal').classList.add('hidden');
+  updateEmptyHint();
+  updatePreview();
+
+  // 提示用户
+  const btn = document.getElementById('examplesBtn');
+  const orig = btn.textContent;
+  btn.textContent = `✅ 已加载「${example.name}」`;
+  setTimeout(() => (btn.textContent = orig), 2500);
+}
+
+// ── 示例模态框 ──────────────────────────────────────
+
+const examplesModal = document.getElementById('examplesModal');
+const examplesGrid = document.getElementById('examplesGrid');
+
+// 生成示例卡片
+EXAMPLES.forEach((ex, i) => {
+  const card = document.createElement('button');
+  card.className = 'example-card';
+  card.innerHTML = `
+    <div class="example-emoji">${ex.emoji}</div>
+    <div class="example-name">${ex.name}</div>
+    <div class="example-desc">${ex.desc}</div>
+  `;
+  card.addEventListener('click', () => loadExample(i));
+  examplesGrid.appendChild(card);
+});
+
+document.getElementById('examplesBtn').addEventListener('click', () => {
+  examplesModal.classList.remove('hidden');
+});
+
+// 关闭模态框（点背景或 ✕）
+document.querySelectorAll('[data-close-modal]').forEach(el => {
+  el.addEventListener('click', () => examplesModal.classList.add('hidden'));
+});
+
+// ── 系统检测（新手教程第 0 步） ──────────────────────
+
+// 自动检测系统并高亮对应按钮
+(function detectSystem() {
+  const ua = navigator.userAgent;
+  let sys = null;
+  if (/Mac|iPhone|iPad/.test(ua)) sys = 'mac';
+  else if (/Windows/.test(ua)) sys = 'win';
+
+  if (sys) {
+    const btn = document.querySelector(`.sys-btn[data-sys="${sys}"]`);
+    if (btn) btn.classList.add('sys-active');
+    // 默认展开对应系统的 details
+    const summary = document.querySelector(`.sys-btn[data-sys="${sys}"]`);
+    if (summary) {
+      // 找到最近的 details 并展开
+    }
+  }
+})();
+
+// 用户手动选择系统时高亮并记住
+document.querySelectorAll('.sys-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.sys-btn').forEach(b => b.classList.remove('sys-active'));
+    btn.classList.add('sys-active');
+    const sys = btn.dataset.sys;
+    try { localStorage.setItem('manim-blocks-sys', sys); } catch (e) {}
+    // 展开第一个对应系统的 details
+    const dets = document.querySelectorAll('.guide-det');
+    dets.forEach(d => {
+      const s = d.querySelector('summary');
+      if (s && s.textContent.includes(sys === 'mac' ? 'Mac' : 'Windows')) {
+        d.open = true;
+      }
+    });
+  });
+});
+
+// 恢复用户上次选择
+try {
+  const saved = localStorage.getItem('manim-blocks-sys');
+  if (saved) {
+    const btn = document.querySelector(`.sys-btn[data-sys="${saved}"]`);
+    if (btn) btn.click();
+  }
+} catch (e) {}

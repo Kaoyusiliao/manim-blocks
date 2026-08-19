@@ -481,3 +481,273 @@ body {
   .badge { display: none; }
   .script-buttons { flex-direction: column; }
 }
+/* ═══ 新手教程增强 ═══ */
+
+.guide-hero {
+  background: linear-gradient(135deg, #4C97FF, #7B5CE7);
+  color: #fff;
+  padding: 18px 20px;
+  border-radius: 0;
+}
+.guide-hero-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.guide-hero p {
+  font-size: 12.5px;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+/* 分步骤卡片 */
+.guide-section.step {
+  display: flex;
+  gap: 12px;
+  padding: 16px 18px;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.step-body { flex: 1; min-width: 0; }
+.step-body h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+/* 系统检测按钮 */
+.sys-detect {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  font-size: 13px;
+  color: var(--text-dim);
+  flex-wrap: wrap;
+}
+.sys-btn { background: #e8e8e8; color: #555; }
+.sys-btn:hover { background: #ddd; }
+.sys-btn.sys-active {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(76,151,255,0.3);
+}
+
+/* 折叠说明 */
+.guide-det {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  margin: 8px 0;
+  padding: 10px 12px;
+  background: #fafafa;
+}
+.guide-det summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 2px 0;
+  color: var(--blue-dark);
+  user-select: none;
+}
+.guide-det[open] summary { margin-bottom: 8px; }
+.guide-det .guide-hint { margin-top: 6px; }
+
+/* 编号列表 */
+.guide-ol {
+  list-style: none;
+  counter-reset: gstep;
+  padding: 0;
+  margin: 6px 0;
+}
+.guide-ol li {
+  counter-increment: gstep;
+  font-size: 13px;
+  color: var(--text-dim);
+  padding: 4px 0 4px 26px;
+  position: relative;
+  line-height: 1.5;
+}
+.guide-ol li::before {
+  content: counter(gstep);
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-ul {
+  list-style: none;
+  padding: 0;
+  margin: 6px 0;
+}
+.guide-ul li {
+  font-size: 13px;
+  color: var(--text-dim);
+  padding: 4px 0;
+  padding-left: 20px;
+  position: relative;
+  line-height: 1.5;
+}
+.guide-ul li::before {
+  content: '✔';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-weight: 700;
+}
+
+.guide-footer {
+  padding: 16px 20px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--green-dark);
+  font-weight: 600;
+}
+
+/* ═══ 空白工作区提示 ═══ */
+
+#emptyHint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.6), transparent 70%);
+}
+#emptyHint.hidden { display: none; }
+.empty-hint-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 34px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  border: 2px dashed var(--blue);
+  pointer-events: auto;
+  max-width: 340px;
+}
+.empty-hint-emoji { font-size: 44px; margin-bottom: 8px; }
+.empty-hint-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.empty-hint-card p {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.hint-steps { font-size: 12.5px; }
+
+/* ═══ 示例模态框 ═══ */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal.hidden { display: none; }
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(2px);
+}
+.modal-card {
+  position: relative;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  width: 560px;
+  max-width: 92vw;
+  max-height: 82vh;
+  overflow-y: auto;
+  box-shadow: 0 16px 60px rgba(0,0,0,0.3);
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.modal-header h3 { font-size: 18px; font-weight: 700; }
+.modal-close {
+  background: #eee;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 14px;
+  cursor: pointer;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-close:hover { background: #ddd; }
+.modal-desc {
+  font-size: 13px;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+.modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.example-card {
+  background: #f7f9fc;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-ui);
+}
+.example-card:hover {
+  border-color: var(--blue);
+  box-shadow: 0 4px 16px rgba(76,151,255,0.2);
+  transform: translateY(-2px);
+}
+.example-emoji { font-size: 30px; margin-bottom: 6px; }
+.example-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.example-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
+
+.btn-examples {
+  background: var(--purple);
+  color: #fff;
+}
+.btn-examples:hover { background: var(--purple-dark); transform: scale(1.02); }
+
+@media (max-width: 700px) {
+  .modal-grid { grid-template-columns: 1fr; }
+}

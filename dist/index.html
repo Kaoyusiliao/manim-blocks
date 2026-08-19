@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manim Blocks — 积木式数学动画创作</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
-  <script type="module" crossorigin src="./assets/index-DhoPIc3p.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CpcC3jq7.css">
+  <script type="module" crossorigin src="./assets/index-DzA142Wk.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CbA9oCI0.css">
 </head>
 <body>
   <div id="app">
@@ -19,9 +19,10 @@
         <span class="badge">Beta</span>
       </div>
       <div class="header-center">
-        <span class="subtitle">像 Scratch 一样拖积木，生成 Manim 数学动画</span>
+        <span class="subtitle">像搭积木一样做数学动画，不需要会编程</span>
       </div>
       <div class="header-right">
+        <button id="examplesBtn" class="btn btn-examples">🧩 示例</button>
         <button id="downloadBtn" class="btn btn-primary">📥 下载 .py</button>
         <button id="runBtn" class="btn btn-run">▶ 复制运行命令</button>
         <button id="clearBtn" class="btn btn-outline">🗑️ 清空</button>
@@ -34,13 +35,25 @@
       <!-- 左侧：Blockly 工作区 -->
       <section id="workspace-section">
         <div id="blocklyDiv"></div>
+        <!-- 空白提示 -->
+        <div id="emptyHint" class="empty-hint">
+          <div class="empty-hint-card">
+            <div class="empty-hint-emoji">🖐️</div>
+            <h3>从左边拖积木到这里开始</h3>
+            <p>试试这样：<br/>
+            <span class="hint-steps">1️⃣ 点左侧「🔵 物体」→ 拖「创建圆形」到这里<br/>
+            2️⃣ 再拖一个「🟠 动画」→「创建动画」接在下面<br/>
+            3️⃣ 右边立刻显示生成的代码！</span></p>
+            <button id="loadFirstExample" class="btn btn-primary">✨ 一键加载示例（推荐）</button>
+          </div>
+        </div>
       </section>
 
       <!-- 右侧：面板（标签切换） -->
       <aside id="panel-section">
         <div class="panel-tabs">
           <button class="panel-tab active" data-tab="preview">📄 代码预览</button>
-          <button class="panel-tab" data-tab="guide">📖 快速开始</button>
+          <button class="panel-tab" data-tab="guide">📖 新手教程</button>
         </div>
 
         <!-- 代码预览标签 -->
@@ -49,64 +62,205 @@
             <span class="panel-title">Python 代码</span>
             <button id="copyCodeBtn" class="btn btn-tiny">📋 复制代码</button>
           </div>
-          <pre id="codePreview"><code class="language-python"># 从左侧拖拽积木开始创作</code></pre>
+          <pre id="codePreview"><code class="language-python"># 从左侧拖拽积木开始创作
+# 或点顶部「🧩 示例」一键加载现成作品</code></pre>
         </div>
 
-        <!-- 快速开始标签 -->
+        <!-- 新手教程标签 -->
         <div class="panel-content" id="tab-guide">
-          <div class="guide-section">
-            <h3>📦 第一步：安装 Manim</h3>
-            <p class="guide-desc">在你的电脑上运行以下命令安装 Manim 动画引擎：</p>
-            <div class="code-block">
-              <code id="installCmd">pip install manim</code>
-              <button class="btn btn-tiny copy-inline" data-copy="pip install manim">复制</button>
-            </div>
-            <p class="guide-hint">💡 需要 Python 3.8+。如果安装慢，加镜像源：<br/><code class="inline-code">pip install manim -i https://pypi.tuna.tsinghua.edu.cn/simple</code></p>
+
+          <div class="guide-hero">
+            <div class="guide-hero-title">👋 第一次用？跟着做，5 分钟跑通</div>
+            <p>把动画做出来总共 6 步。每一步都写了详细说明，照着点就行。</p>
           </div>
 
-          <div class="guide-section">
-            <h3>🎬 第二步：运行动画</h3>
-            <p class="guide-desc">下载 .py 文件后，在终端运行：</p>
-            <div class="code-block">
-              <code id="runCmd">manim -pql manim_scene.py MyScene</code>
-              <button class="btn btn-tiny copy-inline" data-copy="manim -pql manim_scene.py MyScene">复制</button>
-            </div>
-            <ul class="guide-options">
-              <li><code class="inline-code">-pql</code> = 预览 + 低质量（渲染最快）</li>
-              <li><code class="inline-code">-pqh</code> = 预览 + 高质量</li>
-              <li>去掉 <code class="inline-code">-p</code> 只保存文件不预览</li>
-            </ul>
-          </div>
-
-          <div class="guide-section">
-            <h3>🔄 第三步：一键安装脚本</h3>
-            <p class="guide-desc">如果不想手动操作，下载安装脚本自动安装：</p>
-            <div class="script-buttons">
-              <button id="downloadScriptBtn" class="btn btn-small btn-primary">🍎 macOS / Linux 脚本</button>
-              <button id="downloadScriptWinBtn" class="btn btn-small btn-outline">🪟 Windows 脚本</button>
+          <!-- 第 0 步：认识你的电脑 -->
+          <div class="guide-section step">
+            <div class="step-num">0</div>
+            <div class="step-body">
+              <h3>🔍 先认识你的电脑</h3>
+              <p class="guide-desc">先搞清楚你用的是什么系统，下面所有操作都分系统讲解：</p>
+              <div class="sys-detect">
+                <span>看这里：</span>
+                <button class="btn btn-tiny sys-btn" data-sys="mac">🍎 我是 Mac</button>
+                <button class="btn btn-tiny sys-btn" data-sys="win">🪟 我是 Windows</button>
+              </div>
+              <p class="guide-hint">💡 Mac 看屏幕左上角苹果图标；Windows 按「开始」按钮旁边写着的系统名。</p>
             </div>
           </div>
 
+          <!-- 第 1 步：装 Python -->
+          <div class="guide-section step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h3>🐍 检查并安装 Python（只要一次）</h3>
+              <p class="guide-desc">Manim 是用 Python 写的，所以要先装 Python。别怕，装一次以后都不用管。</p>
+
+              <details class="guide-det" open>
+                <summary>🍎 Mac 用户看这里</summary>
+                <ol class="guide-ol">
+                  <li>打开「启动台」→ 搜索「终端」(Terminal)，点开</li>
+                  <li>输入下面这行，按回车，检查是否已装 Python：</li>
+                </ol>
+                <div class="code-block">
+                  <code>python3 --version</code>
+                  <button class="btn btn-tiny copy-inline" data-copy="python3 --version">复制</button>
+                </div>
+                <p class="guide-hint">✅ 显示 <code class="inline-code">Python 3.9 或更高</code> → 跳过安装，去第 2 步<br/>
+                ❌ 显示 <code class="inline-code">command not found</code> → 到 <b>python.org/downloads</b> 下载安装包，双击安装，一路「继续」即可</p>
+              </details>
+
+              <details class="guide-det">
+                <summary>🪟 Windows 用户看这里</summary>
+                <ol class="guide-ol">
+                  <li>按键盘 <code class="inline-code">Win + R</code>，输入 <code class="inline-code">cmd</code>，按回车打开命令行</li>
+                  <li>输入下面这行，按回车：</li>
+                </ol>
+                <div class="code-block">
+                  <code>python --version</code>
+                  <button class="btn btn-tiny copy-inline" data-copy="python --version">复制</button>
+                </div>
+                <p class="guide-hint">✅ 显示 <code class="inline-code">Python 3.9 或更高</code> → 去第 2 步<br/>
+                ❌ 提示找不到 → 到 <b>python.org/downloads</b> 下载，安装时<b>务必勾选「Add Python to PATH」</b>（重要！）</p>
+              </details>
+            </div>
+          </div>
+
+          <!-- 第 2 步：装 Manim -->
+          <div class="guide-section step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h3>📦 安装 Manim 引擎（只要一次）</h3>
+              <p class="guide-desc">在刚才那个「终端 / 命令行」窗口里，粘贴下面这行，按回车，等它跑完（约 1-3 分钟）：</p>
+              <div class="code-block">
+                <code>pip install manim</code>
+                <button class="btn btn-tiny copy-inline" data-copy="pip install manim">复制</button>
+              </div>
+              <p class="guide-hint">🐢 如果太慢或失败（国内网络常见），改用清华镜像源：</p>
+              <div class="code-block">
+                <code>pip install manim -i https://pypi.tuna.tsinghua.edu.cn/simple</code>
+                <button class="btn btn-tiny copy-inline" data-copy="pip install manim -i https://pypi.tuna.tsinghua.edu.cn/simple">复制</button>
+              </div>
+              <p class="guide-hint">✅ 看到 <code class="inline-code">Successfully installed manim</code> 就成功了！</p>
+            </div>
+          </div>
+
+          <!-- 第 3 步：搭积木 -->
+          <div class="guide-section step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h3>🧩 搭积木（就是现在！）</h3>
+              <p class="guide-desc">从左侧工具箱拖积木到中间空白区。积木会自己咬合，像搭乐高。</p>
+              <ul class="guide-ul">
+                <li>🔵 物体 = 造东西（圆形、方形、文字…）</li>
+                <li>🟠 动画 = 让东西动起来（出现、旋转、消失…）</li>
+                <li>积木从上往下执行，顺序就是动画顺序</li>
+              </ul>
+              <p class="guide-hint">💡 不会搭？点顶部 <b>「🧩 示例」</b>按钮，一键加载现成作品，改改数字就是你的了！</p>
+            </div>
+          </div>
+
+          <!-- 第 4 步：下载文件 -->
+          <div class="guide-section step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <h3>📥 下载代码文件</h3>
+              <p class="guide-desc">搭好积木后，点顶部蓝色按钮 <b>「📥 下载 .py」</b>，浏览器会下载一个叫 <code class="inline-code">manim_scene.py</code> 的文件。</p>
+              <p class="guide-hint">💡 文件默认在「下载」文件夹。记下这个位置，下一步要用。</p>
+            </div>
+          </div>
+
+          <!-- 第 5 步：运行！ -->
+          <div class="guide-section step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+              <h3>🎬 运行，看动画！</h3>
+              <p class="guide-desc">回到终端窗口，需要先「走进」下载文件夹，再运行。分系统看：</p>
+
+              <details class="guide-det" open>
+                <summary>🍎 Mac 用户</summary>
+                <p class="guide-hint">在终端输入（每行后按回车）：</p>
+                <div class="code-block"><code>cd ~/Downloads</code><button class="btn btn-tiny copy-inline" data-copy="cd ~/Downloads">复制</button></div>
+                <div class="code-block"><code>manim -pql manim_scene.py MyScene</code><button class="btn btn-tiny copy-inline" data-copy="manim -pql manim_scene.py MyScene">复制</button></div>
+              </details>
+
+              <details class="guide-det">
+                <summary>🪟 Windows 用户</summary>
+                <p class="guide-hint">在命令行输入（每行后按回车）：</p>
+                <div class="code-block"><code>cd %USERPROFILE%\Downloads</code><button class="btn btn-tiny copy-inline" data-copy="cd %USERPROFILE%\Downloads">复制</button></div>
+                <div class="code-block"><code>manim -pql manim_scene.py MyScene</code><button class="btn btn-tiny copy-inline" data-copy="manim -pql manim_scene.py MyScene">复制</button></div>
+              </details>
+
+              <p class="guide-hint">⏳ 等几十秒（低质量最快），<b>动画会自动弹窗播放！</b>🎉</p>
+              <p class="guide-hint">📁 视频还会存成文件：<code class="inline-code">media/videos/manim_scene/480p15/MyScene.mp4</code></p>
+            </div>
+          </div>
+
+          <!-- 一键安装脚本 -->
+          <div class="guide-section step">
+            <div class="step-num">🆓</div>
+            <div class="step-body">
+              <h3>🔄 偷懒方案：一键安装脚本</h3>
+              <p class="guide-desc">第 1、2 步不想手动做？下载脚本双击/运行，自动装好 Python 环境 + Manim：</p>
+              <div class="script-buttons">
+                <button id="downloadScriptBtn" class="btn btn-small btn-primary">🍎 Mac 安装脚本</button>
+                <button id="downloadScriptWinBtn" class="btn btn-small btn-outline">🪟 Windows 安装脚本</button>
+              </div>
+              <p class="guide-hint">⚠️ 建议：新手先手动按教程装一遍，理解流程；装过就不用再装。</p>
+            </div>
+          </div>
+
+          <!-- 常见问题 -->
           <div class="guide-section guide-tips">
-            <h3>❓ 常见问题</h3>
+            <h3>❓ 卡住了？看这里（对照你的报错）</h3>
+            <details>
+              <summary>提示 <code class="inline-code">'manim' 不是内部或外部命令 / command not found</code></summary>
+              <p>Manim 没装上，或装错了地方。回到第 2 步重新执行安装命令，看到 <b>Successfully installed</b> 才算成功。</p>
+            </details>
+            <details>
+              <summary>提示 <code class="inline-code">pip 不是内部或外部命令</code></summary>
+              <p>Python 没装上或没加入 PATH。Windows 重装 Python 时务必勾选「Add Python to PATH」；Mac 用 <code class="inline-code">python3 -m pip install manim</code> 试试。</p>
+            </details>
+            <details>
+              <summary>安装卡住 / 特别慢 / 报网络错误</summary>
+              <p>用清华镜像源：<code class="inline-code">pip install manim -i https://pypi.tuna.tsinghua.edu.cn/simple</code>，速度立刻变快。</p>
+            </details>
+            <details>
+              <summary>提示 <code class="inline-code">No module named 'manim'</code></summary>
+              <p>运行和安装用了不同的 Python。用同一方式确认：先 <code class="inline-code">pip --version</code> 再 <code class="inline-code">pip install manim</code>。</p>
+            </details>
             <details>
               <summary>为什么不能在浏览器里直接播放动画？</summary>
-              <p>Manim 需要 Python + FFmpeg + LaTeX 环境来渲染视频，这些都是浏览器无法提供的。<br/><br/>
-              <strong>未来可能方案：</strong>如果部署一台后端服务器渲染并流回视频，可以实现类似 Scratch 的实时预览效果。但目前纯前端无法做到。</p>
+              <p>Manim 需要电脑上的 Python + FFmpeg + LaTeX 来渲染视频，浏览器提供不了这些。<br/><br/><strong>未来：</strong>架一台服务器渲染再传回视频，就能像 Scratch 一样网页直接看。目前纯前端做不到，需要花钱租服务器，需要的话跟我说。</p>
             </details>
             <details>
-              <summary>生成的代码看不懂怎么办？</summary>
-              <p>先把积木搭好 → 下载 .py 文件 → 终端运行 <code class="inline-code">manim -pql manim_scene.py MyScene</code> → 自动弹窗播放动画。<br/>不需要看懂代码也能用！</p>
+              <summary>代码看不懂怎么办？</summary>
+              <p>完全不需要看懂！积木就是你的「编程语言」，右边代码只是自动翻译给 Manim 听的。你只管拖积木。</p>
             </details>
-            <details>
-              <summary>Mac 上显示 "command not found"？</summary>
-              <p>试试 <code class="inline-code">python3 -m pip install manim</code> 或 <code class="inline-code">pip3 install manim</code>。</p>
-            </details>
+          </div>
+
+          <div class="guide-footer">
+            <p>🎉 到这里你已经会用了！以后就是：搭积木 → 下载 → 运行。</p>
           </div>
         </div>
 
       </aside>
     </main>
+
+    <!-- ═══ 示例模板弹窗 ═══ -->
+    <div id="examplesModal" class="modal hidden">
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>🧩 示例模板</h3>
+          <button class="modal-close" data-close-modal>✕</button>
+        </div>
+        <p class="modal-desc">点一个示例，积木自动搭好，右边自动生成代码。改改数字就是你的作品！</p>
+        <div class="modal-grid" id="examplesGrid">
+          <!-- 由 JS 动态生成 -->
+        </div>
+      </div>
+    </div>
 
   </div>
 
