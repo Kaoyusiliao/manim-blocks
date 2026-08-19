@@ -11,7 +11,23 @@
 
 // ── 工具函数 ──────────────────────────────────────────
 
-function _v(b, n) { return b.getFieldValue(n); }
+/**
+ * 获取积木字段值。
+ * 关键：field_variable 的 getValue() 返回 Blockly 内部变量 ID（如 bQUH{I|...}），
+ * 必须用 getVariable().name 获取用户看到的变量名（如 circle）。
+ * 判断方式：只有变量字段有 getVariable() 方法（field.type 在压缩后不可靠）。
+ * 其他字段（number/input/dropdown）直接 getValue()。
+ */
+function _v(b, n) {
+  const field = b.getField(n);
+  if (!field) return '';
+  if (typeof field.getVariable === 'function') {
+    const variable = field.getVariable();
+    return variable ? variable.name : field.getText();
+  }
+  return field.getValue();
+}
+
 function indent(n) { return '    '.repeat(n); }
 
 // ── 值积木生成器（返回 Python 表达式字符串）───────────
@@ -23,7 +39,7 @@ function valueBlock(block) {
   if (!block) return '0';
 
   // var_get — 变量名直接作为表达式
-  if (block.type === 'var_get') return block.getFieldValue('VAR');
+  if (block.type === 'var_get') return _v(block, 'VAR');
 
   // math_number — 数字字面量
   if (block.type === 'math_number') return block.getFieldValue('NUM');
