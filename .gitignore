@@ -1,3 +1,7 @@
 node_modules
 .DS_Store
-*.local
+*.local\n# SSH deploy key (ignored, not committed)
+github_deploy_key*
+
+# SSH deploy key
+.deploy_key*
