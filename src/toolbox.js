@@ -59,6 +59,32 @@ export const toolboxJson = {
         { kind: 'block', type: 'object_title' },
         { kind: 'block', type: 'object_bulleted_list' },
         { kind: 'block', type: 'object_code_block' },
+        { kind: 'block', type: 'object_paragraph' },
+        { kind: 'block', type: 'object_integer' },
+        { kind: 'block', type: 'object_decimal' },
+        { kind: 'block', type: 'object_matrix' },
+        { kind: 'block', type: 'object_table' },
+        { kind: 'block', type: 'object_graph_diagram' },
+        { kind: 'block', type: 'object_angle' },
+        { kind: 'block', type: 'object_bezier' },
+        { kind: 'block', type: 'object_shape_union' },
+        { kind: 'block', type: 'object_shape_intersection' },
+        { kind: 'block', type: 'object_shape_difference' },
+      ],
+    },
+
+    // ── 🧊 3D 物体 ────────────────────────────────────
+    {
+      kind: 'category',
+      name: '🧊 3D 物体',
+      colour: '230', // blue
+      contents: [
+        { kind: 'block', type: 'object3d_sphere' },
+        { kind: 'block', type: 'object3d_cube' },
+        { kind: 'block', type: 'object3d_cylinder' },
+        { kind: 'block', type: 'object3d_cone' },
+        { kind: 'block', type: 'object3d_torus' },
+        { kind: 'block', type: 'object3d_prism' },
       ],
     },
 
@@ -111,6 +137,9 @@ export const toolboxJson = {
         { kind: 'block', type: 'animate_indicate' },
         { kind: 'block', type: 'animate_wiggle' },
         { kind: 'block', type: 'animate_apply_method' },
+        { kind: 'block', type: 'animate_typewriter' },
+        { kind: 'block', type: 'animate_speed' },
+        { kind: 'block', type: 'animate_group' },
       ],
     },
 
@@ -135,9 +164,12 @@ export const toolboxJson = {
       contents: [
         { kind: 'block', type: 'object_axes' },
         { kind: 'block', type: 'object_graph' },
+        { kind: 'block', type: 'object_implicit_graph' },
+        { kind: 'block', type: 'object_parametric_curve' },
         { kind: 'block', type: 'object_number_plane' },
         { kind: 'block', type: 'object_number_line' },
         { kind: 'block', type: 'object_polar_plane' },
+        { kind: 'block', type: 'object_complex_plane' },
       ],
     },
 

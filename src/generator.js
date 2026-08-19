@@ -227,6 +227,53 @@ codeGens.object_code_block = (b, n) =>
   `${_v(b, 'VAR')} = Code(code_string="${_v(b, 'CONTENT')}", language="python", font_size=24)` +
   maybeMoveTo(b, n);
 
+// ── 进阶文字2 ─────────────────────────────────────────
+
+codeGens.object_paragraph = (b, n) => {
+  const lines = _v(b, 'CONTENT').split(',').map(s => s.trim()).filter(Boolean);
+  const quoted = lines.map(s => `"${s}"`).join(', ');
+  return indent(n) + `${_v(b, 'VAR')} = Paragraph(${quoted})` + maybeMoveTo(b, n);
+};
+
+codeGens.object_integer = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Integer(${_v(b, 'VALUE')})` + maybeMoveTo(b, n);
+
+codeGens.object_decimal = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = DecimalNumber(${_v(b, 'VALUE')})` + maybeMoveTo(b, n);
+
+codeGens.object_matrix = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Matrix(${_v(b, 'CONTENT')})` +
+  maybeMoveTo(b, n);
+
+codeGens.object_table = (b, n) => {
+  // 将 "["a","b"],["c","d"]" 转成 Python 列表
+  const raw = _v(b, 'CONTENT');
+  return indent(n) + `${_v(b, 'VAR')} = Table(${raw}, row_labels=[])` + maybeMoveTo(b, n);
+};
+
+codeGens.object_graph_diagram = (b, n) => {
+  const graphType = b.getFieldValue('DIRECTED');
+  return indent(n) +
+    `${_v(b, 'VAR')} = ${graphType}(vertices=${_v(b, 'VERTS')}, edges=${_v(b, 'EDGES')}, layout="circular")`;
+};
+
+codeGens.object_angle = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Angle(${_v(b, 'V2')}, ${_v(b, 'V3')}, radius=0.5)` +
+  `\n${indent(n)}${_v(b, 'VAR')}.move_to(${_v(b, 'V1')})`;
+
+codeGens.object_bezier = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = CubicBezier(${_v(b, 'POINTS')})`;
+
+codeGens.object_shape_union = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Union(${_v(b, 'A')}, ${_v(b, 'B')})`;
+
+codeGens.object_shape_intersection = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Intersection(${_v(b, 'A')}, ${_v(b, 'B')})`;
+
+codeGens.object_shape_difference = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Difference(${_v(b, 'A')}, ${_v(b, 'B')})`;
+
 // ── 进阶坐标 ──────────────────────────────────────────
 
 codeGens.object_number_plane = (b, n) =>
@@ -245,6 +292,55 @@ codeGens.object_polar_plane = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = PolarPlane(radius_max=${_v(b, 'RMAX')})` +
   maybeMoveTo(b, n);
+
+codeGens.object_complex_plane = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = ComplexPlane(x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], ` +
+  `y_range=[${_v(b, 'YMIN')}, ${_v(b, 'YMAX')}], ` +
+  `background_line_style={"stroke_opacity": 0.4})`;
+
+codeGens.object_implicit_graph = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot_implicit(lambda x, y: ${_v(b, 'FUNC')})`;
+
+codeGens.object_parametric_curve = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot_parametric_curve(${_v(b, 'FUNC')}, ` +
+  `t_range=[${_v(b, 'T0')}, ${_v(b, 'T1')}], color=YELLOW)`;
+
+// ── 3D 物体 ──────────────────────────────────────────
+
+function maybeMoveTo3D(block, n) {
+  const x = _v(block, 'X'), y = _v(block, 'Y'), z = _v(block, 'Z');
+  if (x !== '0' || y !== '0' || z !== '0') {
+    return `\n${indent(n)}${_v(block, 'VAR')}.move_to([${x}, ${y}, ${z}])`;
+  }
+  return '';
+}
+
+codeGens.object3d_sphere = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Sphere(radius=${_v(b, 'R')})` + maybeMoveTo3D(b, n);
+
+codeGens.object3d_cube = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Cube(side_length=${_v(b, 'L')})` + maybeMoveTo3D(b, n);
+
+codeGens.object3d_cylinder = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Cylinder(radius=${_v(b, 'R')}, height=${_v(b, 'H')})` +
+  maybeMoveTo3D(b, n);
+
+codeGens.object3d_cone = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Cone(base_radius=${_v(b, 'R')}, height=${_v(b, 'H')})` +
+  maybeMoveTo3D(b, n);
+
+codeGens.object3d_torus = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Torus(major_radius=${_v(b, 'R')}, minor_radius=${_v(b, 'R2')})` +
+  maybeMoveTo3D(b, n);
+
+codeGens.object3d_prism = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Prism(dimensions=[${_v(b, 'W')}, ${_v(b, 'H')}, ${_v(b, 'D')}])` +
+  maybeMoveTo3D(b, n);
 
 codeGens.object_axes = (b, n) =>
   indent(n) +
@@ -351,6 +447,24 @@ codeGens.animate_apply_method = (b, n) => {
     return indent(n) + `self.play(ApplyMethod(${_v(b, 'OBJ')}.${name}, ${args.join(', ')}))`;
   }
   return indent(n) + `self.play(ApplyMethod(${_v(b, 'OBJ')}.${method}))`;
+};
+
+codeGens.animate_typewriter = (b, n) =>
+  indent(n) + `self.play(AddTextLetterByLetter(${_v(b, 'VAR')}))`;
+
+codeGens.animate_speed = (b, n) =>
+  indent(n) + `self.play(self.camera.frame.animate.set_rate_func(smoothstep), run_time=0.001)` +
+  `\n${indent(n)}# 提示：速度调整通过 run_time 实现，可在下方动画加 run_time=1/${_v(b, 'SPEED')}`;
+
+codeGens.animate_group = (b, n) => {
+  const count = _v(b, 'COUNT');
+  const varName = _v(b, 'OBJ');
+  const lines = [];
+  lines.push(indent(n) + `${varName}_group = VGroup()`);
+  lines.push(indent(n) + `for _ in range(${count}):`);
+  lines.push(indent(n + 1) + `${varName}_group.add(${varName}.copy())`);
+  lines.push(indent(n) + `self.play(AnimationGroup(*[Create(m) for m in ${varName}_group]))`);
+  return lines.join('\n');
 };
 
 // ── 样式属性 ──────────────────────────────────────────
@@ -475,6 +589,7 @@ export function generateCode(workspace) {
   let needsRandom = false;
   let needsMath = false;
   let needsMovingCamera = false;
+  let needs3D = false;
 
   for (const block of topBlocks) {
     const types = collectBlockTypes(block);
@@ -484,6 +599,9 @@ export function generateCode(workspace) {
     if (types.has('camera_zoom') || types.has('camera_move_to') ||
         types.has('camera_animate_zoom') || types.has('camera_restore'))
       needsMovingCamera = true;
+    for (const t of types) {
+      if (t.startsWith('object3d_')) needs3D = true;
+    }
   }
 
   // 生成 imports
@@ -500,8 +618,10 @@ export function generateCode(workspace) {
   const lastType = topBlocks.length > 0 ? topBlocks[topBlocks.length - 1].type : null;
   const extraWait = lastType !== 'scene_wait' ? indent(2) + 'self.wait(1)' : '';
 
-  // 使用 MovingCameraScene 还是普通 Scene
-  const sceneClass = needsMovingCamera ? 'MovingCameraScene' : 'Scene';
+  // 场景类型：3D > 移动相机 > 普通
+  let sceneClass = 'Scene';
+  if (needs3D) sceneClass = 'ThreeDScene';
+  else if (needsMovingCamera) sceneClass = 'MovingCameraScene';
 
   return `${imports.join('\n')}
 
