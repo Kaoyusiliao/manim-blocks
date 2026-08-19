@@ -473,7 +473,7 @@ body {
 }
 @media (max-width: 700px) {
   #panel-section { width: 260px; min-width: 200px; }
-  #panel-section .panel-tab .emoji { display: none; }
+  /* emoji 在按钮文字内，响应式下自动隐藏文字 */
   .btn-run { display: none; }
   #clearBtn { display: none; }
 }
