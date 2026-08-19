@@ -231,6 +231,7 @@ export const toolboxJson = {
       name: '🎥 相机',
       colour: '20', // orange-red
       contents: [
+        { kind: 'block', type: 'camera_3d_orientation' },
         { kind: 'block', type: 'camera_zoom' },
         { kind: 'block', type: 'camera_animate_zoom' },
         { kind: 'block', type: 'camera_move_to' },

@@ -439,7 +439,9 @@ const EXAMPLES = [
     emoji: '🧊',
     desc: '三维立方体旋转展示 —— 自动启用 3D 场景',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
-<block type="object3d_cube" x="30" y="30">
+<block type="camera_3d_orientation" x="30" y="30">
+<field name="PHI">75</field><field name="THETA">-45</field><next>
+<block type="object3d_cube">
 <field name="VAR">cube</field><field name="L">2</field><field name="X">0</field><field name="Y">0</field><field name="Z">0</field><next>
 <block type="property_color">
 <field name="VAR">cube</field><field name="COLOR">BLUE</field><next>

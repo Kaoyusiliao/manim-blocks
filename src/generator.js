@@ -775,6 +775,10 @@ codeGens.camera_animate_zoom = (b, n) =>
 codeGens.camera_restore = (b, n) =>
   indent(n) + `self.camera.frame.restore()`;
 
+codeGens.camera_3d_orientation = (b, n) =>
+  indent(n) +
+  `self.set_camera_orientation(phi=${_v(b, 'PHI')} * DEGREES, theta=${_v(b, 'THETA')} * DEGREES)`;
+
 // ── 🧩 场景类 ─────────────────────────────────────────
 
 codeGens.scene_linear_transform = (b, n) =>
@@ -938,7 +942,7 @@ export function generateCode(workspace) {
     if (types.has('scene_vector_scene') || types.has('scene_linear_transform'))
       needsVectorScene = true;
     for (const t of types) {
-      if (t.startsWith('object3d_')) needs3D = true;
+      if (t.startsWith('object3d_') || t === 'camera_3d_orientation') needs3D = true;
     }
   }
 

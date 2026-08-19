@@ -1739,6 +1739,16 @@ export const blockDefs = [
     previousStatement: null, nextStatement: null,
     colour: 20, tooltip: '将相机恢复为初始状态',
   },
+  {
+    type: 'camera_3d_orientation',
+    message0: '设置 3D 相机视角  俯仰角 %1°  水平角 %2°',
+    args0: [
+      { type: 'field_number', name: 'PHI', value: 75, min: 1, max: 179, precision: 5 },
+      { type: 'field_number', name: 'THETA', value: -45, min: -180, max: 180, precision: 5 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '设置 3D 相机视角 — 俯仰角（上下看）和水平角（左右转）',
+  },
 
   // ════════════════════════════════════════════════════
   // 🧩 场景类（Scene 类型）—— 高级场景
