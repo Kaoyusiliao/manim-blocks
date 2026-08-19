@@ -133,23 +133,47 @@ function blockChainToCode(firstBlock, n) {
 
 // ── 🔵 物体 ──────────────────────────────────────────
 
-codeGens.object_circle          = (b, n) => indent(n) + `${_v(b, 'VAR')} = Circle()`;
-codeGens.object_square          = (b, n) => indent(n) + `${_v(b, 'VAR')} = Square()`;
-codeGens.object_triangle        = (b, n) => indent(n) + `${_v(b, 'VAR')} = Triangle()`;
-codeGens.object_dot             = (b, n) => indent(n) + `${_v(b, 'VAR')} = Dot()`;
-codeGens.object_rectangle       = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = Rectangle(width=${_v(b, 'W')}, height=${_v(b, 'H')})`;
+/** 如果坐标非零则附加 .move_to() */
+function maybeMoveTo(block, n) {
+  const x = _v(block, 'X'), y = _v(block, 'Y');
+  if (x !== '0' || y !== '0') {
+    return `\n${indent(n)}${_v(block, 'VAR')}.move_to(${x} * RIGHT + ${y} * UP)`;
+  }
+  return '';
+}
+
+codeGens.object_circle = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Circle()` + maybeMoveTo(b, n);
+
+codeGens.object_square = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Square()` + maybeMoveTo(b, n);
+
+codeGens.object_triangle = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Triangle()` + maybeMoveTo(b, n);
+
+codeGens.object_dot = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Dot()` + maybeMoveTo(b, n);
+
+codeGens.object_rectangle = (b, n) => {
+  let code = indent(n) + `${_v(b, 'VAR')} = Rectangle(width=${_v(b, 'W')}, height=${_v(b, 'H')})`;
+  return code + maybeMoveTo(b, n);
+};
+
 codeGens.object_regular_polygon = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = RegularPolygon(n=${_v(b, 'N')})`;
+  indent(n) + `${_v(b, 'VAR')} = RegularPolygon(n=${_v(b, 'N')})` + maybeMoveTo(b, n);
+
 codeGens.object_line = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = Line([${_v(b, 'X1')}, ${_v(b, 'Y1')}, 0], [${_v(b, 'X2')}, ${_v(b, 'Y2')}, 0])`;
+
 codeGens.object_tex = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = Tex(r"${_v(b, 'TEX')}")`;
+  indent(n) + `${_v(b, 'VAR')} = Tex(r"${_v(b, 'TEX')}")` + maybeMoveTo(b, n);
+
 codeGens.object_math_tex = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = MathTex(r"${_v(b, 'TEX')}")`;
+  indent(n) + `${_v(b, 'VAR')} = MathTex(r"${_v(b, 'TEX')}")` + maybeMoveTo(b, n);
+
 codeGens.object_text = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = Text("${_v(b, 'CONTENT')}")`;
+  indent(n) + `${_v(b, 'VAR')} = Text("${_v(b, 'CONTENT')}")` + maybeMoveTo(b, n);
 codeGens.object_axes = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = Axes(x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], ` +
