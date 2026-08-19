@@ -917,15 +917,17 @@ const pendingImports = new Set();
  */
 export function generateCode(workspace) {
   const topBlocks = workspace.getTopBlocks(true);
+  // 只有咬合的链才是程序，孤立积木是草稿
+  const chainHeads = topBlocks.filter(b => b.getNextBlock());
 
-  // 检测需要的 imports 和场景类型
+  // 检测需要的 imports 和场景类型（只看咬合的链）
   let needsRandom = false;
   let needsMath = false;
   let needsMovingCamera = false;
   let needs3D = false;
   let needsVectorScene = false;
 
-  for (const block of topBlocks) {
+  for (const block of chainHeads) {
     const types = collectBlockTypes(block);
     if (types.has('op_random')) needsRandom = true;
     if (types.has('op_sin') || types.has('op_cos') || types.has('op_tan') || types.has('op_sqrt'))
@@ -947,20 +949,26 @@ export function generateCode(workspace) {
   for (const imp of pendingImports) imports.push(imp);
   pendingImports.clear();
 
-  // 生成 body：处理所有顶层积木（按 Y 坐标排序），
-  // 每个顶层积木可能是一整条咬合链，逐条生成。
-  // 这样用户即使没有把积木接起来，所有积木也都会执行。
+  // 生成 body：只处理「咬合」的积木链。
+  // 规则：程序 = 通过 next 连接在一起的积木链。
+  // 孤立的积木（没有和任何积木连接）视为「移开的草稿」，不写入程序。
+  // 这与 Scratch 一致：只有拼在脚本里的积木才执行。
   let body;
-  if (topBlocks.length > 0) {
-    body = topBlocks.map(b => blockChainToCode(b, 2)).filter(Boolean).join('\n');
+
+  if (chainHeads.length > 0) {
+    // 有咬合的链 → 只生成这些链
+    body = chainHeads.map(b => blockChainToCode(b, 2)).filter(Boolean).join('\n');
     if (!body.trim()) body = indent(2) + 'pass';
-  } else {
+  } else if (topBlocks.length === 0) {
     body = indent(2) + 'pass  # 拖拽左侧积木开始创作';
+  } else {
+    // 有积木但都没有咬合 → 提示用户接起来
+    body = indent(2) + 'pass  # ⚠️ 积木还没有连接成程序 — 把积木上下拼在一起';
   }
 
-  // 自动补 wait：找到最后一个积木（链尾），如果不是 scene_wait 则补
+  // 自动补 wait：只考虑已咬合的链
   let lastBlock = null;
-  for (const b of topBlocks) {
+  for (const b of chainHeads) {
     let cur = b;
     while (cur.getNextBlock()) cur = cur.getNextBlock();
     lastBlock = cur;
