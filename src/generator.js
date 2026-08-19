@@ -966,6 +966,11 @@ export function generateCode(workspace) {
     body = indent(2) + 'pass  # ⚠️ 积木还没有连接成程序 — 把积木上下拼在一起';
   }
 
+  // 3D 场景：默认给一个倾斜视角，否则立方体等正对镜头会看不出立体感（看起来像平面正方形）
+  if (needs3D && body.trim() && !body.includes('set_camera_orientation')) {
+    body = indent(2) + 'self.set_camera_orientation(phi=75 * DEGREES, theta=-45 * DEGREES)\n' + body;
+  }
+
   // 自动补 wait：只考虑已咬合的链
   let lastBlock = null;
   for (const b of chainHeads) {
