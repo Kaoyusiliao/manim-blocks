@@ -973,6 +973,13 @@ export function generateCode(workspace) {
     body = indent(2) + 'pass  # ⚠️ 积木还没有连接成程序 — 把积木上下拼在一起';
   }
 
+  // ═══ 智能修正：解决小白常见错误 ═══
+  // 1. 引用未定义的变量（如创建了 sphere 但动画块选的是 circle）→ 自动匹配已创建的物体
+  // 2. 创建了但从未显示过的物体 → 自动 self.add()，否则场景里看不到
+  if (body.trim() && !body.includes('pass  #')) {
+    body = autoFixVariables(body);
+  }
+
   // 3D 场景：默认给一个倾斜视角，否则立方体等正对镜头会看不出立体感（看起来像平面正方形）
   if (needs3D && body.trim() && !body.includes('set_camera_orientation')) {
     body = indent(2) + 'self.set_camera_orientation(phi=75 * DEGREES, theta=-45 * DEGREES)\n' + body;
@@ -1017,4 +1024,106 @@ function collectBlockTypes(block, set = new Set()) {
   const next = block.getNextBlock();
   if (next) collectBlockTypes(next, set);
   return set;
+}
+
+/**
+ * 智能修正生成代码中的小白常见错误：
+ * 1. 把「引用但从未创建」的变量名替换成第一个创建的物体变量
+ * 2. 给「创建了但从未显示」的物体自动补 self.add()
+ */
+function autoFixVariables(body) {
+  const P = '    '.repeat(2); // 8 空格缩进
+
+  // ── 1. 找出所有「创建物体」语句及其变量名 ──
+  // 匹配形如:  var = Circle() / var = Sphere(radius=1) / var = VGroup(...)
+  // 注意：代码行有 8 空格缩进，用 ^\s* 匹配
+  const created = new Map(); // 变量名 -> 类名
+  const createRe = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = ([A-Z][A-Za-z0-9_]*)\(/gm;
+  let m;
+  while ((m = createRe.exec(body)) !== null) {
+    created.set(m[1], m[2]);
+  }
+  if (created.size === 0) return body;
+
+  // ── 2. 收集代码中「被引用」的变量（稳健版：排除关键字/方法/参数名等） ──
+  const skipWords = new Set([
+    'self', 'for', 'in', 'range', 'lambda', 'def', 'return', 'pass',
+    'import', 'from', 'as', 'and', 'or', 'not', 'if', 'else', 'while',
+    'break', 'continue', 'True', 'False', 'None', '_', 'np', 'math', 'random',
+  ]);
+
+  // 排除 .方法名 / self.属性 / 属性链中间名（.word 任意位置）
+  const methodWords = new Set();
+  let methRe = /\.([a-zA-Z_][a-zA-Z0-9_]*)|self\.([a-zA-Z_][a-zA-Z0-9_]*)/g;
+  let mm;
+  while ((mm = methRe.exec(body)) !== null) {
+    if (mm[1]) methodWords.add(mm[1]);
+    if (mm[2]) methodWords.add(mm[2]);
+  }
+  // 排除 kwargs 参数名（= 前）和字典键名（: 前）
+  const kwWords = new Set();
+  let kwRe = /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*=|["']?([a-zA-Z_][a-zA-Z0-9_]*)["']?\s*:/g;
+  let km;
+  while ((km = kwRe.exec(body)) !== null) {
+    if (km[1]) kwWords.add(km[1]);
+    if (km[2]) kwWords.add(km[2]);
+  }
+  // 排除 lambda 参数
+  const lamWords = new Set();
+  let lamRe = /lambda\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
+  let lm;
+  while ((lm = lamRe.exec(body)) !== null) lamWords.add(lm[1]);
+
+  // 扫描所有小写开头的标识符（变量名都是小写，类名/常量大写）
+  const used = new Set();
+  const idRe = /\b([a-z_][a-z0-9_]*)\b/g;
+  let im;
+  while ((im = idRe.exec(body)) !== null) {
+    const w = im[1];
+    if (skipWords.has(w) || methodWords.has(w) || kwWords.has(w) || lamWords.has(w)) continue;
+    used.add(w);
+  }
+
+  // ── 3. 修正未定义的引用：用第一个创建的物体替代 ──
+  const firstCreated = [...created.keys()][0];
+  for (const u of used) {
+    if (!created.has(u)) {
+      const re = new RegExp(`\\b${u}\\b`, 'g');
+      body = body.replace(re, firstCreated);
+    }
+  }
+
+  // ── 4. 找出「创建了但从未显示」的物体，自动补 self.add() ──
+  const displayed = new Set();
+  // self.add(x) / self.remove(x)
+  let re1 = /self\.(?:add|remove)\(\s*([a-zA-Z_][a-zA-Z0-9_]*)/g;
+  // self.play(AnimName(x, ...)) — 动画第一个参数是物体
+  let re2 = /self\.play\(\s*[A-Za-z_][A-Za-z0-9_]*\s*\(\s*([a-zA-Z_][a-zA-Z0-9_]*)/g;
+  // self.play(x.animate...) — 直接方法链
+  let re3 = /self\.play\(\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\.animate/g;
+  let xm;
+  for (const re of [re1, re2, re3]) {
+    while ((xm = re.exec(body)) !== null) displayed.add(xm[1]);
+  }
+  // VGroup 组合中的成员算已处理
+  const vgroupRe = /VGroup\(([^)]*)\)/g;
+  let vm;
+  while ((vm = vgroupRe.exec(body)) !== null) {
+    vm[1].split(',').forEach(s => {
+      const name = s.trim();
+      if (name) displayed.add(name);
+    });
+  }
+
+  const toAdd = [];
+  for (const name of created.keys()) {
+    if (!displayed.has(name)) toAdd.push(name);
+  }
+
+  if (toAdd.length > 0) {
+    const adds = toAdd.map(v => P + `self.add(${v})`).join('\n');
+    body = body + '\n' + adds;
+  }
+
+  return body;
 }
