@@ -708,6 +708,35 @@ codeGens.camera_animate_zoom = (b, n) =>
 codeGens.camera_restore = (b, n) =>
   indent(n) + `self.camera.frame.restore()`;
 
+// ── 🧩 场景类 ─────────────────────────────────────────
+
+codeGens.scene_linear_transform = (b, n) =>
+  indent(n) + `# 线性变换场景（配合 VectorScene 使用）\n` +
+  indent(n) + `${_v(b, 'VAR')} = LinearTransformationScene(\n` +
+  indent(n + 1) + `include_background_plane=True, include_foreground_plane=True,\n` +
+  indent(n + 1) + `background_plane_kwargs={"x_range": [-4, 4]},\n` +
+  indent(n + 1) + `foreground_plane_kwargs={"x_range": [-4, 4]}\n` +
+  indent(n) + `)`;
+
+codeGens.scene_vector_scene = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = VectorScene()` +
+  `\n${indent(n)}${_v(b, 'VAR')}.add(self.plane)` +
+  `\n${indent(n)}${_v(b, 'VAR')}.add(self.vectors)` +
+  `\n${indent(n)}${_v(b, 'VAR')}.show_basis()` +
+  `\n${indent(n)}${_v(b, 'VAR')}.show_coordinates()`;
+
+codeGens.scene_zoomed = (b, n) =>
+  indent(n) + `# 缩放镜头（ZoomedScene）\n` +
+  indent(n) + `${_v(b, 'VAR')} = ZoomedScene(zoomed_display_height=2, zoom_factor=${_v(b, 'SCALE')})`;
+
+// ── ⚙️ 更新器 ────────────────────────────────────────
+
+codeGens.updater_add = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')}.add_updater(${_v(b, 'FUNC')})`;
+
+codeGens.updater_remove = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')}.remove_updater(${_v(b, 'VAR')}.updaters.pop() if ${_v(b, 'VAR')}.updaters else None)`;
+
 // ── 🟣 控制 (C-blocks) ───────────────────────────────
 
 codeGens.control_repeat = (b, n) => {
@@ -796,6 +825,7 @@ export function generateCode(workspace) {
   let needsMath = false;
   let needsMovingCamera = false;
   let needs3D = false;
+  let needsVectorScene = false;
 
   for (const block of topBlocks) {
     const types = collectBlockTypes(block);
@@ -805,6 +835,8 @@ export function generateCode(workspace) {
     if (types.has('camera_zoom') || types.has('camera_move_to') ||
         types.has('camera_animate_zoom') || types.has('camera_restore'))
       needsMovingCamera = true;
+    if (types.has('scene_vector_scene') || types.has('scene_linear_transform'))
+      needsVectorScene = true;
     for (const t of types) {
       if (t.startsWith('object3d_')) needs3D = true;
     }
@@ -824,10 +856,11 @@ export function generateCode(workspace) {
   const lastType = topBlocks.length > 0 ? topBlocks[topBlocks.length - 1].type : null;
   const extraWait = lastType !== 'scene_wait' ? indent(2) + 'self.wait(1)' : '';
 
-  // 场景类型：3D > 移动相机 > 普通
+  // 场景类型：3D > 移动相机 > 向量 > 普通
   let sceneClass = 'Scene';
   if (needs3D) sceneClass = 'ThreeDScene';
   else if (needsMovingCamera) sceneClass = 'MovingCameraScene';
+  else if (needsVectorScene) sceneClass = 'VectorScene';
 
   return `${imports.join('\n')}
 

@@ -1639,6 +1639,61 @@ export const blockDefs = [
   },
 
   // ════════════════════════════════════════════════════
+  // 🧩 场景类（Scene 类型）—— 高级场景
+  // ════════════════════════════════════════════════════
+
+  {
+    type: 'scene_linear_transform',
+    message0: '线性变换场景 %1  基向量 %2 和 %3',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'linear_scene' },
+      { type: 'field_variable', name: 'V1', variable: 'v1' },
+      { type: 'field_variable', name: 'V2', variable: 'v2' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 0, tooltip: '创建线性变换场景（配合向量使用）',
+  },
+  {
+    type: 'scene_vector_scene',
+    message0: '向量场景 %1',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'vec_scene' }],
+    previousStatement: null, nextStatement: null,
+    colour: 0, tooltip: '创建向量场景（带网格和向量轴）',
+  },
+  {
+    type: 'scene_zoomed',
+    message0: '缩放镜头 %1  放大倍数 %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'zoomed' },
+      { type: 'field_number', name: 'SCALE', value: 4, min: 1, max: 20, precision: 1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 0, tooltip: '创建缩放镜头（局部放大显示）',
+  },
+
+  // ════════════════════════════════════════════════════
+  // ⚙️ 更新器（Updaters）
+  // ════════════════════════════════════════════════════
+
+  {
+    type: 'updater_add',
+    message0: '给 %1 添加更新器 %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'obj' },
+      { type: 'field_input', name: 'FUNC', text: 'lambda m: m.rotate(0.01)' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 100, tooltip: '给物体添加更新器（每帧自动执行函数）',
+  },
+  {
+    type: 'updater_remove',
+    message0: '移除 %1 的更新器',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'obj' }],
+    previousStatement: null, nextStatement: null,
+    colour: 100, tooltip: '移除物体的所有更新器',
+  },
+
+  // ════════════════════════════════════════════════════
   // 🟣 控制（Control）—— C-blocks + statement blocks
   // ════════════════════════════════════════════════════
 

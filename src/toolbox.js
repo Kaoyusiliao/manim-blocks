@@ -241,6 +241,17 @@ export const toolboxJson = {
       ],
     },
 
+    // ── ⚙️ 更新器 ────────────────────────────────────
+    {
+      kind: 'category',
+      name: '⚙️ 更新器',
+      colour: '100', // teal
+      contents: [
+        { kind: 'block', type: 'updater_add' },
+        { kind: 'block', type: 'updater_remove' },
+      ],
+    },
+
     // ── 🟡 运算 ──────────────────────────────────────
     {
       kind: 'category',
