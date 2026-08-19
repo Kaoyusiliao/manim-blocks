@@ -538,7 +538,7 @@ export const blockDefs = [
     colour: 330, tooltip: '让物体绕自身中心旋转指定圈数',
   },
 
-  // 进阶动画 — 教程覆盖
+  // 高级动画 — 教程覆盖
   {
     type: 'animate_replacement_transform',
     message0: '平滑变形 %1 为 %2',
@@ -548,6 +548,26 @@ export const blockDefs = [
     ],
     previousStatement: null, nextStatement: null,
     colour: 330, tooltip: '平滑地将物体变形为另一个物体（顶点一一对应）',
+  },
+  {
+    type: 'animate_move_along_path',
+    message0: '沿路径移动 %1 路径 %2',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'obj' },
+      { type: 'field_variable', name: 'PATH', variable: 'path' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '让物体沿另一物体（如弧线/线段）移动',
+  },
+  {
+    type: 'animate_lagged_start',
+    message0: '依次延迟播放 %1  %2 组',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'obj' },
+      { type: 'field_number', name: 'COUNT', value: 3, min: 1, max: 50, precision: 1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '错峰播放多个相同物体的动画（依次延迟出现）',
   },
   {
     type: 'animate_draw_then_fill',
@@ -696,6 +716,42 @@ export const blockDefs = [
     ],
     previousStatement: null, nextStatement: null,
     colour: 0, tooltip: '通用动画播放块，选动画类型和目标物体',
+  },
+
+  // ════════════════════════════════════════════════════
+  // 🎥 相机（Camera）—— 需要 MovingCameraScene
+  // ════════════════════════════════════════════════════
+
+  {
+    type: 'camera_zoom',
+    message0: '相机缩放 %1 倍',
+    args0: [{ type: 'field_number', name: 'SCALE', value: 2, min: 0.1, max: 20, precision: 0.1 }],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '缩放相机视野（大于1放大，小于1缩小）',
+  },
+  {
+    type: 'camera_move_to',
+    message0: '相机移动到 (%1, %2)',
+    args0: [
+      { type: 'field_number', name: 'X', value: 3, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '相机镜头移动到指定坐标',
+  },
+  {
+    type: 'camera_animate_zoom',
+    message0: '动画缩放相机至 %1 倍',
+    args0: [{ type: 'field_number', name: 'SCALE', value: 2, min: 0.1, max: 20, precision: 0.1 }],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '以动画形式平滑缩放相机',
+  },
+  {
+    type: 'camera_restore',
+    message0: '恢复相机初始位置',
+    args0: [],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '将相机恢复为初始状态',
   },
 
   // ════════════════════════════════════════════════════

@@ -104,11 +104,26 @@ export const toolboxJson = {
         { kind: 'block', type: 'animate_spin' },
         { kind: 'block', type: 'animate_transform' },
         { kind: 'block', type: 'animate_replacement_transform' },
+        { kind: 'block', type: 'animate_move_along_path' },
+        { kind: 'block', type: 'animate_lagged_start' },
         { kind: 'block', type: 'animate_draw_then_fill' },
         { kind: 'block', type: 'animate_flash' },
         { kind: 'block', type: 'animate_indicate' },
         { kind: 'block', type: 'animate_wiggle' },
         { kind: 'block', type: 'animate_apply_method' },
+      ],
+    },
+
+    // ── 🎥 相机 ──────────────────────────────────────
+    {
+      kind: 'category',
+      name: '🎥 相机',
+      colour: '20', // orange-red
+      contents: [
+        { kind: 'block', type: 'camera_zoom' },
+        { kind: 'block', type: 'camera_animate_zoom' },
+        { kind: 'block', type: 'camera_move_to' },
+        { kind: 'block', type: 'camera_restore' },
       ],
     },
 

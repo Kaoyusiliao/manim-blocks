@@ -306,6 +306,20 @@ codeGens.animate_transform = (b, n) =>
 codeGens.animate_replacement_transform = (b, n) =>
   indent(n) + `self.play(ReplacementTransform(${_v(b, 'OBJ')}, ${_v(b, 'TARGET')}))`;
 
+codeGens.animate_move_along_path = (b, n) =>
+  indent(n) + `self.play(MoveAlongPath(${_v(b, 'OBJ')}, ${_v(b, 'PATH')}))`;
+
+codeGens.animate_lagged_start = (b, n) => {
+  const count = _v(b, 'COUNT');
+  const varName = _v(b, 'OBJ');
+  const lines = [];
+  lines.push(indent(n) + `${varName}_group = VGroup()`);
+  lines.push(indent(n) + `for _ in range(${count}):`);
+  lines.push(indent(n + 1) + `${varName}_group.add(${varName}.copy())`);
+  lines.push(indent(n) + `self.play(LaggedStart(*[Create(m) for m in ${varName}_group]))`);
+  return lines.join('\n');
+};
+
 codeGens.animate_draw_then_fill = (b, n) =>
   indent(n) + `self.play(DrawBorderThenFill(${_v(b, 'VAR')}))`;
 
@@ -359,6 +373,20 @@ codeGens.scene_play   = (b, n) => {
   const anim = b.getFieldValue('ANIM');
   return indent(n) + `self.play(${anim}(${_v(b, 'VAR')}))`;
 };
+
+// ── 🎥 相机 ──────────────────────────────────────────
+
+codeGens.camera_zoom = (b, n) =>
+  indent(n) + `self.camera.frame.scale(${_v(b, 'SCALE')})`;
+
+codeGens.camera_move_to = (b, n) =>
+  indent(n) + `self.camera.frame.move_to(${_v(b, 'X')} * RIGHT + ${_v(b, 'Y')} * UP)`;
+
+codeGens.camera_animate_zoom = (b, n) =>
+  indent(n) + `self.play(self.camera.frame.animate.scale(${_v(b, 'SCALE')}))`;
+
+codeGens.camera_restore = (b, n) =>
+  indent(n) + `self.camera.frame.restore()`;
 
 // ── 🟣 控制 (C-blocks) ───────────────────────────────
 
@@ -443,15 +471,19 @@ codeGens.logic_boolean  = (b, n) => indent(n) + `_ = ${_v(b, 'BOOL') === 'True' 
 export function generateCode(workspace) {
   const topBlocks = workspace.getTopBlocks(true);
 
-  // 检测是否需要 import random/math
+  // 检测需要的 imports 和场景类型
   let needsRandom = false;
   let needsMath = false;
+  let needsMovingCamera = false;
 
   for (const block of topBlocks) {
     const types = collectBlockTypes(block);
     if (types.has('op_random')) needsRandom = true;
     if (types.has('op_sin') || types.has('op_cos') || types.has('op_tan') || types.has('op_sqrt'))
       needsMath = true;
+    if (types.has('camera_zoom') || types.has('camera_move_to') ||
+        types.has('camera_animate_zoom') || types.has('camera_restore'))
+      needsMovingCamera = true;
   }
 
   // 生成 imports
@@ -468,9 +500,12 @@ export function generateCode(workspace) {
   const lastType = topBlocks.length > 0 ? topBlocks[topBlocks.length - 1].type : null;
   const extraWait = lastType !== 'scene_wait' ? indent(2) + 'self.wait(1)' : '';
 
+  // 使用 MovingCameraScene 还是普通 Scene
+  const sceneClass = needsMovingCamera ? 'MovingCameraScene' : 'Scene';
+
   return `${imports.join('\n')}
 
-class MyScene(Scene):
+class MyScene(${sceneClass}):
     def construct(self):
 ${body}
 ${extraWait}
