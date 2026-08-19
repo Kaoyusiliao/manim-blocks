@@ -60,6 +60,14 @@ pnpm build     # 输出到 dist/
 - [Vite](https://vitejs.dev/) — 构建
 - 纯前端，无后端，浏览器运行
 
+## 赞助
+
+如果这个工具帮到了你，欢迎扫码支持，每一份心意都是继续做下去的动力 ❤️
+
+![微信 / 支付宝收款码](public/sponsor/wechat.png)
+
+网页版在「💖 赞助」按钮也能看到。
+
 ## 许可
 
 [MIT](LICENSE) © 2026 Kaoyusiliao
