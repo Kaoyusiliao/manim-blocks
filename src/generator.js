@@ -673,6 +673,57 @@ codeGens.animate_homotopy = (b, n) =>
 codeGens.animate_traced_path = (b, n) =>
   indent(n) + `self.play(TracedPath(${_v(b, 'VAR')}.get_center))`;
 
+// ── 匹配变换等动画 ────────────────────────────────────
+
+codeGens.animate_transform_matching_tex = (b, n) =>
+  indent(n) + `self.play(TransformMatchingTex(${_v(b, 'OBJ')}, ${_v(b, 'TARGET')}))`;
+
+codeGens.animate_transform_matching_shapes = (b, n) =>
+  indent(n) + `self.play(TransformMatchingShapes(${_v(b, 'OBJ')}, ${_v(b, 'TARGET')}))`;
+
+codeGens.animate_show_increasing = (b, n) =>
+  indent(n) + `self.play(ShowIncreasingSubsets(${_v(b, 'VAR')}))`;
+
+codeGens.animate_cyclic_replace = (b, n) =>
+  indent(n) + `self.play(CyclicReplace(${_v(b, 'A')}, ${_v(b, 'B')}))`;
+
+codeGens.animate_remove_letter = (b, n) =>
+  indent(n) + `self.play(RemoveTextLetterByLetter(${_v(b, 'VAR')}))`;
+
+codeGens.animate_phase_flow = (b, n) => {
+  const count = _v(b, 'COUNT');
+  const varName = _v(b, 'VAR');
+  const lines = [];
+  lines.push(indent(n) + `${varName}_group = VGroup()`);
+  lines.push(indent(n) + `for _ in range(${count}):`);
+  lines.push(indent(n + 1) + `${varName}_group.add(${varName}.copy())`);
+  lines.push(indent(n) + `self.play(PhaseFlow(*[FadeIn(m) for m in ${varName}_group]))`);
+  return lines.join('\n');
+};
+
+codeGens.animate_lagged_map = (b, n) => {
+  const count = _v(b, 'COUNT');
+  const varName = _v(b, 'OBJ');
+  const lines = [];
+  lines.push(indent(n) + `${varName}_group = VGroup()`);
+  lines.push(indent(n) + `for _ in range(${count}):`);
+  lines.push(indent(n + 1) + `${varName}_group.add(${varName}.copy())`);
+  lines.push(indent(n) + `self.play(LaggedStartMap(Create, ${varName}_group))`);
+  return lines.join('\n');
+};
+
+codeGens.animate_maintain_relative = (b, n) =>
+  indent(n) + `self.play(MaintainPositionRelativeTo(${_v(b, 'OBJ')}, ${_v(b, 'TARGET')}))`;
+
+codeGens.animate_transform_animations = (b, n) =>
+  indent(n) + `self.play(TransformAnimations(${_v(b, 'OBJ')}, ${_v(b, 'TARGET')}))`;
+
+codeGens.animate_word_by_word = (b, n) =>
+  indent(n) + `self.play(AddTextWordByWord(${_v(b, 'VAR')}))`;
+
+codeGens.animate_show_partial = (b, n) =>
+  indent(n) + `self.play(ShowPartial(${_v(b, 'VAR')}, ${_v(b, 'PERCENT')} / 100))`;
+
 // ── 样式属性 ──────────────────────────────────────────
 
 codeGens.property_stroke_width = (b, n) =>

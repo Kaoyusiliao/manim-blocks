@@ -1525,6 +1525,107 @@ export const blockDefs = [
     previousStatement: null, nextStatement: null,
     colour: 330, tooltip: '物体移动时留下轨迹',
   },
+  {
+    type: 'animate_transform_matching_tex',
+    message0: 'TeX 匹配变形 %1 为 %2',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'tex1' },
+      { type: 'field_variable', name: 'TARGET', variable: 'tex2' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '按相同 TeX 部分匹配变形（数学演示常用）',
+  },
+  {
+    type: 'animate_transform_matching_shapes',
+    message0: '形状匹配变形 %1 为 %2',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'obj' },
+      { type: 'field_variable', name: 'TARGET', variable: 'target' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '按形状匹配变形两个物体',
+  },
+  {
+    type: 'animate_show_increasing',
+    message0: '逐段显示 %1',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'obj' }],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '从上到下逐段显示物体的子部分',
+  },
+  {
+    type: 'animate_cyclic_replace',
+    message0: '循环替换 %1 %2',
+    args0: [
+      { type: 'field_variable', name: 'A', variable: 'a' },
+      { type: 'field_variable', name: 'B', variable: 'b' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '循环替换两个物体的位置',
+  },
+  {
+    type: 'animate_remove_letter',
+    message0: '逐字擦除 %1',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'text' }],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '文字逐字擦除（打字机反向）',
+  },
+  {
+    type: 'animate_phase_flow',
+    message0: '相位流动 %1  %2 次',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'obj' },
+      { type: 'field_number', name: 'COUNT', value: 3, min: 1, max: 50, precision: 1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '物体循环相位流动',
+  },
+  {
+    type: 'animate_lagged_map',
+    message0: '错峰映射 %1 的 %2 个副本',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'obj' },
+      { type: 'field_number', name: 'COUNT', value: 5, min: 1, max: 50, precision: 1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '多个副本错峰依次变换',
+  },
+  {
+    type: 'animate_maintain_relative',
+    message0: '保持 %1 相对 %2 位置',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'obj' },
+      { type: 'field_variable', name: 'TARGET', variable: 'target' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '物体跟随目标物体移动保持相对位置',
+  },
+  {
+    type: 'animate_transform_animations',
+    message0: '动画间转换 %1 → %2',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'obj' },
+      { type: 'field_variable', name: 'TARGET', variable: 'target' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '将第一个动画转换成第二个动画',
+  },
+  {
+    type: 'animate_word_by_word',
+    message0: '逐词显示 %1',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'text' }],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '文字逐词显示',
+  },
+  {
+    type: 'animate_show_partial',
+    message0: '部分显示 %1  %2%',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'obj' },
+      { type: 'field_number', name: 'PERCENT', value: 50, min: 0, max: 100, precision: 5 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '显示物体的指定百分比部分',
+  },
 
   // 样式属性
   {
