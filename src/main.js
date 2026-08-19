@@ -497,14 +497,14 @@ const EXAMPLES = [
   {
     name: '💬 文字动画',
     emoji: '🎨',
-    desc: '彩色文字 + 打字机效果 + 淡入淡出',
+    desc: '彩色文字 + 字母逐个平滑淡入 + 淡出',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_text" x="30" y="30">
 <field name="VAR">text</field><field name="CONTENT">Hello, Manim!</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="property_color">
 <field name="VAR">text</field><field name="COLOR">PURPLE</field><next>
-<block type="animate_typewriter">
-<field name="VAR">text</field><next>
+<block type="animate_fade_in_letters">
+<field name="VAR">text</field><field name="RATIO">0.5</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
 <block type="animate_shift">

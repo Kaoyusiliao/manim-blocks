@@ -1336,6 +1336,18 @@ export const blockDefs = [
     colour: 330, tooltip: '文字逐字打出（打字机效果）',
   },
   {
+    type: 'animate_fade_in_letters',
+    message0: '字母逐个淡入 %1  流畅度 %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'text' },
+      { type: 'field_dropdown', name: 'RATIO',
+        options: [['丝滑 (0.5)', '0.5'], ['轻快 (0.3)', '0.3'], ['缓慢 (0.8)', '0.8']],
+      },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '每个字母依次平滑淡入出现 — 比打字机更流畅',
+  },
+  {
     type: 'animate_speed',
     message0: '以 %1 倍速播放动画',
     args0: [{ type: 'field_number', name: 'SPEED', value: 2, min: 0.1, max: 20, precision: 0.1 }],

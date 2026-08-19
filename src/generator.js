@@ -604,6 +604,9 @@ codeGens.animate_apply_method = (b, n) => {
 codeGens.animate_typewriter = (b, n) =>
   indent(n) + `self.play(AddTextLetterByLetter(${_v(b, 'VAR')}))`;
 
+codeGens.animate_fade_in_letters = (b, n) =>
+  indent(n) + `self.play(FadeIn(${_v(b, 'VAR')}, lag_ratio=${b.getFieldValue('RATIO')}))`;
+
 codeGens.animate_speed = (b, n) =>
   indent(n) + `self.play(self.camera.frame.animate.set_rate_func(smoothstep), run_time=0.001)` +
   `\n${indent(n)}# 提示：速度调整通过 run_time 实现，可在下方动画加 run_time=1/${_v(b, 'SPEED')}`;

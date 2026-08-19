@@ -189,6 +189,7 @@ export const toolboxJson = {
         { kind: 'block', type: 'animate_wiggle' },
         { kind: 'block', type: 'animate_apply_method' },
         { kind: 'block', type: 'animate_typewriter' },
+        { kind: 'block', type: 'animate_fade_in_letters' },
         { kind: 'block', type: 'animate_speed' },
         { kind: 'block', type: 'animate_group' },
         { kind: 'block', type: 'animate_fade_to_color' },
