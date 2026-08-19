@@ -1584,13 +1584,13 @@ export const blockDefs = [
   },
   {
     type: 'animate_phase_flow',
-    message0: '相位流动 %1  %2 次',
+    message0: '错峰淡入 %1  %2 个副本',
     args0: [
       { type: 'field_variable', name: 'VAR', variable: 'obj' },
       { type: 'field_number', name: 'COUNT', value: 3, min: 1, max: 50, precision: 1 },
     ],
     previousStatement: null, nextStatement: null,
-    colour: 330, tooltip: '物体循环相位流动',
+    colour: 330, tooltip: '多个副本依次错峰淡入，形成流动感',
   },
   {
     type: 'animate_lagged_map',
@@ -1708,7 +1708,7 @@ export const blockDefs = [
         options: [
           ['创建', 'Create'], ['淡入', 'FadeIn'], ['淡出', 'FadeOut'],
           ['书写', 'Write'], ['擦除', 'Unwrite'], ['生长', 'GrowFromCenter'],
-          ['旋转', 'Rotate'], ['缩放', 'Scale'], ['变形', 'Transform'],
+          ['旋转', 'Rotate'], ['缩放', 'Scale'], ['逆向创建', 'Uncreate'],
         ],
       },
     ],

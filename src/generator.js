@@ -30,6 +30,18 @@ function _v(b, n) {
 
 function indent(n) { return '    '.repeat(n); }
 
+/**
+ * 转义用户输入的文本，防止破坏生成的 Python 字符串字面量。
+ * 用于放进双引号字符串的字段（CONTENT/TEXT/TEX 等）。
+ */
+function esc(s) {
+  return String(s)
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, '\\n')
+    .replace(/\r/g, '');
+}
+
 // ── 值积木生成器（返回 Python 表达式字符串）───────────
 
 const valueGens = {};
@@ -38,8 +50,8 @@ const valueGens = {};
 function valueBlock(block) {
   if (!block) return '0';
 
-  // var_get — 变量名直接作为表达式
-  if (block.type === 'var_get') return _v(block, 'VAR');
+  // var_get / variables_get — 变量名直接作为表达式（支持 Blockly 内置变量块）
+  if (block.type === 'var_get' || block.type === 'variables_get') return _v(block, 'VAR');
 
   // math_number — 数字字面量
   if (block.type === 'math_number') return block.getFieldValue('NUM');
@@ -189,7 +201,7 @@ codeGens.object_math_tex = (b, n) =>
   indent(n) + `${_v(b, 'VAR')} = MathTex(r"${_v(b, 'TEX')}")` + maybeMoveTo(b, n);
 
 codeGens.object_text = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = Text("${_v(b, 'CONTENT')}")` + maybeMoveTo(b, n);
+  indent(n) + `${_v(b, 'VAR')} = Text("${esc(_v(b, 'CONTENT'))}")` + maybeMoveTo(b, n);
 
 // ── 进阶形状 ──────────────────────────────────────────
 
@@ -227,27 +239,27 @@ codeGens.object_sector = (b, n) =>
 // ── 进阶文字 ──────────────────────────────────────────
 
 codeGens.object_markup_text = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = MarkupText("${_v(b, 'CONTENT')}")` + maybeMoveTo(b, n);
+  indent(n) + `${_v(b, 'VAR')} = MarkupText("${esc(_v(b, 'CONTENT'))}")` + maybeMoveTo(b, n);
 
 codeGens.object_title = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = Title("${_v(b, 'CONTENT')}")` + maybeMoveTo(b, n);
+  indent(n) + `${_v(b, 'VAR')} = Title("${esc(_v(b, 'CONTENT'))}")` + maybeMoveTo(b, n);
 
 codeGens.object_bulleted_list = (b, n) => {
   const items = _v(b, 'CONTENT').split(',').map(s => s.trim()).filter(Boolean);
-  const quoted = items.map(s => `"${s}"`).join(', ');
+  const quoted = items.map(s => `"${esc(s)}"`).join(', ');
   return indent(n) + `${_v(b, 'VAR')} = BulletedList(${quoted})` + maybeMoveTo(b, n);
 };
 
 codeGens.object_code_block = (b, n) =>
   indent(n) +
-  `${_v(b, 'VAR')} = Code(code_string="${_v(b, 'CONTENT')}", language="python", font_size=24)` +
+  `${_v(b, 'VAR')} = Code(code_string="${esc(_v(b, 'CONTENT'))}", language="python")` +
   maybeMoveTo(b, n);
 
 // ── 进阶文字2 ─────────────────────────────────────────
 
 codeGens.object_paragraph = (b, n) => {
   const lines = _v(b, 'CONTENT').split(',').map(s => s.trim()).filter(Boolean);
-  const quoted = lines.map(s => `"${s}"`).join(', ');
+  const quoted = lines.map(s => `"${esc(s)}"`).join(', ');
   return indent(n) + `${_v(b, 'VAR')} = Paragraph(${quoted})` + maybeMoveTo(b, n);
 };
 
@@ -359,7 +371,7 @@ codeGens.object_brace = (b, n) =>
 
 codeGens.object_brace_label = (b, n) =>
   indent(n) +
-  `${_v(b, 'VAR')} = BraceLabel(${_v(b, 'TARGET')}, "${_v(b, 'TEXT')}")`;
+  `${_v(b, 'VAR')} = BraceLabel(${_v(b, 'TARGET')}, "${esc(_v(b, 'TEXT'))}")`;
 
 codeGens.object_group = (b, n) =>
   indent(n) + `${_v(b, 'VAR')} = VGroup(${_v(b, 'A')}, ${_v(b, 'B')})`;
@@ -391,7 +403,7 @@ codeGens.object_complex_plane = (b, n) =>
 
 codeGens.object_implicit_graph = (b, n) =>
   indent(n) +
-  `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot_implicit(lambda x, y: ${_v(b, 'FUNC')})`;
+  `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot_implicit_curve(lambda x, y: ${_v(b, 'FUNC')})`;
 
 codeGens.object_parametric_curve = (b, n) =>
   indent(n) +
@@ -461,7 +473,7 @@ codeGens.object3d_surface = (b, n) =>
 
 codeGens.object3d_polyhedron = (b, n) =>
   indent(n) +
-  `${_v(b, 'VAR')} = Polyhedron(vertices=${_v(b, 'VERTS')}, faces=${_v(b, 'FACES')})`;
+  `${_v(b, 'VAR')} = Polyhedron(vertex_coords=${_v(b, 'VERTS')}, faces_list=${_v(b, 'FACES')})`;
 
 codeGens.object3d_axes = (b, n) =>
   indent(n) +
@@ -498,7 +510,7 @@ codeGens.object_value_tracker = (b, n) =>
   indent(n) + `${_v(b, 'VAR')} = ValueTracker(${_v(b, 'VALUE')})`;
 
 codeGens.object_image = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = ImageMobject("${_v(b, 'PATH')}")` + maybeMoveTo(b, n);
+  indent(n) + `${_v(b, 'VAR')} = ImageMobject("${esc(_v(b, 'PATH'))}")` + maybeMoveTo(b, n);
 
 codeGens.object_banner = (b, n) =>
   indent(n) + `${_v(b, 'VAR')} = ManimBanner()`;
@@ -716,7 +728,7 @@ codeGens.animate_phase_flow = (b, n) => {
   lines.push(indent(n) + `${varName}_group = VGroup()`);
   lines.push(indent(n) + `for _ in range(${count}):`);
   lines.push(indent(n + 1) + `${varName}_group.add(${varName}.copy())`);
-  lines.push(indent(n) + `self.play(PhaseFlow(*[FadeIn(m) for m in ${varName}_group]))`);
+  lines.push(indent(n) + `self.play(LaggedStart(*[FadeIn(m) for m in ${varName}_group]))`);
   return lines.join('\n');
 };
 
@@ -741,7 +753,7 @@ codeGens.animate_word_by_word = (b, n) =>
   indent(n) + `self.play(AddTextWordByWord(${_v(b, 'VAR')}))`;
 
 codeGens.animate_show_partial = (b, n) =>
-  indent(n) + `self.play(ShowPartial(${_v(b, 'VAR')}, ${_v(b, 'PERCENT')} / 100))`;
+  indent(n) + `self.play(ShowPartial(${_v(b, 'VAR')}, fraction=${_v(b, 'PERCENT')} / 100))`;
 
 // ── 样式属性 ──────────────────────────────────────────
 
@@ -783,25 +795,20 @@ codeGens.camera_3d_orientation = (b, n) =>
   `self.set_camera_orientation(phi=${_v(b, 'PHI')} * DEGREES, theta=${_v(b, 'THETA')} * DEGREES)`;
 
 // ── 🧩 场景类 ─────────────────────────────────────────
-
-codeGens.scene_linear_transform = (b, n) =>
-  indent(n) + `# 线性变换场景（配合 VectorScene 使用）\n` +
-  indent(n) + `${_v(b, 'VAR')} = LinearTransformationScene(\n` +
-  indent(n + 1) + `include_background_plane=True, include_foreground_plane=True,\n` +
-  indent(n + 1) + `background_plane_kwargs={"x_range": [-4, 4]},\n` +
-  indent(n + 1) + `foreground_plane_kwargs={"x_range": [-4, 4]}\n` +
-  indent(n) + `)`;
+// 场景类（VectorScene/ThreeDScene/ZoomedScene 等）由 generateCode 根据积木自动切换，
+// 这里只生成场景内的辅助代码。
 
 codeGens.scene_vector_scene = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = VectorScene()` +
-  `\n${indent(n)}${_v(b, 'VAR')}.add(self.plane)` +
-  `\n${indent(n)}${_v(b, 'VAR')}.add(self.vectors)` +
-  `\n${indent(n)}${_v(b, 'VAR')}.show_basis()` +
-  `\n${indent(n)}${_v(b, 'VAR')}.show_coordinates()`;
+  indent(n) + '# 向量场景已启用（VectorScene）\n' +
+  indent(n) + 'self.add(self.plane)';
+
+codeGens.scene_linear_transform = (b, n) =>
+  indent(n) + '# 线性变换场景\n' +
+  indent(n) + 'self.add(self.plane)';
 
 codeGens.scene_zoomed = (b, n) =>
-  indent(n) + `# 缩放镜头（ZoomedScene）\n` +
-  indent(n) + `${_v(b, 'VAR')} = ZoomedScene(zoomed_display_height=2, zoom_factor=${_v(b, 'SCALE')})`;
+  indent(n) + '# 缩放镜头场景（ZoomedScene）\n' +
+  indent(n) + `self.zoomed_camera.frame.scale(${_v(b, 'SCALE')})`;
 
 // ── ⚙️ 更新器 ────────────────────────────────────────
 
@@ -809,7 +816,8 @@ codeGens.updater_add = (b, n) =>
   indent(n) + `${_v(b, 'VAR')}.add_updater(${_v(b, 'FUNC')})`;
 
 codeGens.updater_remove = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')}.remove_updater(${_v(b, 'VAR')}.updaters.pop() if ${_v(b, 'VAR')}.updaters else None)`;
+  indent(n) + `if ${_v(b, 'VAR')}.updaters:\n` +
+  indent(n + 1) + `${_v(b, 'VAR')}.remove_updater(${_v(b, 'VAR')}.updaters[-1])`;
 
 // ── 🟣 控制 (C-blocks) ───────────────────────────────
 
@@ -850,6 +858,12 @@ codeGens.control_wait_until = (b, n) => {
 // ── 🔷 变量 ──────────────────────────────────────────
 
 codeGens.var_set = (b, n) => {
+  const val = valueBlock(b.getInputTargetBlock('VALUE'));
+  return indent(n) + `${_v(b, 'VAR')} = ${val}`;
+};
+
+// Blockly 内置「将变量设为」块
+codeGens.variables_set = (b, n) => {
   const val = valueBlock(b.getInputTargetBlock('VALUE'));
   return indent(n) + `${_v(b, 'VAR')} = ${val}`;
 };
@@ -933,6 +947,7 @@ export function generateCode(workspace) {
   let needsMovingCamera = false;
   let needs3D = false;
   let needsVectorScene = false;
+  let needsZoomed = false;
 
   for (const block of chainHeads) {
     const types = collectBlockTypes(block);
@@ -944,6 +959,7 @@ export function generateCode(workspace) {
       needsMovingCamera = true;
     if (types.has('scene_vector_scene') || types.has('scene_linear_transform'))
       needsVectorScene = true;
+    if (types.has('scene_zoomed')) needsZoomed = true;
     for (const t of types) {
       if (t.startsWith('object3d_') || t === 'camera_3d_orientation') needs3D = true;
     }
@@ -1028,10 +1044,11 @@ export function generateCode(workspace) {
     ? indent(2) + 'self.wait(1)'
     : '';
 
-  // 场景类型：3D > 移动相机 > 向量 > 普通
+  // 场景类型：3D > 移动相机 > 缩放镜头 > 向量 > 普通
   let sceneClass = 'Scene';
   if (needs3D) sceneClass = 'ThreeDScene';
   else if (needsMovingCamera) sceneClass = 'MovingCameraScene';
+  else if (needsZoomed) sceneClass = 'ZoomedScene';
   else if (needsVectorScene) sceneClass = 'VectorScene';
 
   return `${imports.join('\n')}
@@ -1066,6 +1083,14 @@ function collectBlockTypes(block, set = new Set()) {
 function autoFixVariables(body) {
   const P = '    '.repeat(2); // 8 空格缩进
 
+  // ── 0. 保护字符串字面量（"..." 和 r"..."），防止字符串里的词被误当变量 ──
+  const strMap = [];
+  const strRe = /r?"((?:[^"\\]|\\.)*)"/g;
+  body = body.replace(strRe, (full) => {
+    strMap.push(full);
+    return `__STR${strMap.length - 1}__`;
+  });
+
   // ── 1. 找出所有「创建物体」语句及其变量名 ──
   // 匹配形如:  var = Circle() / var = Sphere(radius=1) / var = VGroup(...)
   // 注意：代码行有 8 空格缩进，用 ^\s* 匹配
@@ -1083,6 +1108,10 @@ function autoFixVariables(body) {
     'import', 'from', 'as', 'and', 'or', 'not', 'if', 'else', 'while',
     'break', 'continue', 'True', 'False', 'None', '_', 'np', 'math', 'random',
   ]);
+  // 排除 for 循环变量 / 列表推导变量（for x in ...）
+  let loopRe = /\bfor\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;
+  let lm2;
+  while ((lm2 = loopRe.exec(body)) !== null) skipWords.add(lm2[1]);
 
   // 排除 .方法名 / self.属性 / 属性链中间名（.word 任意位置）
   const methodWords = new Set();
@@ -1156,6 +1185,9 @@ function autoFixVariables(body) {
     const adds = toAdd.map(v => P + `self.add(${v})`).join('\n');
     body = body + '\n' + adds;
   }
+
+  // ── 5. 还原被保护的字符串字面量 ──
+  body = body.replace(/__STR(\d+)__/g, (_, i) => strMap[Number(i)] || '');
 
   return body;
 }

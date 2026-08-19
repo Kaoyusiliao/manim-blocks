@@ -236,6 +236,11 @@
               <p>运行和安装用了不同的 Python。用同一方式确认：先 <code class="inline-code">pip --version</code> 再 <code class="inline-code">pip install manim</code>。</p>
             </details>
             <details>
+              <summary>LaTeX 报错 / 中文字符报错（Unicode character）？</summary>
+              <p><b>文字</b>（🔵 物体 → 创建文字）支持中文，随便用。<br/>
+              但 <b>公式类</b>（LaTeX 公式 / MathTex / 列表 / 段落）走 LaTeX 排版，<b>默认不支持中文</b>，输入中文会报错。公式请用英文和数学符号，例如 <code class="inline-code">x^2 + y^2 = 1</code>。</p>
+            </details>
+            <details>
               <summary>为什么不能在浏览器里直接播放动画？</summary>
               <p>Manim 需要电脑上的 Python + FFmpeg + LaTeX 来渲染视频，浏览器提供不了这些。<br/><br/><strong>未来：</strong>架一台服务器渲染再传回视频，就能像 Scratch 一样网页直接看。目前纯前端做不到，需要花钱租服务器，需要的话跟我说。</p>
             </details>

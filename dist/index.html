@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manim Blocks — 积木式数学动画创作</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
-  <script type="module" crossorigin src="./assets/index-4hVpY02v.js"></script>
+  <script type="module" crossorigin src="./assets/index-DP7VbxAv.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-BAM1QVKR.css">
 </head>
 <body>
@@ -235,6 +235,11 @@
             <details>
               <summary>提示 <code class="inline-code">No module named 'manim'</code></summary>
               <p>运行和安装用了不同的 Python。用同一方式确认：先 <code class="inline-code">pip --version</code> 再 <code class="inline-code">pip install manim</code>。</p>
+            </details>
+            <details>
+              <summary>LaTeX 报错 / 中文字符报错（Unicode character）？</summary>
+              <p><b>文字</b>（🔵 物体 → 创建文字）支持中文，随便用。<br/>
+              但 <b>公式类</b>（LaTeX 公式 / MathTex / 列表 / 段落）走 LaTeX 排版，<b>默认不支持中文</b>，输入中文会报错。公式请用英文和数学符号，例如 <code class="inline-code">x^2 + y^2 = 1</code>。</p>
             </details>
             <details>
               <summary>为什么不能在浏览器里直接播放动画？</summary>

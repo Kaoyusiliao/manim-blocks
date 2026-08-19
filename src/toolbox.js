@@ -265,6 +265,9 @@ export const toolboxJson = {
         { kind: 'block', type: 'scene_add' },
         { kind: 'block', type: 'scene_remove' },
         { kind: 'block', type: 'scene_play' },
+        { kind: 'block', type: 'scene_vector_scene' },
+        { kind: 'block', type: 'scene_linear_transform' },
+        { kind: 'block', type: 'scene_zoomed' },
       ],
     },
 
@@ -346,6 +349,7 @@ export const toolboxJson = {
           contents: [
             { kind: 'block', type: 'var_set' },
             { kind: 'block', type: 'var_change' },
+            { kind: 'block', type: 'var_get' },
           ],
         },
         {
