@@ -2125,6 +2125,52 @@ export const blockDefs = [
   },
 
   // ════════════════════════════════════════════════════
+  // 🛠 通用积木 —— 实现 Manim 100% 功能
+  // ════════════════════════════════════════════════════
+
+  {
+    type: 'custom_code',
+    message0: '自定义代码 %1',
+    args0: [{ type: 'field_input', name: 'CODE', text: 'self.play(Create(PointCloudDot()))' }],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '直接输入任意 Python/Manim 代码行 — 实现任何功能（点云/渲染器/自定义类等）',
+  },
+  {
+    type: 'custom_function',
+    message0: '自定义函数 %1',
+    args0: [{ type: 'field_input', name: 'FUNC', text: 'def f(x):\n    return x**3' }],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '定义自己的 Python 函数（多行用换行分隔）',
+  },
+  {
+    type: 'custom_mobject',
+    message0: '自定义物体 %1 = %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'custom' },
+      { type: 'field_input', name: 'CODE', text: 'PointCloudDot(color=RED)' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '用任意 Manim 类创建物体 — 覆盖所有未做成积木的类',
+  },
+  {
+    type: 'custom_call_method',
+    message0: '对 %1 调用 %2',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'obj' },
+      { type: 'field_input', name: 'METHOD', text: 'set_style(fill_color=BLUE, fill_opacity=0.5)' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '对物体调用任意方法 — 覆盖所有未做成积木的属性方法',
+  },
+  {
+    type: 'custom_import',
+    message0: '导入 %1',
+    args0: [{ type: 'field_input', name: 'IMPORT', text: 'from manim.utils import *' }],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '添加任意 import 语句（在文件头部生效）',
+  },
+
+  // ════════════════════════════════════════════════════
   // ⬜ 辅助积木—— 值块占位符
   // ════════════════════════════════════════════════════
 

@@ -856,12 +856,43 @@ codeGens.list_for_each = (b, n) => {
 
 codeGens.event_start = (b, n) => indent(n) + '# 场景开始';
 
+// ── 🛠 通用积木 ───────────────────────────────────────
+
+codeGens.custom_code = (b, n) => {
+  const code = _v(b, 'CODE').trim();
+  if (!code) return '';
+  // 多行代码逐行加缩进
+  return code.split('\n').map(line => indent(n) + line).join('\n');
+};
+
+codeGens.custom_function = (b, n) => {
+  const func = _v(b, 'FUNC').trim();
+  if (!func) return '';
+  return func.split('\n').map(line => indent(n) + line).join('\n');
+};
+
+codeGens.custom_mobject = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = ${_v(b, 'CODE')}`;
+
+codeGens.custom_call_method = (b, n) =>
+  indent(n) + `${_v(b, 'OBJ')}.${_v(b, 'METHOD')}`;
+
+codeGens.custom_import = (b, n) => {
+  // 导入语句收集到文件头（通过标记变量，主生成函数处理）
+  const imp = _v(b, 'IMPORT').trim();
+  if (imp) pendingImports.add(imp);
+  return indent(n) + `# import: ${imp}`;
+};
+
 // ── ⬜ 辅助 — 值块放在语句中视为独立表达式 ──────────────
 
 codeGens.math_number   = (b, n) => indent(n) + `_ = ${_v(b, 'NUM')}`;
 codeGens.logic_boolean  = (b, n) => indent(n) + `_ = ${_v(b, 'BOOL') === 'True' ? 'True' : 'False'}`;
 
 // ── 主生成函数 ────────────────────────────────────────
+
+// 收集自定义 import（custom_import 积木产生）
+const pendingImports = new Set();
 
 /**
  * 将 Blockly 工作区中的顶层积木转换为完整的 Manim Python 脚本。
@@ -897,6 +928,8 @@ export function generateCode(workspace) {
   const imports = ['from manim import *'];
   if (needsRandom) imports.push('import random');
   if (needsMath) imports.push('import math');
+  for (const imp of pendingImports) imports.push(imp);
+  pendingImports.clear();
 
   // 生成 body
   const body = topBlocks.length > 0
