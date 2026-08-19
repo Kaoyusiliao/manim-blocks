@@ -976,13 +976,45 @@ export function generateCode(workspace) {
   // ═══ 智能修正：解决小白常见错误 ═══
   // 1. 引用未定义的变量（如创建了 sphere 但动画块选的是 circle）→ 自动匹配已创建的物体
   // 2. 创建了但从未显示过的物体 → 自动 self.add()，否则场景里看不到
+  // 3. 依赖顺序错误（先画图后建坐标轴）→ 自动重排
+  // 4. 坐标类对象误用 set_fill/set_stroke → 改为 set_color
   if (body.trim() && !body.includes('pass  #')) {
     body = autoFixVariables(body);
+    body = reorderDependencies(body);
+    body = fixCoordinateFill(body);
+  }
+
+  // 用了 np.xxx 但没导入 numpy → 自动补 import
+  if (body.includes('np.') && !imports.includes('import numpy as np')) {
+    imports.push('import numpy as np');
   }
 
   // 3D 场景：默认给一个倾斜视角，否则立方体等正对镜头会看不出立体感（看起来像平面正方形）
   if (needs3D && body.trim() && !body.includes('set_camera_orientation')) {
     body = indent(2) + 'self.set_camera_orientation(phi=75 * DEGREES, theta=-45 * DEGREES)\n' + body;
+  }
+
+  // 3D 场景相机兼容：ThreeDCamera 没有 frame 属性，frame.* 会崩 → 替换为 3D 兼容写法
+  if (needs3D && body.includes('self.camera.frame')) {
+    // camera_restore → 重置视角
+    body = body.replace(
+      /self\.camera\.frame\.restore\(\)/g,
+      'self.set_camera_orientation(phi=75 * DEGREES, theta=-45 * DEGREES)'
+    );
+    // camera_zoom / camera_animate_zoom → move_camera(zoom=...)
+    body = body.replace(
+      /self\.play\(self\.camera\.frame\.animate\.scale\(([^)]*)\)\)/g,
+      'self.move_camera(zoom=$1)'
+    );
+    body = body.replace(
+      /self\.camera\.frame\.scale\(([^)]*)\)/g,
+      'self.move_camera(zoom=$1)'
+    );
+    // camera_move_to → 提示不支持（3D 相机没有直接 frame.move_to）
+    body = body.replace(
+      /self\.camera\.frame\.move_to\(([^)]*)\)/g,
+      '# ⚠️ 3D 场景下相机移动请用「3D 相机视角」积木调整角度'
+    );
   }
 
   // 自动补 wait：只考虑已咬合的链
@@ -1125,5 +1157,87 @@ function autoFixVariables(body) {
     body = body + '\n' + adds;
   }
 
+  return body;
+}
+
+/**
+ * 依赖重排：如果 `graph = axes.plot(...)` 出现在 `axes = Axes(...)` 之前，
+ * 把被依赖的创建语句（axes）移到引用它的语句之前，避免 NameError。
+ */
+function reorderDependencies(body) {
+  const lines = body.split('\n');
+
+  // 找所有「创建语句」：var = ClassName(  和  var = other.method(
+  const createIdx = new Map(); // var -> 行 index
+  lines.forEach((line, i) => {
+    const m = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = ([A-Za-z_][A-Za-z0-9_]*)\(/.exec(line);
+    if (m) createIdx.set(m[1], i);
+  });
+
+  // 找依赖：var = dep.method(...) — 引用另一个创建变量
+  // deps 记录 [引用者行号, 被依赖变量名]
+  const deps = [];
+  lines.forEach((line, i) => {
+    const m = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = ([a-zA-Z_][a-zA-Z0-9_]*)\.\w+\(/.exec(line);
+    if (m && createIdx.has(m[2]) && m[1] !== m[2]) {
+      deps.push([i, m[2]]);
+    }
+  });
+
+  let changed = true;
+  let guard = 0;
+  while (changed && guard++ < 30) {
+    changed = false;
+    for (const [refLine, depOn] of deps) {
+      const b = refLine;                 // 引用者行号（如 graph 行）
+      const a = createIdx.get(depOn);    // 依赖创建行号（如 axes 行）
+      if (a === undefined || a < b) continue; // 依赖已在引用者之前，OK
+      // 把 depOn 的创建行（a）移到引用者（b）之前
+      const lineA = lines[a];
+      lines.splice(a, 1);
+      lines.splice(b, 0, lineA);
+      // 重建索引
+      createIdx.clear();
+      lines.forEach((line, i) => {
+        const m = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = ([A-Za-z_][A-Za-z0-9_]*)\(/.exec(line);
+        if (m) createIdx.set(m[1], i);
+      });
+      // 更新 deps 里的行号引用
+      for (let k = 0; k < deps.length; k++) {
+        if (deps[k][0] > a) deps[k][0] -= 1;
+        else if (deps[k][0] >= b && deps[k][0] < a) deps[k][0] += 1;
+      }
+      changed = true;
+      break; // 重新扫描
+    }
+  }
+
+  return lines.join('\n');
+}
+
+/**
+ * 坐标类对象（Axes/NumberPlane/PolarPlane/ComplexPlane/ThreeDAxes）不支持 set_fill/set_stroke，
+ * 误用时改为 set_color(第一个颜色参数)。
+ */
+function fixCoordinateFill(body) {
+  const coordClasses = new Set([
+    'Axes', 'NumberPlane', 'NumberLine', 'PolarPlane', 'ComplexPlane', 'ThreeDAxes',
+  ]);
+  // 找创建语句对应的变量类型
+  const varType = new Map();
+  const createRe = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = ([A-Z][A-Za-z0-9_]*)\(/gm;
+  let m;
+  while ((m = createRe.exec(body)) !== null) varType.set(m[1], m[2]);
+
+  // 对每个坐标类变量，把 .set_fill(...).set_stroke(...) 替换为 .set_color(第一个颜色)
+  for (const [v, cls] of varType) {
+    if (coordClasses.has(cls)) {
+      const re = new RegExp(
+        `\\b${v}\\.set_fill\\(\\s*["']?([^"',)]+)["']?\\s*\\)\\.set_stroke\\([^)]*\\)`,
+        'g'
+      );
+      body = body.replace(re, `${v}.set_color("$1")`);
+    }
+  }
   return body;
 }
