@@ -571,7 +571,7 @@ function loadExample(index) {
 
   // 解析 XML 并加载
   const dom = Blockly.utils.xml.textToDom(example.xml);
-  Blockly.utils.xml.domToWorkspace(dom, workspace);
+  Blockly.Xml.domToWorkspace(dom, workspace);
 
   // 收起模态框
   document.getElementById('examplesModal').classList.add('hidden');
