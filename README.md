@@ -88,4 +88,18 @@ class MyScene(Scene):
 
 ## 许可
 
-MIT
+本项目使用 [MIT 许可证](LICENSE)（Copyright © 2026 Kaoyusiliao）。
+
+> MIT 是最宽松的开源许可之一：你可以自由使用、修改、分发（包括商用），
+> 只需保留版权声明。适合个人项目和开源分享。
+
+### 依赖的许可证
+
+| 组件 | 许可证 |
+|------|--------|
+| [Google Blockly](https://developers.google.com/blockly) | Apache License 2.0 |
+| [highlight.js](https://highlightjs.org/) | BSD 3-Clause |
+| [Vite](https://vitejs.dev/)（构建工具） | MIT |
+| [Manim Community](https://github.com/ManimCommunity/manim)（生成的目标代码） | MIT |
+
+本项目生成的 Python 代码不包含上述依赖，仅运行结果受目标环境约束。
