@@ -7,24 +7,29 @@
 ### 本地开发
 
 ```bash
-npm install
-npm run dev      # 启动开发服务器，默认 http://localhost:5173
+pnpm install
+pnpm dev         # 启动开发服务器，默认 http://localhost:5173
 ```
 
 ### 构建 & 预览
 
 ```bash
-npm run build    # 输出到 dist/
-npm run preview  # 预览构建产物
+pnpm build       # 输出到 dist/
+pnpm preview     # 预览构建产物
 ```
 
 ### 部署到 GitHub Pages
 
-1. 将本仓库推送到你的 GitHub
-2. 仓库 Settings → Pages → Source: **GitHub Actions**
-3. 每次推送到 `main` 分支，GitHub Actions 会自动构建部署
+本项目已配置 GitHub Actions 自动部署。
 
-也可以手动触发部署：Actions → Deploy to GitHub Pages → Run workflow
+1. 将本仓库推送到你的 GitHub
+2. 仓库 **Settings → Pages → Source**: 选择 **GitHub Actions**
+3. 每次推送到 `main` 分支，自动构建并部署
+4. 部署完成后访问：`https://你的用户名.github.io/manim-blocks/`
+
+也可以手动触发：**Actions → Deploy to GitHub Pages → Run workflow**
+
+> ⚡ Vite 配置了 `base: './'`，确保在子路径下资源加载正常。
 
 ## 使用方法
 
