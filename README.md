@@ -90,9 +90,6 @@ class MyScene(Scene):
 
 本项目使用 [MIT 许可证](LICENSE)（Copyright © 2026 Kaoyusiliao）。
 
-> MIT 是最宽松的开源许可之一：你可以自由使用、修改、分发（包括商用），
-> 只需保留版权声明。适合个人项目和开源分享。
-
 ### 依赖的许可证
 
 | 组件 | 许可证 |
