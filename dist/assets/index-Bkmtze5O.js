@@ -995,7 +995,7 @@ pause
 <field name="VAR">text</field><field name="CONTENT">Hello, Manim!</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="property_color">
 <field name="VAR">text</field><field name="COLOR">PURPLE</field><next>
-<block type="animate_fade_in">
+<block type="animate_typewriter">
 <field name="VAR">text</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
