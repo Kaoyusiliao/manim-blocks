@@ -134,6 +134,191 @@ export const blockDefs = [
     previousStatement: null, nextStatement: null,
     colour: 260, tooltip: '创建普通文字，可设置坐标',
   },
+
+  // 进阶形状
+  {
+    type: 'object_rounded_rectangle',
+    message0: '创建圆角矩形 %1  宽 %2  高 %3  半径 %4  坐标 (%5, %6)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'rrect' },
+      { type: 'field_number', name: 'W', value: 3, min: 0.1, max: 20, precision: 0.1 },
+      { type: 'field_number', name: 'H', value: 2, min: 0.1, max: 20, precision: 0.1 },
+      { type: 'field_number', name: 'R', value: 0.5, min: 0.05, max: 5, precision: 0.1 },
+      { type: 'field_number', name: 'X', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建圆角矩形',
+  },
+  {
+    type: 'object_polygon',
+    message0: '创建多边形 %1  顶点列表 %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'polygon' },
+      { type: 'field_input', name: 'VERTS', text: '[0,0,0],[2,0,0],[1,2,0]' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建任意多边形，填顶点坐标列表',
+  },
+  {
+    type: 'object_ellipse',
+    message0: '创建椭圆 %1  宽 %2  高 %3  坐标 (%4, %5)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'ellipse' },
+      { type: 'field_number', name: 'W', value: 3, min: 0.1, max: 20, precision: 0.1 },
+      { type: 'field_number', name: 'H', value: 2, min: 0.1, max: 20, precision: 0.1 },
+      { type: 'field_number', name: 'X', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建椭圆',
+  },
+  {
+    type: 'object_arrow',
+    message0: '创建箭头 %1  从 (%2,%3) 到 (%4,%5)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'arrow' },
+      { type: 'field_number', name: 'X1', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y1', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'X2', value: 3, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y2', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建箭头（带箭头尖的线段）',
+  },
+  {
+    type: 'object_dashed_line',
+    message0: '创建虚线 %1  从 (%2,%3) 到 (%4,%5)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'dline' },
+      { type: 'field_number', name: 'X1', value: -3, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y1', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'X2', value: 3, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y2', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建虚线',
+  },
+  {
+    type: 'object_arc',
+    message0: '创建弧线 %1  半径 %2  角度 %3° 坐标 (%4, %5)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'arc' },
+      { type: 'field_number', name: 'R', value: 1, min: 0.1, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'ANGLE', value: 180, min: 1, max: 360, precision: 5 },
+      { type: 'field_number', name: 'X', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建圆弧',
+  },
+  {
+    type: 'object_sector',
+    message0: '创建扇形 %1  半径 %2  角度 %3° 坐标 (%4, %5)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'sector' },
+      { type: 'field_number', name: 'R', value: 1, min: 0.1, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'ANGLE', value: 90, min: 1, max: 360, precision: 5 },
+      { type: 'field_number', name: 'X', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建扇形（饼形）',
+  },
+
+  // 进阶文字
+  {
+    type: 'object_markup_text',
+    message0: '创建 MarkupText %1  内容 %2  坐标 (%3, %4)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'mtext' },
+      { type: 'field_input', name: 'CONTENT', text: '<b>粗体</b> <i>斜体</i>' },
+      { type: 'field_number', name: 'X', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 260, tooltip: '创建带 HTML 标签样式的文字（类似 Markdown）',
+  },
+  {
+    type: 'object_title',
+    message0: '创建标题 %1  内容 %2  坐标 (%3, %4)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'title' },
+      { type: 'field_input', name: 'CONTENT', text: '标题文字' },
+      { type: 'field_number', name: 'X', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 3, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 260, tooltip: '创建标题文字（大字居中）',
+  },
+  {
+    type: 'object_bulleted_list',
+    message0: '创建列表 %1  内容 %2  坐标 (%3, %4)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'list' },
+      { type: 'field_input', name: 'CONTENT', text: '第一项, 第二项, 第三项' },
+      { type: 'field_number', name: 'X', value: -4, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 2, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 260, tooltip: '创建项目符号列表，用逗号分隔各项',
+  },
+  {
+    type: 'object_code_block',
+    message0: '创建代码块 %1  内容 %2  坐标 (%3, %4)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'code' },
+      { type: 'field_input', name: 'CONTENT', text: 'print("Hello World")' },
+      { type: 'field_number', name: 'X', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 260, tooltip: '创建代码块显示',
+  },
+
+  // 进阶坐标
+  {
+    type: 'object_number_plane',
+    message0: '创建坐标平面 %1  x(%2,%3) y(%4,%5) 坐标 (%6,%7)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'plane' },
+      { type: 'field_number', name: 'XMIN', value: -5, min: -20, max: 0, precision: 1 },
+      { type: 'field_number', name: 'XMAX', value: 5, min: 0, max: 20, precision: 1 },
+      { type: 'field_number', name: 'YMIN', value: -3, min: -20, max: 0, precision: 1 },
+      { type: 'field_number', name: 'YMAX', value: 3, min: 0, max: 20, precision: 1 },
+      { type: 'field_number', name: 'X', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建带网格的坐标平面',
+  },
+  {
+    type: 'object_number_line',
+    message0: '创建数轴 %1  x(%2,%3) 长度 %4  坐标 (%5,%6)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'nline' },
+      { type: 'field_number', name: 'XMIN', value: -5, min: -20, max: 0, precision: 1 },
+      { type: 'field_number', name: 'XMAX', value: 5, min: 0, max: 20, precision: 1 },
+      { type: 'field_number', name: 'LEN', value: 10, min: 2, max: 20, precision: 0.5 },
+      { type: 'field_number', name: 'X', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建一维数轴',
+  },
+  {
+    type: 'object_polar_plane',
+    message0: '创建极坐标平面 %1  r=%2  坐标 (%3, %4)',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'pplane' },
+      { type: 'field_number', name: 'RMAX', value: 5, min: 1, max: 20, precision: 1 },
+      { type: 'field_number', name: 'X', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'Y', value: 0, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建极坐标平面',
+  },
+
   {
     type: 'object_axes',
     message0: '创建坐标轴 %1  x 范围 (%2, %3)  y 范围 (%4, %5)',
@@ -351,6 +536,124 @@ export const blockDefs = [
     ],
     previousStatement: null, nextStatement: null,
     colour: 330, tooltip: '让物体绕自身中心旋转指定圈数',
+  },
+
+  // 进阶动画 — 教程覆盖
+  {
+    type: 'animate_replacement_transform',
+    message0: '平滑变形 %1 为 %2',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'obj' },
+      { type: 'field_variable', name: 'TARGET', variable: 'target' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '平滑地将物体变形为另一个物体（顶点一一对应）',
+  },
+  {
+    type: 'animate_draw_then_fill',
+    message0: '先画边后填充 %1',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'obj' }],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '先绘制边框，再填充内部',
+  },
+  {
+    type: 'animate_uncreate',
+    message0: '逆向创建 %1',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'obj' }],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '逆向播放 Create 动画（物体消解）',
+  },
+  {
+    type: 'animate_flash',
+    message0: '闪烁 %1  %2 次',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'obj' },
+      { type: 'field_number', name: 'COUNT', value: 3, min: 1, max: 20, precision: 1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '让物体闪烁指定次数',
+  },
+  {
+    type: 'animate_indicate',
+    message0: '强调指示 %1',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'obj' }],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '放大再缩回，强调物体',
+  },
+  {
+    type: 'animate_spiral_in',
+    message0: '螺旋缩小 %1',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'obj' }],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '物体螺旋旋转进入并缩小',
+  },
+  {
+    type: 'animate_shrink_to_center',
+    message0: '坍缩到中心 %1',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'obj' }],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '物体坍缩到中心点消失',
+  },
+  {
+    type: 'animate_fade_transform',
+    message0: '淡变 %1 为 %2',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'obj' },
+      { type: 'field_variable', name: 'TARGET', variable: 'target' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '淡出原物体同时淡入新物体',
+  },
+  {
+    type: 'animate_wiggle',
+    message0: '抖动 %1',
+    args0: [{ type: 'field_variable', name: 'VAR', variable: 'obj' }],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '物体左右抖动',
+  },
+  {
+    type: 'animate_apply_method',
+    message0: '对 %1 执行 %2',
+    args0: [
+      { type: 'field_variable', name: 'OBJ', variable: 'obj' },
+      { type: 'field_input', name: 'METHOD', text: 'set_color, RED' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '通用动画 — 对物体执行任意方法并以动画展示',
+  },
+
+  // 样式属性
+  {
+    type: 'property_stroke_width',
+    message0: '设置 %1 描边宽度 %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'obj' },
+      { type: 'field_number', name: 'W', value: 2, min: 0, max: 20, precision: 0.5 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 160, tooltip: '设置物体边框粗细',
+  },
+  {
+    type: 'property_fill_opacity',
+    message0: '设置 %1 填充透明度 %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'obj' },
+      { type: 'field_number', name: 'OPACITY', value: 0.5, min: 0, max: 1, precision: 0.05 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 160, tooltip: '单独设置填充透明度（不影响描边）',
+  },
+  {
+    type: 'property_flip',
+    message0: '翻转 %1 方向 %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'obj' },
+      { type: 'field_dropdown', name: 'AXIS',
+        options: [['水平', 'RIGHT'], ['垂直', 'UP']],
+      },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 160, tooltip: '水平或垂直翻转物体',
   },
 
   // ════════════════════════════════════════════════════

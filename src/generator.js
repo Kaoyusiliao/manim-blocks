@@ -174,6 +174,78 @@ codeGens.object_math_tex = (b, n) =>
 
 codeGens.object_text = (b, n) =>
   indent(n) + `${_v(b, 'VAR')} = Text("${_v(b, 'CONTENT')}")` + maybeMoveTo(b, n);
+
+// ── 进阶形状 ──────────────────────────────────────────
+
+codeGens.object_rounded_rectangle = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = RoundedRectangle(width=${_v(b, 'W')}, height=${_v(b, 'H')}, corner_radius=${_v(b, 'R')})` +
+  maybeMoveTo(b, n);
+
+codeGens.object_polygon = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Polygon(${_v(b, 'VERTS')})`;
+
+codeGens.object_ellipse = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Ellipse(width=${_v(b, 'W')}, height=${_v(b, 'H')})` +
+  maybeMoveTo(b, n);
+
+codeGens.object_arrow = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Arrow([${_v(b, 'X1')}, ${_v(b, 'Y1')}, 0], [${_v(b, 'X2')}, ${_v(b, 'Y2')}, 0])`;
+
+codeGens.object_dashed_line = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = DashedLine([${_v(b, 'X1')}, ${_v(b, 'Y1')}, 0], [${_v(b, 'X2')}, ${_v(b, 'Y2')}, 0])`;
+
+codeGens.object_arc = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Arc(radius=${_v(b, 'R')}, angle=${_v(b, 'ANGLE')} * DEGREES)` +
+  maybeMoveTo(b, n);
+
+codeGens.object_sector = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Sector(radius=${_v(b, 'R')}, angle=${_v(b, 'ANGLE')} * DEGREES)` +
+  maybeMoveTo(b, n);
+
+// ── 进阶文字 ──────────────────────────────────────────
+
+codeGens.object_markup_text = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = MarkupText("${_v(b, 'CONTENT')}")` + maybeMoveTo(b, n);
+
+codeGens.object_title = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Title("${_v(b, 'CONTENT')}")` + maybeMoveTo(b, n);
+
+codeGens.object_bulleted_list = (b, n) => {
+  const items = _v(b, 'CONTENT').split(',').map(s => s.trim()).filter(Boolean);
+  const quoted = items.map(s => `"${s}"`).join(', ');
+  return indent(n) + `${_v(b, 'VAR')} = BulletedList(${quoted})` + maybeMoveTo(b, n);
+};
+
+codeGens.object_code_block = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Code(code_string="${_v(b, 'CONTENT')}", language="python", font_size=24)` +
+  maybeMoveTo(b, n);
+
+// ── 进阶坐标 ──────────────────────────────────────────
+
+codeGens.object_number_plane = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = NumberPlane(x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], ` +
+  `y_range=[${_v(b, 'YMIN')}, ${_v(b, 'YMAX')}], ` +
+  `background_line_style={"stroke_opacity": 0.5})` +
+  maybeMoveTo(b, n);
+
+codeGens.object_number_line = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = NumberLine(x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], length=${_v(b, 'LEN')}, include_numbers=True)` +
+  maybeMoveTo(b, n);
+
+codeGens.object_polar_plane = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = PolarPlane(radius_max=${_v(b, 'RMAX')})` +
+  maybeMoveTo(b, n);
+
 codeGens.object_axes = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = Axes(x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], ` +
@@ -228,6 +300,55 @@ codeGens.animate_spin = (b, n) =>
   indent(n) + `self.play(Rotate(${_v(b, 'VAR')}, TAU * ${_v(b, 'TURNS')}))`;
 codeGens.animate_transform = (b, n) =>
   indent(n) + `self.play(Transform(${_v(b, 'OBJ')}, ${_v(b, 'TARGET')}))`;
+
+// ── 进阶动画 ──────────────────────────────────────────
+
+codeGens.animate_replacement_transform = (b, n) =>
+  indent(n) + `self.play(ReplacementTransform(${_v(b, 'OBJ')}, ${_v(b, 'TARGET')}))`;
+
+codeGens.animate_draw_then_fill = (b, n) =>
+  indent(n) + `self.play(DrawBorderThenFill(${_v(b, 'VAR')}))`;
+
+codeGens.animate_uncreate = (b, n) =>
+  indent(n) + `self.play(Uncreate(${_v(b, 'VAR')}))`;
+
+codeGens.animate_flash = (b, n) =>
+  indent(n) + `self.play(Flash(${_v(b, 'VAR')}, line_length=1, num_lines=${_v(b, 'COUNT')}))`;
+
+codeGens.animate_indicate = (b, n) =>
+  indent(n) + `self.play(Indicate(${_v(b, 'VAR')}))`;
+
+codeGens.animate_spiral_in = (b, n) =>
+  indent(n) + `self.play(SpiralIn(${_v(b, 'VAR')}))`;
+
+codeGens.animate_shrink_to_center = (b, n) =>
+  indent(n) + `self.play(ShrinkToCenter(${_v(b, 'VAR')}))`;
+
+codeGens.animate_fade_transform = (b, n) =>
+  indent(n) + `self.play(FadeTransform(${_v(b, 'OBJ')}, ${_v(b, 'TARGET')}))`;
+
+codeGens.animate_wiggle = (b, n) =>
+  indent(n) + `self.play(Wiggle(${_v(b, 'VAR')}))`;
+
+codeGens.animate_apply_method = (b, n) => {
+  const method = _v(b, 'METHOD').trim();
+  if (method.includes(',')) {
+    const [name, ...args] = method.split(',').map(s => s.trim());
+    return indent(n) + `self.play(ApplyMethod(${_v(b, 'OBJ')}.${name}, ${args.join(', ')}))`;
+  }
+  return indent(n) + `self.play(ApplyMethod(${_v(b, 'OBJ')}.${method}))`;
+};
+
+// ── 样式属性 ──────────────────────────────────────────
+
+codeGens.property_stroke_width = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')}.set_stroke(width=${_v(b, 'W')})`;
+
+codeGens.property_fill_opacity = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')}.set_fill(opacity=${_v(b, 'OPACITY')})`;
+
+codeGens.property_flip = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')}.flip(${b.getFieldValue('AXIS')})`;
 
 // ── 🔴 场景 ──────────────────────────────────────────
 
