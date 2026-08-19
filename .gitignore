@@ -1,6 +1,7 @@
 node_modules
 .DS_Store
 *.local
+media/
 
 # SSH 部署密钥（不提交）
 github_deploy_key*
