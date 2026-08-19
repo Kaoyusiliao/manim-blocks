@@ -83,7 +83,7 @@ export function generateCode(workspace) {
         lines.push('        ' + line);
       }
     } else {
-      lines.push('        # 未知积木类型: ' + block.type);
+      lines.push('        # 未知积木: ' + block.type);
     }
   }
 

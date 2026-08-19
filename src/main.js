@@ -8,7 +8,8 @@
  */
 
 import * as Blockly from 'blockly';
-import 'blockly/msg/zh-hans';
+import * as ZhHans from 'blockly/msg/zh-hans';
+Blockly.setLocale(ZhHans);
 import { blockDefs } from './blocks.js';
 import { toolboxJson } from './toolbox.js';
 import { generateCode } from './generator.js';

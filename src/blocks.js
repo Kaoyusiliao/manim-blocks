@@ -27,7 +27,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 230,
-    tooltip: '创建一个圆形 Mobject',
+    tooltip: '创建一个圆形',
     helpUrl: '',
   },
   {
@@ -111,7 +111,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 230,
-    tooltip: '创建一个点（Dot）',
+    tooltip: '创建一个点',
   },
   {
     type: 'object_line',
@@ -152,7 +152,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 270,
-    tooltip: '用 LaTeX 公式创建 Tex Mobject',
+    tooltip: '用 LaTeX 公式创建公式对象',
   },
   {
     type: 'object_math_tex',
@@ -173,7 +173,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 270,
-    tooltip: '用 LaTeX 创建 MathTex（默认斜体数学模式）',
+    tooltip: '用 LaTeX 创建数学公式（默认斜体）',
   },
   {
     type: 'object_text',
@@ -194,7 +194,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 270,
-    tooltip: '创建普通文字（Text）',
+    tooltip: '创建普通文字',
   },
 
   // ── 🟢 属性 ──────────────────────────────────────────
@@ -229,7 +229,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 160,
-    tooltip: '设置 Mobject 的颜色',
+    tooltip: '设置物体的颜色',
   },
   {
     type: 'property_opacity',
@@ -367,7 +367,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 330,
-    tooltip: '播放 Create(物体) 动画，展示物体的绘制过程',
+    tooltip: '播放创建动画，展示物体的绘制过程',
   },
   {
     type: 'animate_fade_in',
@@ -383,7 +383,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 330,
-    tooltip: '播放 FadeIn(物体) 动画',
+    tooltip: '播放淡入动画',
   },
   {
     type: 'animate_fade_out',
@@ -399,7 +399,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 330,
-    tooltip: '播放 FadeOut(物体) 动画',
+    tooltip: '播放淡出动画',
   },
   {
     type: 'animate_shift',
@@ -473,7 +473,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 330,
-    tooltip: '将物体变形为另一个物体（Transform）',
+    tooltip: '将物体变形为另一个物体',
   },
   {
     type: 'animate_write',
@@ -489,7 +489,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 270,
-    tooltip: '播放 Write(物体) 动画，逐字书写 Tex 或文字',
+    tooltip: '播放书写动画，逐字显示公式或文字',
   },
   {
     type: 'animate_unwrite',
@@ -505,7 +505,7 @@ export const blockDefs = [
     previousStatement: null,
     nextStatement: null,
     colour: 270,
-    tooltip: '擦除 Tex 或文字（Unwrite）',
+    tooltip: '擦除公式或文字',
   },
 
   // ── 🔴 场景 ──────────────────────────────────────────
