@@ -612,9 +612,26 @@ document.getElementById('examplesBtn').addEventListener('click', () => {
   examplesModal.classList.remove('hidden');
 });
 
+// ── 💬 讨论按钮 → GitHub Discussions ─────────────────
+
+document.getElementById('discussBtn').addEventListener('click', () => {
+  window.open('https://github.com/Kaoyusiliao/manim-blocks/discussions', '_blank');
+});
+
+// ── 💖 赞助按钮 → 收款码弹窗 ─────────────────────────
+
+const sponsorModal = document.getElementById('sponsorModal');
+
+document.getElementById('sponsorBtn').addEventListener('click', () => {
+  sponsorModal.classList.remove('hidden');
+});
+
 // 关闭模态框（点背景或 ✕）
 document.querySelectorAll('[data-close-modal]').forEach(el => {
-  el.addEventListener('click', () => examplesModal.classList.add('hidden'));
+  el.addEventListener('click', () => {
+    examplesModal.classList.add('hidden');
+    sponsorModal.classList.add('hidden');
+  });
 });
 
 // ── 系统检测（新手教程第 0 步） ──────────────────────

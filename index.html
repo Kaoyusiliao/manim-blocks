@@ -22,8 +22,10 @@
       </div>
       <div class="header-right">
         <button id="examplesBtn" class="btn btn-examples">🧩 示例</button>
+        <button id="discussBtn" class="btn btn-discuss">💬 讨论</button>
+        <button id="sponsorBtn" class="btn btn-sponsor">💖 赞助</button>
         <button id="downloadBtn" class="btn btn-primary">📥 下载 .py</button>
-        <button id="runBtn" class="btn btn-run">▶ 复制运行命令</button>
+        <button id="runBtn" class="btn btn-run">▶ 运行</button>
         <button id="clearBtn" class="btn btn-outline">🗑️ 清空</button>
       </div>
     </header>
@@ -259,6 +261,37 @@
         <div class="modal-grid" id="examplesGrid">
           <!-- 由 JS 动态生成 -->
         </div>
+      </div>
+    </div>
+
+    <!-- ═══ 赞助弹窗 ═══ -->
+    <div id="sponsorModal" class="modal hidden">
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-card sponsor-card">
+        <div class="modal-header">
+          <h3>💖 赞助支持</h3>
+          <button class="modal-close" data-close-modal>✕</button>
+        </div>
+        <p class="modal-desc">如果 Manim Blocks 帮到了你，欢迎扫码支持开发者继续维护 ❤️</p>
+        <div class="sponsor-grid">
+          <div class="sponsor-item">
+            <h4>微信支付</h4>
+            <div class="sponsor-qr">
+              <img src="./sponsor/wechat.png" alt="微信收款码"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+              <div class="qr-placeholder" style="display:none">📷<br/>请将收款码图片放到<br/><code>public/sponsor/wechat.png</code></div>
+            </div>
+          </div>
+          <div class="sponsor-item">
+            <h4>支付宝</h4>
+            <div class="sponsor-qr">
+              <img src="./sponsor/alipay.png" alt="支付宝收款码"
+                   onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+              <div class="qr-placeholder" style="display:none">📷<br/>请将收款码图片放到<br/><code>public/sponsor/alipay.png</code></div>
+            </div>
+          </div>
+        </div>
+        <p class="sponsor-note">每一份支持都是继续做下去的动力 🙏</p>
       </div>
     </div>
 
