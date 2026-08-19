@@ -340,224 +340,199 @@ const EXAMPLES = [
     name: '✨ 第一个动画',
     emoji: '🌈',
     desc: '一个红色圆形从中心出现 —— 最简入门',
-    xml: `
-      <xml xmlns="https://developers.google.com/blockly/xml">
-        <block type="object_circle" x="30" y="30">
-          <field name="VAR">circle</field>
-          <field name="X">0</field>
-          <field name="Y">0</field>
-        </block>
-        <block type="property_color" x="30" y="100">
-          <field name="VAR">circle</field>
-          <field name="COLOR">RED</field>
-        </block>
-        <block type="animate_create" x="30" y="170">
-          <field name="VAR">circle</field>
-        </block>
-        <block type="scene_wait" x="30" y="240">
-          <field name="SECONDS">2</field>
-        </block>
-      </xml>`,
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_circle" x="30" y="30">
+<field name="VAR">circle</field><field name="X">0</field><field name="Y">0</field><next>
+<block type="property_color">
+<field name="VAR">circle</field><field name="COLOR">RED</field><next>
+<block type="animate_create">
+<field name="VAR">circle</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</xml>`,
   },
   {
     name: '📐 公式书写',
     emoji: '∑',
     desc: '爱因斯坦公式逐字写出，像老师板书',
-    xml: `
-      <xml xmlns="https://developers.google.com/blockly/xml">
-        <block type="object_math_tex" x="30" y="30">
-          <field name="VAR">formula</field>
-          <field name="TEX">E = mc^2</field>
-          <field name="X">0</field>
-          <field name="Y">1</field>
-        </block>
-        <block type="property_color" x="30" y="120">
-          <field name="VAR">formula</field>
-          <field name="COLOR">YELLOW</field>
-        </block>
-        <block type="animate_write" x="30" y="190">
-          <field name="VAR">formula</field>
-        </block>
-        <block type="scene_wait" x="30" y="260">
-          <field name="SECONDS">2</field>
-        </block>
-      </xml>`,
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_math_tex" x="30" y="30">
+<field name="VAR">formula</field><field name="TEX">E = mc^2</field><field name="X">0</field><field name="Y">1</field><next>
+<block type="property_color">
+<field name="VAR">formula</field><field name="COLOR">YELLOW</field><next>
+<block type="animate_write">
+<field name="VAR">formula</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</xml>`,
   },
   {
     name: '🔁 旋转星形',
     emoji: '⭐',
     desc: '五角星重复旋转 5 次 —— 学会「重复」积木',
-    xml: `
-      <xml xmlns="https://developers.google.com/blockly/xml">
-        <block type="object_star" x="30" y="30">
-          <field name="VAR">star</field>
-          <field name="R">2</field>
-          <field name="X">0</field>
-          <field name="Y">0</field>
-        </block>
-        <block type="property_color" x="30" y="110">
-          <field name="VAR">star</field>
-          <field name="COLOR">ORANGE</field>
-        </block>
-        <block type="animate_create" x="30" y="180">
-          <field name="VAR">star</field>
-        </block>
-        <block type="control_repeat" x="30" y="250">
-          <field name="TIMES">5</field>
-          <statement name="DO">
-            <block type="animate_rotate">
-              <field name="VAR">star</field>
-              <field name="ANGLE">72</field>
-            </block>
-          </statement>
-        </block>
-        <block type="scene_wait" x="30" y="380">
-          <field name="SECONDS">2</field>
-        </block>
-      </xml>`,
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_star" x="30" y="30">
+<field name="VAR">star</field><field name="R">2</field><field name="X">0</field><field name="Y">0</field><next>
+<block type="property_color">
+<field name="VAR">star</field><field name="COLOR">ORANGE</field><next>
+<block type="animate_create">
+<field name="VAR">star</field><next>
+<block type="control_repeat">
+<field name="TIMES">5</field><statement name="DO">
+<block type="animate_rotate">
+<field name="VAR">star</field><field name="ANGLE">72</field></block>
+</statement><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</xml>`,
   },
   {
     name: '🧊 3D 立方体',
     emoji: '🧊',
     desc: '三维立方体旋转展示 —— 自动启用 3D 场景',
-    xml: `
-      <xml xmlns="https://developers.google.com/blockly/xml">
-        <block type="object3d_cube" x="30" y="30">
-          <field name="VAR">cube</field>
-          <field name="L">2</field>
-          <field name="X">0</field>
-          <field name="Y">0</field>
-          <field name="Z">0</field>
-        </block>
-        <block type="property_color" x="30" y="130">
-          <field name="VAR">cube</field>
-          <field name="COLOR">BLUE</field>
-        </block>
-        <block type="animate_create" x="30" y="200">
-          <field name="VAR">cube</field>
-        </block>
-        <block type="animate_rotating" x="30" y="270">
-          <field name="VAR">cube</field>
-          <field name="ANGLE">360</field>
-        </block>
-        <block type="scene_wait" x="30" y="340">
-          <field name="SECONDS">2</field>
-        </block>
-      </xml>`,
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object3d_cube" x="30" y="30">
+<field name="VAR">cube</field><field name="L">2</field><field name="X">0</field><field name="Y">0</field><field name="Z">0</field><next>
+<block type="property_color">
+<field name="VAR">cube</field><field name="COLOR">BLUE</field><next>
+<block type="animate_create">
+<field name="VAR">cube</field><next>
+<block type="animate_rotating">
+<field name="VAR">cube</field><field name="ANGLE">360</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</xml>`,
   },
   {
     name: '📊 函数曲线',
     emoji: '📈',
     desc: '坐标轴上画 x² 抛物线 + 网格平面',
-    xml: `
-      <xml xmlns="https://developers.google.com/blockly/xml">
-        <block type="object_axes" x="30" y="30">
-          <field name="VAR">axes</field>
-          <field name="XMIN">-4</field>
-          <field name="XMAX">4</field>
-          <field name="YMIN">-1</field>
-          <field name="YMAX">5</field>
-        </block>
-        <block type="object_number_plane" x="30" y="130">
-          <field name="VAR">plane</field>
-          <field name="XMIN">-4</field>
-          <field name="XMAX">4</field>
-          <field name="YMIN">-1</field>
-          <field name="YMAX">5</field>
-          <field name="X">0</field>
-          <field name="Y">0</field>
-        </block>
-        <block type="object_graph" x="30" y="240">
-          <field name="AXES">axes</field>
-          <field name="VAR">graph</field>
-        </block>
-        <block type="scene_add" x="30" y="310">
-          <field name="VAR">plane</field>
-        </block>
-        <block type="scene_add" x="30" y="380">
-          <field name="VAR">axes</field>
-        </block>
-        <block type="animate_create" x="30" y="450">
-          <field name="VAR">graph</field>
-        </block>
-        <block type="scene_wait" x="30" y="520">
-          <field name="SECONDS">2</field>
-        </block>
-      </xml>`,
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_number_plane" x="30" y="30">
+<field name="VAR">plane</field><field name="XMIN">-4</field><field name="XMAX">4</field><field name="YMIN">-1</field><field name="YMAX">5</field><field name="X">0</field><field name="Y">0</field><next>
+<block type="object_axes">
+<field name="VAR">axes</field><field name="XMIN">-4</field><field name="XMAX">4</field><field name="YMIN">-1</field><field name="YMAX">5</field><next>
+<block type="object_graph">
+<field name="AXES">axes</field><field name="VAR">graph</field><next>
+<block type="scene_add">
+<field name="VAR">plane</field><next>
+<block type="scene_add">
+<field name="VAR">axes</field><next>
+<block type="animate_create">
+<field name="VAR">graph</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</xml>`,
   },
   {
     name: '💬 文字动画',
     emoji: '🎨',
     desc: '彩色文字 + 打字机效果 + 淡入淡出',
-    xml: `
-      <xml xmlns="https://developers.google.com/blockly/xml">
-        <block type="object_text" x="30" y="30">
-          <field name="VAR">text</field>
-          <field name="CONTENT">Hello, Manim!</field>
-          <field name="X">0</field>
-          <field name="Y">0</field>
-        </block>
-        <block type="property_color" x="30" y="130">
-          <field name="VAR">text</field>
-          <field name="COLOR">PURPLE</field>
-        </block>
-        <block type="animate_fade_in" x="30" y="200">
-          <field name="VAR">text</field>
-        </block>
-        <block type="scene_wait" x="30" y="270">
-          <field name="SECONDS">1</field>
-        </block>
-        <block type="animate_shift" x="30" y="340">
-          <field name="VAR">text</field>
-          <field name="DX">2</field>
-          <field name="DY">1</field>
-        </block>
-        <block type="animate_fade_out" x="30" y="410">
-          <field name="VAR">text</field>
-        </block>
-      </xml>`,
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_text" x="30" y="30">
+<field name="VAR">text</field><field name="CONTENT">Hello, Manim!</field><field name="X">0</field><field name="Y">0</field><next>
+<block type="property_color">
+<field name="VAR">text</field><field name="COLOR">PURPLE</field><next>
+<block type="animate_fade_in">
+<field name="VAR">text</field><next>
+<block type="scene_wait">
+<field name="SECONDS">1</field><next>
+<block type="animate_shift">
+<field name="VAR">text</field><field name="DX">2</field><field name="DY">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">text</field></block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</xml>`,
   },
   {
     name: '🎯 变形动画',
     emoji: '🔄',
     desc: '圆形平滑变形为正方形 —— Transform 积木',
-    xml: `
-      <xml xmlns="https://developers.google.com/blockly/xml">
-        <block type="object_circle" x="30" y="30">
-          <field name="VAR">circle</field>
-          <field name="X">-2</field>
-          <field name="Y">0</field>
-        </block>
-        <block type="object_square" x="30" y="110">
-          <field name="VAR">square</field>
-          <field name="X">2</field>
-          <field name="Y">0</field>
-        </block>
-        <block type="property_color" x="30" y="190">
-          <field name="VAR">circle</field>
-          <field name="COLOR">RED</field>
-        </block>
-        <block type="property_color" x="30" y="260">
-          <field name="VAR">square</field>
-          <field name="COLOR">BLUE</field>
-        </block>
-        <block type="animate_create" x="30" y="330">
-          <field name="VAR">circle</field>
-        </block>
-        <block type="animate_create" x="30" y="400">
-          <field name="VAR">square</field>
-        </block>
-        <block type="scene_wait" x="30" y="470">
-          <field name="SECONDS">1</field>
-        </block>
-        <block type="animate_transform" x="30" y="540">
-          <field name="OBJ">circle</field>
-          <field name="TARGET">square</field>
-        </block>
-        <block type="scene_wait" x="30" y="610">
-          <field name="SECONDS">2</field>
-        </block>
-      </xml>`,
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_circle" x="30" y="30">
+<field name="VAR">circle</field><field name="X">-2</field><field name="Y">0</field><next>
+<block type="object_square">
+<field name="VAR">square</field><field name="X">2</field><field name="Y">0</field><next>
+<block type="property_color">
+<field name="VAR">circle</field><field name="COLOR">RED</field><next>
+<block type="property_color">
+<field name="VAR">square</field><field name="COLOR">BLUE</field><next>
+<block type="animate_create">
+<field name="VAR">circle</field><next>
+<block type="animate_create">
+<field name="VAR">square</field><next>
+<block type="scene_wait">
+<field name="SECONDS">1</field><next>
+<block type="animate_transform">
+<field name="OBJ">circle</field><field name="TARGET">square</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</next>
+</block>
+</xml>`,
   },
 ];
 

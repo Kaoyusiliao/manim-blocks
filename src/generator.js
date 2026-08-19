@@ -958,9 +958,16 @@ export function generateCode(workspace) {
     body = indent(2) + 'pass  # 拖拽左侧积木开始创作';
   }
 
-  // 自动补 wait
-  const lastType = topBlocks.length > 0 ? topBlocks[topBlocks.length - 1].type : null;
-  const extraWait = lastType !== 'scene_wait' ? indent(2) + 'self.wait(1)' : '';
+  // 自动补 wait：找到最后一个积木（链尾），如果不是 scene_wait 则补
+  let lastBlock = null;
+  for (const b of topBlocks) {
+    let cur = b;
+    while (cur.getNextBlock()) cur = cur.getNextBlock();
+    lastBlock = cur;
+  }
+  const extraWait = lastBlock && lastBlock.type !== 'scene_wait'
+    ? indent(2) + 'self.wait(1)'
+    : '';
 
   // 场景类型：3D > 移动相机 > 向量 > 普通
   let sceneClass = 'Scene';
