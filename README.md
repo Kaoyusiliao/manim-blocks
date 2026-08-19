@@ -64,7 +64,7 @@ pnpm build     # 输出到 dist/
 
 如果这个工具帮到了你，欢迎扫码支持，每一份心意都是继续做下去的动力 ❤️
 
-![微信 / 支付宝收款码](public/sponsor/wechat.png)
+![微信 / 支付宝收款码](https://raw.githubusercontent.com/Kaoyusiliao/manim-blocks/main/public/sponsor/wechat.png)
 
 网页版在「💖 赞助」按钮也能看到。
 

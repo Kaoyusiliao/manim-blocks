@@ -137,12 +137,14 @@ body {
 .btn-primary:hover { background: var(--green-dark); transform: scale(1.02); }
 .btn-primary:active { transform: scale(0.98); }
 
-.btn-run {
-  background: var(--orange);
+.btn-github {
+  background: rgba(255,255,255,0.15);
   color: #fff;
+  border: 1px solid rgba(255,255,255,0.30);
+  padding: 0 12px;
 }
-.btn-run:hover { background: var(--orange-dark); transform: scale(1.02); }
-.btn-run:active { transform: scale(0.98); }
+.btn-github:hover { background: rgba(255,255,255,0.25); transform: scale(1.02); }
+.btn-github svg { display: block; }
 
 .btn-outline {
   background: rgba(255,255,255,0.15);
@@ -474,7 +476,7 @@ body {
 @media (max-width: 700px) {
   #panel-section { width: 260px; min-width: 200px; }
   /* emoji 在按钮文字内，响应式下自动隐藏文字 */
-  .btn-run { display: none; }
+  .btn-github { display: none; }
   #clearBtn { display: none; }
 }
 @media (max-width: 550px) {

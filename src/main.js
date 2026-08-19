@@ -125,24 +125,10 @@ document.getElementById('copyCodeBtn').addEventListener('click', async () => {
   }
 });
 
-// ── 复制运行命令 ─────────────────────────────────────
+// ── GitHub 仓库按钮 ─────────────────────────────────
 
-document.getElementById('runBtn').addEventListener('click', async () => {
-  const cmd = 'manim -pql manim_scene.py MyScene';
-  try {
-    await navigator.clipboard.writeText(cmd);
-    const btn = document.getElementById('runBtn');
-    const orig = btn.textContent;
-    btn.textContent = '✅ 命令已复制';
-    setTimeout(() => (btn.textContent = orig), 2500);
-  } catch {
-    const ta = document.createElement('textarea');
-    ta.value = cmd;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-  }
+document.getElementById('githubBtn').addEventListener('click', () => {
+  window.open('https://github.com/Kaoyusiliao/manim-blocks', '_blank');
 });
 
 // ── 清空工作区 ────────────────────────────────────────
