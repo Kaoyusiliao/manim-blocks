@@ -949,13 +949,14 @@ export const blockDefs = [
   },
   {
     type: 'object_graph',
-    message0: '在坐标轴 %1 上画函数 %2',
+    message0: '在坐标轴 %1 上画函数 %2 = %3',
     args0: [
       { type: 'field_variable', name: 'AXES', variable: 'axes' },
       { type: 'field_variable', name: 'VAR', variable: 'graph' },
+      { type: 'field_input', name: 'FUNC', text: 'x**2' },
     ],
     previousStatement: null, nextStatement: null,
-    colour: 230, tooltip: '在坐标轴上绘制函数图像',
+    colour: 230, tooltip: '在坐标轴上绘制函数图像，如 x**2（x 的平方）',
   },
   {
     type: 'object_function_graph',

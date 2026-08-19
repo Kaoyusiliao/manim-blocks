@@ -469,7 +469,7 @@ const EXAMPLES = [
 <block type="object_axes">
 <field name="VAR">axes</field><field name="XMIN">-4</field><field name="XMAX">4</field><field name="YMIN">-1</field><field name="YMAX">5</field><next>
 <block type="object_graph">
-<field name="AXES">axes</field><field name="VAR">graph</field><next>
+<field name="AXES">axes</field><field name="VAR">graph</field><field name="FUNC">x**2</field><next>
 <block type="scene_add">
 <field name="VAR">plane</field><next>
 <block type="scene_add">

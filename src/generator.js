@@ -477,7 +477,7 @@ codeGens.object_axes = (b, n) =>
   `x_length=6, y_length=4, axis_config={"include_numbers": True})`;
 codeGens.object_graph = (b, n) =>
   indent(n) +
-  `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot(lambda x: ${_v(b, 'VAR')}_fn(x), color=YELLOW)`;
+  `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot(lambda x: ${_v(b, 'FUNC')}, color=YELLOW)`;
 
 codeGens.object_function_graph = (b, n) =>
   indent(n) +
