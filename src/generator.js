@@ -274,6 +274,80 @@ codeGens.object_shape_intersection = (b, n) =>
 codeGens.object_shape_difference = (b, n) =>
   indent(n) + `${_v(b, 'VAR')} = Difference(${_v(b, 'A')}, ${_v(b, 'B')})`;
 
+// ── 更多几何 ──────────────────────────────────────────
+
+codeGens.object_annulus = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Annulus(inner_radius=${_v(b, 'R2')}, outer_radius=${_v(b, 'R1')})` +
+  maybeMoveTo(b, n);
+
+codeGens.object_annular_sector = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = AnnularSector(inner_radius=${_v(b, 'R2')}, outer_radius=${_v(b, 'R1')}, angle=${_v(b, 'ANGLE')} * DEGREES)`;
+
+codeGens.object_arc_between_points = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = ArcBetweenPoints([${_v(b, 'X1')}, ${_v(b, 'Y1')}, 0], [${_v(b, 'X2')}, ${_v(b, 'Y2')}, 0])`;
+
+codeGens.object_double_arrow = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = DoubleArrow([${_v(b, 'X1')}, ${_v(b, 'Y1')}, 0], [${_v(b, 'X2')}, ${_v(b, 'Y2')}, 0])`;
+
+codeGens.object_vector_arrow = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Vector([${_v(b, 'DX')}, ${_v(b, 'DY')}, 0])` +
+  `\n${indent(n)}${_v(b, 'VAR')}.move_to([${_v(b, 'X1')}, ${_v(b, 'Y1')}, 0])`;
+
+codeGens.object_curved_arrow = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = CurvedArrow(start_angle=-${_v(b, 'ANGLE')} * DEGREES / 2, end_angle=${_v(b, 'ANGLE')} * DEGREES / 2)`;
+
+codeGens.object_star = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Star(n=5, outer_radius=${_v(b, 'R')}, inner_radius=${_v(b, 'R')} * 0.38)` +
+  maybeMoveTo(b, n);
+
+codeGens.object_cross = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Cross()` + maybeMoveTo(b, n);
+
+codeGens.object_elbow = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Elbow()` + maybeMoveTo(b, n);
+
+codeGens.object_right_angle = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = RightAngle(${_v(b, 'V2')}, ${_v(b, 'V3')})` +
+  `\n${indent(n)}${_v(b, 'VAR')}.move_to(${_v(b, 'V1')})`;
+
+codeGens.object_surrounding_rect = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = SurroundingRectangle(${_v(b, 'TARGET')}, color=${b.getFieldValue('COLOR')})`;
+
+codeGens.object_background_rect = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = BackgroundRectangle(${_v(b, 'TARGET')})`;
+
+codeGens.object_underline = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Underline(${_v(b, 'TARGET')})`;
+
+codeGens.object_cutout = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Cutout(${_v(b, 'A')}, ${_v(b, 'B')})`;
+
+codeGens.object_exclusion = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Exclusion(${_v(b, 'A')}, ${_v(b, 'B')})`;
+
+codeGens.object_convex_hull = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = ConvexHull(${_v(b, 'A')})`;
+
+codeGens.object_tangent_line = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = TangentLine(${_v(b, 'CURVE')}, length=${_v(b, 'LEN')})`;
+
+codeGens.object_brace = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Brace(${_v(b, 'TARGET')})`;
+
+codeGens.object_brace_label = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = BraceLabel(${_v(b, 'TARGET')}, "${_v(b, 'TEXT')}")`;
+
+codeGens.object_group = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = VGroup(${_v(b, 'A')}, ${_v(b, 'B')})`;
+
 // ── 进阶坐标 ──────────────────────────────────────────
 
 codeGens.object_number_plane = (b, n) =>
@@ -342,6 +416,44 @@ codeGens.object3d_prism = (b, n) =>
   `${_v(b, 'VAR')} = Prism(dimensions=[${_v(b, 'W')}, ${_v(b, 'H')}, ${_v(b, 'D')}])` +
   maybeMoveTo3D(b, n);
 
+codeGens.object3d_dot = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Dot3D()` + maybeMoveTo3D(b, n);
+
+codeGens.object3d_line = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Line3D([${_v(b, 'X1')}, ${_v(b, 'Y1')}, ${_v(b, 'Z1')}], [${_v(b, 'X2')}, ${_v(b, 'Y2')}, ${_v(b, 'Z2')}])`;
+
+codeGens.object3d_arrow = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Arrow3D([${_v(b, 'X1')}, ${_v(b, 'Y1')}, ${_v(b, 'Z1')}], [${_v(b, 'X2')}, ${_v(b, 'Y2')}, ${_v(b, 'Z2')}])`;
+
+codeGens.object3d_tetrahedron = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Tetrahedron(side_length=${_v(b, 'L')})` + maybeMoveTo3D(b, n);
+
+codeGens.object3d_octahedron = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Octahedron(side_length=${_v(b, 'L')})` + maybeMoveTo3D(b, n);
+
+codeGens.object3d_dodecahedron = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Dodecahedron(side_length=${_v(b, 'L')})` + maybeMoveTo3D(b, n);
+
+codeGens.object3d_icosahedron = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = Icosahedron(side_length=${_v(b, 'L')})` + maybeMoveTo3D(b, n);
+
+codeGens.object3d_surface = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Surface(${_v(b, 'FUNC')}, u_range=[${_v(b, 'U0')}, ${_v(b, 'U1')}], v_range=[${_v(b, 'V0')}, ${_v(b, 'V1')}], resolution=32)`;
+
+codeGens.object3d_polyhedron = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Polyhedron(vertices=${_v(b, 'VERTS')}, faces=${_v(b, 'FACES')})`;
+
+codeGens.object3d_axes = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = ThreeDAxes(x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], ` +
+  `y_range=[${_v(b, 'YMIN')}, ${_v(b, 'YMAX')}], ` +
+  `z_range=[${_v(b, 'ZMIN')}, ${_v(b, 'ZMAX')}], ` +
+  `x_length=6, y_length=4, z_length=3)`;
+
 codeGens.object_axes = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = Axes(x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], ` +
@@ -350,6 +462,30 @@ codeGens.object_axes = (b, n) =>
 codeGens.object_graph = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot(lambda x: ${_v(b, 'VAR')}_fn(x), color=YELLOW)`;
+
+codeGens.object_function_graph = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = FunctionGraph(${_v(b, 'FUNC')}, x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], color=YELLOW)`;
+
+codeGens.object_bar_chart = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = BarChart(values=${_v(b, 'DATA')})`;
+
+codeGens.object_vector_field = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = ArrowVectorField(${_v(b, 'FUNC')}, x_range=[-4, 4], y_range=[-3, 3])`;
+
+codeGens.object_stream_lines = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = StreamLines(${_v(b, 'FUNC')}, x_range=[-4, 4], y_range=[-3, 3])`;
+
+codeGens.object_value_tracker = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = ValueTracker(${_v(b, 'VALUE')})`;
+
+codeGens.object_image = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = ImageMobject("${_v(b, 'PATH')}")` + maybeMoveTo(b, n);
+
+codeGens.object_banner = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = ManimBanner()`;
 
 // ── 🟢 属性 ──────────────────────────────────────────
 
@@ -466,6 +602,76 @@ codeGens.animate_group = (b, n) => {
   lines.push(indent(n) + `self.play(AnimationGroup(*[Create(m) for m in ${varName}_group]))`);
   return lines.join('\n');
 };
+
+// ── 更多动画 ──────────────────────────────────────────
+
+codeGens.animate_fade_to_color = (b, n) =>
+  indent(n) + `self.play(FadeToColor(${_v(b, 'VAR')}, ${b.getFieldValue('COLOR')}))`;
+
+codeGens.animate_transform_from_copy = (b, n) =>
+  indent(n) + `self.play(TransformFromCopy(${_v(b, 'OBJ')}, ${_v(b, 'TARGET')}))`;
+
+codeGens.animate_grow_from_edge = (b, n) =>
+  indent(n) + `self.play(GrowFromEdge(${_v(b, 'VAR')}, ${b.getFieldValue('EDGE')}))`;
+
+codeGens.animate_grow_arrow = (b, n) =>
+  indent(n) + `self.play(GrowArrow(${_v(b, 'VAR')}))`;
+
+codeGens.animate_counterclockwise = (b, n) =>
+  indent(n) + `self.play(CounterclockwiseTransform(${_v(b, 'OBJ')}, ${_v(b, 'TARGET')}))`;
+
+codeGens.animate_swap = (b, n) =>
+  indent(n) + `self.play(Swap(${_v(b, 'A')}, ${_v(b, 'B')}))`;
+
+codeGens.animate_circumscribe = (b, n) =>
+  indent(n) + `self.play(Circumscribe(${_v(b, 'VAR')}))`;
+
+codeGens.animate_focus_on = (b, n) =>
+  indent(n) + `self.play(FocusOn(${_v(b, 'VAR')}))`;
+
+codeGens.animate_broadcast = (b, n) =>
+  indent(n) + `self.play(Broadcast(${_v(b, 'VAR')}))`;
+
+codeGens.animate_apply_wave = (b, n) =>
+  indent(n) + `self.play(ApplyWave(${_v(b, 'VAR')}))`;
+
+codeGens.animate_rotating = (b, n) =>
+  indent(n) + `self.play(Rotating(${_v(b, 'VAR')}, angle=${_v(b, 'ANGLE')} * DEGREES))`;
+
+codeGens.animate_move_to_target = (b, n) =>
+  indent(n) + `self.play(MoveToTarget(${_v(b, 'VAR')}))`;
+
+codeGens.animate_restore = (b, n) =>
+  indent(n) + `self.play(Restore(${_v(b, 'VAR')}))`;
+
+codeGens.animate_succession = (b, n) => {
+  const count = _v(b, 'COUNT');
+  const varName = _v(b, 'OBJ');
+  const lines = [];
+  lines.push(indent(n) + `${varName}_group = VGroup()`);
+  lines.push(indent(n) + `for _ in range(${count}):`);
+  lines.push(indent(n + 1) + `${varName}_group.add(${varName}.copy())`);
+  lines.push(indent(n) + `self.play(Succession(*[Create(m) for m in ${varName}_group]))`);
+  return lines.join('\n');
+};
+
+codeGens.animate_show_one_by_one = (b, n) =>
+  indent(n) + `self.play(ShowSubmobjectsOneByOne(${_v(b, 'VAR')}))`;
+
+codeGens.animate_change_decimal = (b, n) =>
+  indent(n) + `self.play(ChangeDecimalToValue(${_v(b, 'VAR')}, ${_v(b, 'VALUE')}))`;
+
+codeGens.animate_apply_function = (b, n) =>
+  indent(n) + `self.play(ApplyFunction(${_v(b, 'FUNC')}, ${_v(b, 'OBJ')}))`;
+
+codeGens.animate_blink = (b, n) =>
+  indent(n) + `self.play(Blink(${_v(b, 'VAR')}))`;
+
+codeGens.animate_homotopy = (b, n) =>
+  indent(n) + `self.play(Homotopy(lambda x, y, z, t: [x, y + 0.5 * np.sin(2 * np.pi * t), z], ${_v(b, 'VAR')}))`;
+
+codeGens.animate_traced_path = (b, n) =>
+  indent(n) + `self.play(TracedPath(${_v(b, 'VAR')}.get_center))`;
 
 // ── 样式属性 ──────────────────────────────────────────
 
