@@ -1,104 +1,67 @@
 # 🧊 Manim Blocks
 
-**积木式数学动画创作工具** —— 像 Scratch 一样拖拽积木，生成 [Manim](https://github.com/3b1b/manim) Python 动画脚本。
+拖积木生成 [Manim](https://github.com/ManimCommunity/manim) Python 动画脚本。用法和 Scratch 一样，不需要会编程。
 
-## 快速开始
+在线使用：**https://kaoyusiliao.github.io/manim-blocks/**
 
-### 本地开发
+## 怎么用
 
-```bash
-pnpm install
-pnpm dev         # 启动开发服务器，默认 http://localhost:5173
-```
-
-### 构建 & 预览
-
-```bash
-pnpm build       # 输出到 dist/
-pnpm preview     # 预览构建产物
-```
-
-### 部署到 GitHub Pages
-
-本项目已配置 GitHub Actions 自动部署。
-
-1. 将本仓库推送到你的 GitHub
-2. 仓库 **Settings → Pages → Source**: 选择 **GitHub Actions**
-3. 每次推送到 `main` 分支，自动构建并部署
-4. 部署完成后访问：`https://你的用户名.github.io/manim-blocks/`
-
-也可以手动触发：**Actions → Deploy to GitHub Pages → Run workflow**
-
-> ⚡ Vite 配置了 `base: './'`，确保在子路径下资源加载正常。
-
-## 使用方法
-
-1. 从左侧工具箱拖拽积木到工作区
-2. 积木按从上到下的顺序组成场景脚本
-3. 右侧实时预览生成的 Python 代码
-4. 点击 **📥 下载 .py 文件** 保存，然后用 Manim 渲染：
+1. 从左侧工具箱把积木拖到工作区
+2. 积木上下拼接成一段程序（没拼的积木不会运行）
+3. 右侧实时显示生成的 Python 代码
+4. 「📥 下载 .py」保存文件
+5. 终端运行：
 
 ```bash
+pip install manim        # 第一次需要
 manim -pql manim_scene.py MyScene
 ```
 
-## 积木分类
+不会搭？点页面顶部的「🧩 示例」按钮，内置 7 个现成作品，加载后改数字就能用。
 
-| 分类 | 说明 | 积木数 |
-|------|------|--------|
-| 🔵 **物体** | 创建几何体、公式、文字 | 10 |
-| 🟢 **属性** | 设置颜色、透明度、位置、缩放 | 7 |
-| 🟠 **动画** | 创建/淡入/淡出/变形/书写等 | 9 |
-| 🔴 **场景** | 等待、添加/移除物体 | 3 |
+## 积木
 
-### 示例：画一个红色圆形并显示公式
+210 种积木，13 个分类：
 
+| 分类 | 说明 |
+|------|------|
+| 🎩 事件 | 场景开始 |
+| 🛠 通用 | 自定义代码/函数，可写任意 Manim 代码 |
+| 🟣 控制 | 重复、循环、条件判断 |
+| 🔵 物体 | 几何图形、文字、公式、矩阵、表格、图 |
+| 🧊 3D 物体 | 球体、立方体、圆锥、正多面体等 |
+| 🟢 属性 | 颜色、透明度、缩放、旋转、定位 |
+| 🟠 动画 | 创建、淡入淡出、变形、书写、闪烁等 60+ 种 |
+| 🎥 相机 | 缩放、移动镜头 |
+| 📐 坐标系 | 数轴、平面、极坐标、函数图像 |
+| 🔴 场景 | 添加/移除物体 |
+| ⚙️ 更新器 | 让物体持续运动 |
+| 🟡 运算 | 数学、比较、逻辑 |
+| 🔷 变量 | 变量、列表 |
+
+通用分类可以写任意 Manim 代码，所以工具的覆盖面等同于 Manim 本身，不用等积木更新。
+
+## 本地开发
+
+```bash
+pnpm install
+pnpm dev       # http://localhost:5173
+pnpm build     # 输出到 dist/
 ```
-创建圆形    →  变量: c
-设置 c 颜色 →  红色
-创建动画 c  →  Create(c)
-等待 1 秒
-创建 LaTeX 公式 → 变量: f  内容: E = mc^2
-书写显示 f  →  Write(f)
-等待 2 秒
-```
 
-生成的代码：
+## 部署
 
-```python
-from manim import *
-
-class MyScene(Scene):
-    def construct(self):
-        c = Circle()
-        c.set_color(RED)
-        self.play(Create(c))
-        self.wait(1)
-        f = Tex(r"E = mc^2")
-        self.play(Write(f))
-        self.wait(2)
-```
+仓库已配置 GitHub Actions，推送 `main` 分支自动构建并部署到 GitHub Pages。
 
 ## 技术栈
 
-- [Google Blockly](https://developers.google.com/blockly) —— 积木编辑器
-- [highlight.js](https://highlightjs.org/) —— Python 语法高亮
-- [Vite](https://vitejs.dev/) —— 构建工具（纯静态输出）
-- 零后端，零运维，全在浏览器中运行
+- [Google Blockly](https://developers.google.com/blockly) — 积木编辑器
+- [highlight.js](https://highlightjs.org/) — 代码高亮
+- [Vite](https://vitejs.dev/) — 构建
+- 纯前端，无后端，浏览器运行
 
 ## 许可
 
-本项目使用 [MIT 许可证](LICENSE)（Copyright © 2026 Kaoyusiliao）。
+[MIT](LICENSE) © 2026 Kaoyusiliao
 
-### 依赖的许可证
-
-| 组件 | 许可证 |
-|------|--------|
-| [Google Blockly](https://developers.google.com/blockly) | Apache License 2.0 |
-| [highlight.js](https://highlightjs.org/) | BSD 3-Clause |
-| [Vite](https://vitejs.dev/)（构建工具） | MIT |
-| [Manim Community](https://github.com/ManimCommunity/manim)（生成的目标代码） | MIT |
-
-本项目生成的 Python 代码不包含上述依赖，仅运行结果受目标环境约束。
-
-## 最后更新时间：2026/08/19
+依赖的许可证：Blockly（Apache 2.0）、highlight.js（BSD 3-Clause）、Vite（MIT）、Manim（MIT）。
