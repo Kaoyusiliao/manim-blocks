@@ -650,6 +650,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_circle" x="30" y="30">
 <field name="VAR">circle</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="property_color">
@@ -675,6 +677,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_math_tex" x="30" y="30">
 <field name="VAR">formula</field><field name="TEX">E = mc^2</field><field name="X">0</field><field name="Y">1</field><next>
 <block type="property_color">
@@ -700,6 +704,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_star" x="30" y="30">
 <field name="VAR">star</field><field name="R">2</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="property_color">
@@ -731,6 +737,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="camera_3d_orientation" x="30" y="30">
 <field name="PHI">75</field><field name="THETA">-45</field><next>
 <block type="object3d_cube">
@@ -762,16 +770,18 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_number_plane" x="30" y="30">
 <field name="VAR">plane</field><field name="XMIN">-4</field><field name="XMAX">4</field><field name="YMIN">-1</field><field name="YMAX">5</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="object_axes">
 <field name="VAR">axes</field><field name="XMIN">-4</field><field name="XMAX">4</field><field name="YMIN">-1</field><field name="YMAX">5</field><next>
 <block type="object_graph">
 <field name="AXES">axes</field><field name="VAR">graph</field><field name="FUNC">x**2</field><next>
-<block type="scene_add">
-<field name="VAR">plane</field><next>
-<block type="scene_add">
-<field name="VAR">axes</field><next>
+<block type="animate_create">
+<field name="VAR">plane</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">axes</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
 <field name="VAR">graph</field><next>
 <block type="scene_wait">
@@ -796,6 +806,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_text" x="30" y="30">
 <field name="VAR">text</field><field name="CONTENT">Hello, Manim!</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="property_color">
@@ -827,6 +839,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_circle" x="30" y="30">
 <field name="VAR">circle</field><field name="X">-2</field><field name="Y">0</field><next>
 <block type="object_square">
@@ -842,7 +856,7 @@ const EXAMPLES = [
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
 <block type="animate_transform">
-<field name="OBJ">circle</field><field name="TARGET">square</field><next>
+<field name="VAR">circle</field><field name="TARGET">square</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
@@ -858,6 +872,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_text" x="30" y="30">
 <field name="VAR">text</field><field name="CONTENT">谢谢观看！</field><field name="X">0</field><field name="Y">-4</field><next>
 <block type="property_color">
@@ -883,6 +899,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_dot" x="30" y="30">
 <field name="VAR">center</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="object_arc" x="30" y="100">
@@ -911,6 +929,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_axes" x="30" y="30">
 <field name="VAR">axes</field><field name="XMIN">-2.5</field><field name="XMAX">2.5</field><field name="YMIN">-2.5</field><field name="YMAX">2.5</field><next>
 <block type="object_parametric_curve_uniform">
@@ -936,6 +956,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_parametric_function" x="30" y="30">
 <field name="VAR">heart</field><field name="FUNC">lambda t: (16*np.sin(t)**3, 13*np.cos(t) - 5*np.cos(2*t) - 2*np.cos(3*t) - np.cos(4*t), 0)</field><field name="T0">0</field><field name="T1">6.28</field><field name="STEP">0.01</field><field name="COLOR">PINK</field><next>
 <block type="animate_create">
@@ -958,6 +980,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_parametric_function_3d" x="30" y="30">
 <field name="VAR">curve</field><field name="FUNC">lambda u: (1.2*np.cos(u), 1.2*np.sin(u), u*0.05)</field><field name="T0">-18.8</field><field name="T1">31.4</field><field name="STEP">0.01</field><field name="COLOR">RED</field><next>
 <block type="animate_create">
@@ -980,6 +1004,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_circle" x="30" y="30">
 <field name="VAR">circle</field><field name="X">-2</field><field name="Y">0</field><next>
 <block type="object_square">
@@ -1005,12 +1031,14 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_square" x="30" y="30">
 <field name="VAR">sq</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="animate_create">
 <field name="VAR">sq</field><field name="DURATION">1</field><next>
 <block type="animate_lagged_start">
-<field name="OBJ">sq</field><field name="COUNT">5</field><next>
+<field name="VAR">sq</field><field name="COUNT">5</field><next>
 <block type="scene_wait">
 <field name="SECONDS">3</field></block>
 </next></block>
@@ -1030,6 +1058,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_dot" x="30" y="30">
 <field name="VAR">ball</field><field name="X">0</field><field name="Y">3</field><next>
 <block type="property_color">
@@ -1058,6 +1088,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_dot" x="30" y="30">
 <field name="VAR">ball</field><field name="X">-3</field><field name="Y">0</field><next>
 <block type="property_color">
@@ -1086,6 +1118,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_background" x="30" y="30">
 <field name="VAR">bg</field><field name="PATH">./assets/background.jpg</field><next>
 <block type="object_math_tex" x="30" y="100">
@@ -1111,6 +1145,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_formula_colors" x="30" y="30">
 <field name="VAR">tex</field><field name="PARTS">a^2, +, b^2, =, c^2</field><field name="COLOR">YELLOW,GREEN,RED</field><next>
 <block type="animate_write">
@@ -1133,6 +1169,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_bulleted_list" x="30" y="30">
 <field name="VAR">catalog</field><field name="CONTENT">manim 是什么, 多平台支持, 基于 Python, 重要依赖</field><field name="X">0</field><field name="Y">1</field><next>
 <block type="animate_write">
@@ -1158,6 +1196,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x</field><next>
 <block type="sympy_expr">
@@ -1197,6 +1237,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x</field><next>
 <block type="sympy_expr">
@@ -1236,6 +1278,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">t</field><next>
 <block type="sympy_expr">
@@ -1256,16 +1300,16 @@ const EXAMPLES = [
 <field name="AXES">ax</field><field name="X">meet_t</field><field name="Y">30*meet_t</field><field name="COLOR">YELLOW</field><field name="VAR">dot</field><next>
 <block type="custom_code">
 <field name="CODE">label = MathTex(f"t={meet_t:.2f}s, s={30*meet_t:.1f}m").next_to(dot, UP)</field><next>
-<block type="scene_add">
-<field name="VAR">ax</field><next>
-<block type="scene_add">
-<field name="VAR">a_line</field><next>
-<block type="scene_add">
-<field name="VAR">b_line</field><next>
-<block type="scene_add">
-<field name="VAR">dot</field><next>
-<block type="scene_add">
-<field name="VAR">label</field><next>
+<block type="animate_create">
+<field name="VAR">ax</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">a_line</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">b_line</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">dot</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">label</field><field name="DURATION">1.5</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
@@ -1281,6 +1325,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x</field><next>
 <block type="sympy_expr">
@@ -1299,16 +1345,16 @@ const EXAMPLES = [
 <field name="CODE">root_labels = VGroup(*[MathTex(f"x={float(r):.1f}").next_to(ax.c2p(float(r), 0), DOWN) for r in roots])</field><next>
 <block type="object_math_tex">
 <field name="VAR">formula</field><field name="TEX">f(x) = x^2 - 4x + 3</field><next>
-<block type="scene_add">
-<field name="VAR">ax</field><next>
-<block type="scene_add">
-<field name="VAR">graph</field><next>
-<block type="scene_add">
-<field name="VAR">root_dots</field><next>
-<block type="scene_add">
-<field name="VAR">root_labels</field><next>
-<block type="scene_add">
-<field name="VAR">formula</field><next>
+<block type="animate_create">
+<field name="VAR">ax</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">graph</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">root_dots</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">root_labels</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">formula</field><field name="DURATION">1.5</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
@@ -1324,6 +1370,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x</field><next>
 <block type="sympy_nsolve">
@@ -1340,16 +1388,16 @@ const EXAMPLES = [
 <field name="CODE">dot = Dot(ax.c2p(root_val, float(sin(root_val))), color=YELLOW)</field><next>
 <block type="custom_code">
 <field name="CODE">label = MathTex(f"x \\\\approx {root_val:.4f}").next_to(dot, UR)</field><next>
-<block type="scene_add">
-<field name="VAR">ax</field><next>
-<block type="scene_add">
-<field name="VAR">sin_graph</field><next>
-<block type="scene_add">
-<field name="VAR">line_graph</field><next>
-<block type="scene_add">
-<field name="VAR">dot</field><next>
-<block type="scene_add">
-<field name="VAR">label</field><next>
+<block type="animate_create">
+<field name="VAR">ax</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">sin_graph</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">line_graph</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">dot</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">label</field><field name="DURATION">1.5</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
@@ -1360,11 +1408,13 @@ const EXAMPLES = [
     level: 'sympy',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_title" x="30" y="30">
-<field name="VAR">title</field><field name="CONTENT">公式自动推导</field><field name="X">0</field><field name="Y">3</field><next>
+<field name="VAR">heading</field><field name="CONTENT">公式自动推导</field><field name="X">0</field><field name="Y">3</field><next>
 <block type="animate_write">
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y</field><next>
 <block type="sympy_expr">
@@ -1380,9 +1430,9 @@ const EXAMPLES = [
 <block type="object_math_tex">
 <field name="VAR">f3</field><field name="TEX">sin^2 x + cos^2 x = 1</field><field name="X">0</field><field name="Y">-1</field><next>
 <block type="custom_code">
-<field name="CODE">title = Text("SymPy 自动公式推导", font_size=36).to_edge(UP)</field><next>
-<block type="scene_add">
-<field name="VAR">title</field><next>
+<field name="CODE">heading = Text("SymPy 自动公式推导", font_size=36).to_edge(UP)</field><next>
+<block type="animate_create">
+<field name="VAR">title</field><field name="DURATION">1.5</field><next>
 <block type="scene_play">
 <field name="VAR">f1</field><field name="ANIM">Write</field><next>
 <block type="scene_wait">
@@ -1408,6 +1458,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y</field><next>
 <block type="custom_code">
@@ -1420,16 +1472,16 @@ const EXAMPLES = [
 <field name="CODE">l2 = ax.plot(lambda x: -0.8*x+4, color=RED)</field><next>
 <block type="custom_code">
 <field name="CODE">dot = Dot(ax.c2p(cx, cy), color=YELLOW); label = MathTex(f"({cx:.2f}, {cy:.2f})").next_to(dot, UR)</field><next>
-<block type="scene_add">
-<field name="VAR">ax</field><next>
-<block type="scene_add">
-<field name="VAR">l1</field><next>
-<block type="scene_add">
-<field name="VAR">l2</field><next>
-<block type="scene_add">
-<field name="VAR">dot</field><next>
-<block type="scene_add">
-<field name="VAR">label</field><next>
+<block type="animate_create">
+<field name="VAR">ax</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">l1</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">l2</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">dot</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">label</field><field name="DURATION">1.5</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
@@ -1445,6 +1497,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">t, k, m</field><next>
 <block type="object_axes">
@@ -1455,14 +1509,14 @@ const EXAMPLES = [
 <field name="CODE">tracker = ValueTracker(0); dot = always_redraw(lambda: Dot(ax.c2p(tracker.get_value(), x_fn(tracker.get_value())), color=RED))</field><next>
 <block type="custom_code">
 <field name="CODE">label = always_redraw(lambda: MathTex(f"t={tracker.get_value():.1f}").to_corner(UL))</field><next>
-<block type="scene_add">
-<field name="VAR">ax</field><next>
-<block type="scene_add">
-<field name="VAR">graph</field><next>
-<block type="scene_add">
-<field name="VAR">dot</field><next>
-<block type="scene_add">
-<field name="VAR">label</field><next>
+<block type="animate_create">
+<field name="VAR">ax</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">graph</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">dot</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">label</field><field name="DURATION">1.5</field><next>
 <block type="custom_code">
 <field name="CODE">self.play(tracker.animate.set_value(10), run_time=6, rate_func=linear)</field><next>
 <block type="scene_wait">
@@ -1480,12 +1534,14 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_axes" x="30" y="30">
 <field name="VAR">axes</field><field name="XMIN">-3</field><field name="XMAX">3</field><field name="YMIN">-3</field><field name="YMAX">3</field><next>
 <block type="object_parametric_curve_uniform">
 <field name="VAR">curve</field><field name="AXES">axes</field><field name="FUNC">lambda t: (2*np.cos(5*t)*np.cos(t), 2*np.cos(5*t)*np.sin(t))</field><field name="T0">0</field><field name="T1">3.14</field><field name="N">1000</field><next>
-<block type="scene_add">
-<field name="VAR">axes</field><next>
+<block type="animate_create">
+<field name="VAR">axes</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
 <field name="VAR">curve</field><field name="DURATION">5</field><next>
 <block type="scene_wait">
@@ -1503,11 +1559,13 @@ const EXAMPLES = [
     level: 'sympy',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_title" x="30" y="30">
-<field name="VAR">title</field><field name="CONTENT">弧长参数化</field><field name="X">0</field><field name="Y">3</field><next>
+<field name="VAR">title</field><field name="CONTENT">一次函数工厂</field><field name="X">0</field><field name="Y">3</field><next>
 <block type="animate_write">
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x</field><next>
 <block type="custom_code">
@@ -1520,16 +1578,16 @@ const EXAMPLES = [
 <field name="CODE">x_dot = Dot(ax.c2p(x_int, 0), color=RED); y_dot = Dot(ax.c2p(0, y_int), color=GREEN)</field><next>
 <block type="object_math_tex">
 <field name="VAR">label</field><field name="TEX">y = 2x + 1</field><field name="X">0</field><field name="Y">3.5</field><next>
-<block type="scene_add">
-<field name="VAR">ax</field><next>
-<block type="scene_add">
-<field name="VAR">line</field><next>
-<block type="scene_add">
-<field name="VAR">x_dot</field><next>
-<block type="scene_add">
-<field name="VAR">y_dot</field><next>
-<block type="scene_add">
-<field name="VAR">label</field><next>
+<block type="animate_create">
+<field name="VAR">ax</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">line</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">x_dot</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">y_dot</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">label</field><field name="DURATION">1.5</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
@@ -1545,6 +1603,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y</field><next>
 <block type="custom_code">
@@ -1572,6 +1632,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_rectangle" x="30" y="30">
 <field name="VAR">sq_x2</field><field name="W">2</field><field name="H">2</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="property_color">
@@ -1678,6 +1740,8 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="object_circle" x="30" y="30">
 <field name="VAR">center1</field><field name="X">-2</field><field name="Y">2</field><next>
 <block type="property_color">
@@ -1702,14 +1766,14 @@ const EXAMPLES = [
 <field name="CENTER">center2</field><field name="COUNT">6</field><field name="RADIUS">1.5</field><field name="CRADIUS">0.7</field><field name="COLOR">PURE_BLUE</field><field name="VAR">ring_large</field><next>
 <block type="object_group">
 <field name="A">center2</field><field name="B">ring_large</field><field name="VAR">group_b</field><next>
-<block type="scene_add">
-<field name="VAR">group_a</field><next>
+<block type="animate_create">
+<field name="VAR">group_a</field><field name="DURATION">1.5</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
 <block type="animate_replacement_transform">
-<field name="OBJ">group_a</field><field name="TARGET">group_b</field><next>
+<field name="VAR">group_a</field><field name="TARGET">group_b</field><next>
 <block type="animate_replacement_transform">
-<field name="OBJ">group_b</field><field name="TARGET">group_a</field><next>
+<field name="VAR">group_b</field><field name="TARGET">group_a</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
@@ -1720,11 +1784,13 @@ const EXAMPLES = [
     level: 'advanced',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_title" x="30" y="30">
-<field name="VAR">title</field><field name="CONTENT">因式分解拼图</field><field name="X">0</field><field name="Y">3</field><next>
+<field name="VAR">title</field><field name="CONTENT">动态交点</field><field name="X">0</field><field name="Y">3</field><next>
 <block type="animate_write">
 <field name="VAR">title</field><field name="DURATION">1</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field><next>
+<block type="animate_fade_out">
+<field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y, k, b</field><next>
 <block type="custom_code">
