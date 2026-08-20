@@ -1568,7 +1568,7 @@ function loadExample(index) {
   // 收起模态框
   document.getElementById('examplesModal').classList.add('hidden');
   updateEmptyHint();
-  updatePreview();
+  try { updatePreview(); } catch (e) { console.error('代码预览更新失败:', e); }
 
   // 提示用户
   const btn = document.getElementById('examplesBtn');
