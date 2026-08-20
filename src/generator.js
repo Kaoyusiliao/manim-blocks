@@ -1241,6 +1241,11 @@ const pendingImports = new Set();
  * @returns {string} 完整的 .py 文件内容
  */
 export function generateCode(workspace) {
+  // 重置 SymPy 全局状态（避免跨渲染泄漏）
+  sympyImported = false;
+  sympySymbols = new Set();
+  pendingImports = new Set();
+
   const topBlocks = workspace.getTopBlocks(true);
   // 只有咬合的链才是程序，孤立积木是草稿
   const chainHeads = topBlocks.filter(b => b.getNextBlock());
