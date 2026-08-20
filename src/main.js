@@ -800,17 +800,7 @@ const EXAMPLES = [
 <block type="animate_transform">
 <field name="OBJ">circle</field><field name="TARGET">square</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 8 课 · 滚动字幕',
@@ -921,14 +911,7 @@ const EXAMPLES = [
 <block type="animate_together">
 <field name="A">circle</field><field name="B">square</field><field name="DX1">0</field><field name="DY1">2</field><field name="DX2">0</field><field name="DY2">-2</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 14 课 · 错峰淡入',
@@ -1078,8 +1061,7 @@ const EXAMPLES = [
 <block type="animate_create">
 <field name="VAR">tangent</field><field name="DURATION">2</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 21 课 · 积分面积（SymPy）',
@@ -1112,8 +1094,7 @@ const EXAMPLES = [
 <block type="animate_write">
 <field name="OBJ">label</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 22 课 · 追及问题（SymPy）',
@@ -1152,8 +1133,7 @@ const EXAMPLES = [
 <block type="scene_add">
 <field name="VAR">label</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 23 课 · 抛物线求根（SymPy）',
@@ -1190,8 +1170,7 @@ const EXAMPLES = [
 <block type="scene_add">
 <field name="VAR">formula</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 24 课 · SymPy 初识与联动',
@@ -1226,8 +1205,7 @@ const EXAMPLES = [
 <block type="scene_add">
 <field name="VAR">label</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 25 课 · 公式自动推导',
@@ -1264,8 +1242,7 @@ const EXAMPLES = [
 <block type="scene_play">
 <field name="VAR">f3</field><field name="ANIM">Write</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 26 课 · 轨迹交点',
@@ -1296,8 +1273,7 @@ const EXAMPLES = [
 <block type="scene_add">
 <field name="VAR">label</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 27 课 · 物理模拟',
@@ -1326,8 +1302,7 @@ const EXAMPLES = [
 <block type="custom_code">
 <field name="CODE">self.play(tracker.animate.set_value(10), run_time=6, rate_func=linear)</field><next>
 <block type="scene_wait">
-<field name="SECONDS">1</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">1</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 28 课 · 弧长参数化（SymPy）',
@@ -1380,8 +1355,7 @@ const EXAMPLES = [
 <block type="scene_add">
 <field name="VAR">label</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 30 课 · 三角形构造',
@@ -1402,8 +1376,7 @@ const EXAMPLES = [
 <block type="animate_write">
 <field name="VAR">labels</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 31 课 · 因式分解拼图（SymPy）',
@@ -1544,29 +1517,7 @@ const EXAMPLES = [
 <block type="animate_replacement_transform">
 <field name="OBJ">group_b</field><field name="TARGET">group_a</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 33 课 · 动态交点',
@@ -1591,8 +1542,7 @@ const EXAMPLES = [
 <block type="custom_code">
 <field name="CODE">self.play(E.animate.shift(LEFT*1.5), run_time=3)</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
 ];
 

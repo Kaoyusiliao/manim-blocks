@@ -1054,17 +1054,7 @@ pause
 <block type="animate_transform">
 <field name="OBJ">circle</field><field name="TARGET">square</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</xml>`},{name:"第 8 课 · 滚动字幕",level:"basic",emoji:"📜",desc:"文字从屏幕底部滚入再滚出（合集经典：滚动字幕）",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 8 课 · 滚动字幕",level:"basic",emoji:"📜",desc:"文字从屏幕底部滚入再滚出（合集经典：滚动字幕）",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_text" x="30" y="30">
 <field name="VAR">text</field><field name="CONTENT">谢谢观看！</field><field name="X">0</field><field name="Y">-4</field><next>
 <block type="property_color">
@@ -1133,14 +1123,7 @@ pause
 <block type="animate_together">
 <field name="A">circle</field><field name="B">square</field><field name="DX1">0</field><field name="DY1">2</field><field name="DX2">0</field><field name="DY2">-2</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</xml>`},{name:"第 14 课 · 错峰淡入",emoji:"⏱️",desc:"多个副本依次错峰淡入，形成流动感（对应合集：动画组合/节奏控制）",level:"advanced",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 14 课 · 错峰淡入",emoji:"⏱️",desc:"多个副本依次错峰淡入，形成流动感（对应合集：动画组合/节奏控制）",level:"advanced",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_square" x="30" y="30">
 <field name="VAR">sq</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="animate_create">
@@ -1241,8 +1224,7 @@ pause
 <block type="animate_create">
 <field name="VAR">tangent</field><field name="DURATION">2</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`},{name:"第 21 课 · 积分面积（SymPy）",emoji:"📊",desc:"SymPy 精确积分 + 黎曼矩形逼近（对应合集：填充与积累：积分与面积的可视化）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 21 课 · 积分面积（SymPy）",emoji:"📊",desc:"SymPy 精确积分 + 黎曼矩形逼近（对应合集：填充与积累：积分与面积的可视化）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x</field><next>
 <block type="sympy_expr">
@@ -1268,8 +1250,7 @@ pause
 <block type="animate_write">
 <field name="OBJ">label</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`},{name:"第 22 课 · 追及问题（SymPy）",emoji:"🚗",desc:"SymPy 解方程求两车相遇时间和位置（对应合集：用SymPy自动求解追及问题的方程）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 22 课 · 追及问题（SymPy）",emoji:"🚗",desc:"SymPy 解方程求两车相遇时间和位置（对应合集：用SymPy自动求解追及问题的方程）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">t</field><next>
 <block type="sympy_expr">
@@ -1301,8 +1282,7 @@ pause
 <block type="scene_add">
 <field name="VAR">label</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`},{name:"第 23 课 · 抛物线求根（SymPy）",emoji:"📈",desc:"SymPy 自动计算抛物线求根、判别式与顶点（对应合集：用SymPy自动计算抛物线求根）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 23 课 · 抛物线求根（SymPy）",emoji:"📈",desc:"SymPy 自动计算抛物线求根、判别式与顶点（对应合集：用SymPy自动计算抛物线求根）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x</field><next>
 <block type="sympy_expr">
@@ -1332,8 +1312,7 @@ pause
 <block type="scene_add">
 <field name="VAR">formula</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`},{name:"第 24 课 · SymPy 初识与联动",emoji:"📐",desc:"SymPy 数值解方程求 sin(x)=x/2 交点 + 坐标轴标注（对应合集：告别手动计算，SymPy 初识与 Manim 联动）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 24 课 · SymPy 初识与联动",emoji:"📐",desc:"SymPy 数值解方程求 sin(x)=x/2 交点 + 坐标轴标注（对应合集：告别手动计算，SymPy 初识与 Manim 联动）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x</field><next>
 <block type="sympy_nsolve">
@@ -1361,8 +1340,7 @@ pause
 <block type="scene_add">
 <field name="VAR">label</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`},{name:"第 25 课 · 公式自动推导",emoji:"🤖",desc:"SymPy 展开/因式分解/化简，自动推导数学公式（对应合集：让数学公式自动推导）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 25 课 · 公式自动推导",emoji:"🤖",desc:"SymPy 展开/因式分解/化简，自动推导数学公式（对应合集：让数学公式自动推导）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y</field><next>
 <block type="sympy_expr">
@@ -1392,8 +1370,7 @@ pause
 <block type="scene_play">
 <field name="VAR">f3</field><field name="ANIM">Write</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`},{name:"第 26 课 · 轨迹交点",emoji:"🎯",desc:"SymPy 联立方程求解两条直线交点（对应合集：轨迹的蓝图：方程求解与交点计算）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 26 课 · 轨迹交点",emoji:"🎯",desc:"SymPy 联立方程求解两条直线交点（对应合集：轨迹的蓝图：方程求解与交点计算）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y</field><next>
 <block type="custom_code">
@@ -1417,8 +1394,7 @@ pause
 <block type="scene_add">
 <field name="VAR">label</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`},{name:"第 27 课 · 物理模拟",emoji:"🏗️",desc:"SymPy dsolve 解微分方程得解析解，代替数值积分做弹簧振子动画（对应合集：别自己写欧拉了！）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 27 课 · 物理模拟",emoji:"🏗️",desc:"SymPy dsolve 解微分方程得解析解，代替数值积分做弹簧振子动画（对应合集：别自己写欧拉了！）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">t, k, m</field><next>
 <block type="object_axes">
@@ -1440,8 +1416,7 @@ pause
 <block type="custom_code">
 <field name="CODE">self.play(tracker.animate.set_value(10), run_time=6, rate_func=linear)</field><next>
 <block type="scene_wait">
-<field name="SECONDS">1</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`},{name:"第 28 课 · 弧长参数化（SymPy）",emoji:"🌀",desc:"SymPy 弧长积分 + 等弧长参数化，解决曲线绘制速度不均（对应合集：用 SymPy 解决曲线速度不均）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">1</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 28 课 · 弧长参数化（SymPy）",emoji:"🌀",desc:"SymPy 弧长积分 + 等弧长参数化，解决曲线绘制速度不均（对应合集：用 SymPy 解决曲线速度不均）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_axes" x="30" y="30">
 <field name="VAR">axes</field><field name="XMIN">-3</field><field name="XMAX">3</field><field name="YMIN">-3</field><field name="YMAX">3</field><next>
 <block type="object_parametric_curve_uniform">
@@ -1480,8 +1455,7 @@ pause
 <block type="scene_add">
 <field name="VAR">label</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`},{name:"第 30 课 · 三角形构造",emoji:"🔺",desc:"SymPy 解方程组求三角形顶点，SSS 全等判定可视化（对应合集：三角形构造与全等条件验证）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 30 课 · 三角形构造",emoji:"🔺",desc:"SymPy 解方程组求三角形顶点，SSS 全等判定可视化（对应合集：三角形构造与全等条件验证）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y</field><next>
 <block type="custom_code">
@@ -1495,8 +1469,7 @@ pause
 <block type="animate_write">
 <field name="VAR">labels</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`},{name:"第 31 课 · 因式分解拼图（SymPy）",emoji:"🧩",desc:"SymPy 因式分解 + 自动生成矩形面积拼图，展示十字相乘几何意义（对应合集：用SymPy自动因式分解）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 31 课 · 因式分解拼图（SymPy）",emoji:"🧩",desc:"SymPy 因式分解 + 自动生成矩形面积拼图，展示十字相乘几何意义（对应合集：用SymPy自动因式分解）",level:"sympy",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_rectangle" x="30" y="30">
 <field name="VAR">sq_x2</field><field name="W">2</field><field name="H">2</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="property_color">
@@ -1623,29 +1596,7 @@ pause
 <block type="animate_replacement_transform">
 <field name="OBJ">group_b</field><field name="TARGET">group_a</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</next></block>
-</xml>`},{name:"第 33 课 · 动态交点",emoji:"📐",desc:"SymPy 解直线方程 + Manim 更新器实现动态交点计算（对应合集：用Manim实现动态交点计算）",level:"advanced",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`},{name:"第 33 课 · 动态交点",emoji:"📐",desc:"SymPy 解直线方程 + Manim 更新器实现动态交点计算（对应合集：用Manim实现动态交点计算）",level:"advanced",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y, k, b</field><next>
 <block type="custom_code">
@@ -1663,8 +1614,7 @@ pause
 <block type="custom_code">
 <field name="CODE">self.play(E.animate.shift(LEFT*1.5), run_time=3)</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block>
-</xml>`}];function L$(r){const l=v$[r];if(!l)return;It.clear();const s=I$.xml.textToDom(l.xml);b$.domToWorkspace(s,It),document.getElementById("examplesModal").classList.add("hidden"),jl(),pn();const c=document.getElementById("examplesBtn"),R=c.textContent;c.textContent=`✅ 已加载「${l.name}」`,setTimeout(()=>c.textContent=R,2500)}const C$=document.getElementById("examplesModal"),T$=document.getElementById("examplesGrid");let Ed="basic";function M$(){T$.innerHTML="",v$.forEach((r,l)=>{if(r.level!==Ed)return;const s=document.createElement("button");s.className="example-card",s.innerHTML=`
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`}];function L$(r){const l=v$[r];if(!l)return;It.clear();const s=I$.xml.textToDom(l.xml);b$.domToWorkspace(s,It),document.getElementById("examplesModal").classList.add("hidden"),jl(),pn();const c=document.getElementById("examplesBtn"),R=c.textContent;c.textContent=`✅ 已加载「${l.name}」`,setTimeout(()=>c.textContent=R,2500)}const C$=document.getElementById("examplesModal"),T$=document.getElementById("examplesGrid");let Ed="basic";function M$(){T$.innerHTML="",v$.forEach((r,l)=>{if(r.level!==Ed)return;const s=document.createElement("button");s.className="example-card",s.innerHTML=`
       <div class="example-emoji">${r.emoji}</div>
       <div class="example-name">${r.name}</div>
       <div class="example-desc">${r.desc}</div>
