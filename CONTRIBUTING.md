@@ -43,19 +43,28 @@
 git clone https://github.com/Kaoyusiliao/manim-blocks.git
 cd manim-blocks
 pnpm install
-pnpm dev        # 本地开发 http://localhost:5173
+pnpm dev        # 本地开发，自动启动 Web GUI + 渲染服务器
 pnpm build      # 构建到 dist/
 ```
+
+> 渲染服务器需要 Python 3.8+ 和 [Manim](https://docs.manim.community/)。
+> 如果只需前端开发，可单独运行 `pnpm build` 后打开 `dist/index.html`，无需渲染服务器。
 
 ## 代码结构
 
 ```
-src/
-├── main.js        # 入口：Blockly 初始化、按钮事件、示例模板
-├── blocks.js      # 全部积木的 JSON 定义（类型、参数、颜色）
-├── toolbox.js     # 工具箱分类编排
-├── generator.js   # 积木 → Python 代码的生成器
-└── style.css      # 样式
+├── index.html         # 主页面 HTML
+├── dev.js             # 开发启动器（同时启动 Vite + 渲染服务器）
+├── render_server.py   # 渲染服务器（接收代码 → 跑 manim → 返回视频）
+├── start.command      # macOS 双击启动文件
+├── package.json
+├── src/
+│   ├── main.js        # 入口：Blockly 初始化、按钮事件、示例模板
+│   ├── blocks.js      # 全部积木的 JSON 定义（类型、参数、颜色）
+│   ├── toolbox.js     # 工具箱分类编排
+│   ├── generator.js   # 积木 → Python 代码的生成器
+│   └── style.css      # 样式
+└── dist/              # 构建输出（GitHub Pages 部署）
 ```
 
 ## 新增积木的步骤

@@ -1,38 +1,52 @@
 # 🧊 Manim Blocks
 
-拖积木生成 [Manim](https://github.com/ManimCommunity/manim) Python 动画脚本。用法和 Scratch 一样，不需要编程语言基础，可以同时学习数学和编程。在此特别感谢Scratch(https://scratch.mit.edu/) 为本项目提供的灵感，它是我儿时的玩伴（可能并没那么要好）。
+拖积木生成 [Manim](https://github.com/ManimCommunity/manim) Python 动画脚本。用法和 Scratch 一样，不需要编程语言基础，可以同时学习数学和编程。在此特别感谢 [Scratch](https://scratch.mit.edu/) 为本项目提供的灵感，它是我儿时的玩伴（可能并没那么要好）。
 
 在线使用：**https://kaoyusiliao.github.io/manim-blocks/**
 
 ## 怎么用
 
-### 方式一：一键渲染（推荐）
+### 🖥 在线版（GitHub Pages）
 
-搭好积木后，点工具栏的绿色 **「▶ 运行」** 按钮，选择画质，动画直接在浏览器里播放。
-
-首次使用需要先启动渲染服务器：
+直接打开 [https://kaoyusiliao.github.io/manim-blocks/](https://kaoyusiliao.github.io/manim-blocks/)，拖积木 → 复制代码 → 终端运行：
 
 ```bash
-# 方式 A：一键启动 Web GUI + 渲染服务器
-./start.sh
+pip install manim sympy  # 首次需要
+manim -pql manim_scene.py MyScene
+```
 
-# 方式 B：分两个终端
-# 终端 1：
-python3 render_server.py
-# 终端 2：
+### ⚡ 本地版（推荐：一键渲染）
+
+搭好积木后，点「▶ 运行」按钮，动画直接在浏览器里播放，无需复制代码。
+
+**需要：** Python 3.8+，[Manim](https://docs.manim.community/) 已安装
+
+```bash
+# 1. 克隆项目
+git clone https://github.com/Kaoyusiliao/manim-blocks.git
+cd manim-blocks
+
+# 2. 安装前端依赖
+pnpm install
+
+# 3. 一键启动（自动启动 Web GUI + 渲染服务器）
 pnpm dev
 ```
 
-### 方式二：传统方式
+浏览器打开后，搭积木 → 展开「🎬 一键渲染」面板 → 点「▶ 运行」。
+
+> 💡 **Mac 用户：** 项目文件夹里有 `start.command`，双击即可启动，无需打开终端。
+
+### 📥 传统方式（无需渲染服务器）
 
 1. 从左侧工具箱把积木拖到工作区
-2. 积木上下拼接成一段程序（没拼的积木不会运行）
+2. 积木上下拼接成一段程序
 3. 右侧实时显示生成的 Python 代码
 4. 「📥 下载 .py」保存文件
 5. 终端运行：
 
 ```bash
-pip install manim sympy  # 第一次需要（SymPy 系列课程需要 sympy）
+pip install manim sympy  # 首次需要
 manim -pql manim_scene.py MyScene
 ```
 
@@ -76,10 +90,19 @@ manim -pql manim_scene.py MyScene
 ## 本地开发
 
 ```bash
+# 需要 Node.js 18+ 和 pnpm
 pnpm install
-pnpm dev       # http://localhost:5173
+pnpm dev       # 启动 Web GUI + 渲染服务器（自动），http://localhost:5173
 pnpm build     # 输出到 dist/
 ```
+
+`pnpm dev` 通过 `dev.js` 同时启动：
+- **Vite 开发服务器**（端口 3080，提供 Web GUI）
+- **Python 渲染服务器**（端口 3081，接收代码 → 运行 manim → 返回视频）
+
+按 Ctrl+C 同时退出两个进程。
+
+> 渲染服务器需要 Python 3.8+ 和 Manim。也可单独运行：`python3 render_server.py`
 
 ## 部署
 
@@ -91,6 +114,7 @@ pnpm build     # 输出到 dist/
 - [highlight.js](https://highlightjs.org/) — 代码高亮
 - [Vite](https://vitejs.dev/) — 构建
 - `render_server.py` — 本地渲染服务器（Python 标准库，零依赖）
+- `dev.js` — 开发服务器启动器（同时启动 Vite + 渲染服务器）
 - 前端 + 本地渲染服务器，搭积木到动画一站式完成
 
 ## 课程来源
