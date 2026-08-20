@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manim Blocks — 积木式数学动画创作</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
-  <script type="module" crossorigin src="./assets/index-Bgc1MmmO.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DE5ItFno.css">
+  <script type="module" crossorigin src="./assets/index-BesLPIaB.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DPJ9K07U.css">
 </head>
 <body>
   <div id="app">
@@ -96,7 +96,7 @@
                     <li><b>下载项目</b><br/>
                       从 <a href="https://github.com/Kaoyusiliao/manim-blocks" target="_blank">GitHub</a>
                       下载或克隆到本地</li>
-                    <li><b>启动渲染服务器</b><br/>
+                    <li><b>在项目目录下启动渲染服务器</b><br/>
                       Mac/Linux：<code class="inline-code">python3 render_server.py</code><br/>
                       Windows：<code class="inline-code">py -3 render_server.py</code></li>
                     <li><b>刷新本页面</b><br/>
@@ -105,8 +105,7 @@
                 </details>
 
                 <p class="render-guide-hint">
-                  💡 已安装 Python 和 Manim？直接跳到第 2 步。<br/>
-                  没装过？先看右侧「📖 新手教程」第 1–3 步。
+                  💡 没装过Python 和 Manim？先看右侧「📖 新手教程」第 1–3 步。<br/>
                 </p>
               </div>
 
@@ -148,6 +147,40 @@
               </div>
               <p class="guide-hint">💡 Mac 看屏幕左上角苹果图标；Windows 按「开始」按钮旁边写着的系统名。</p>
             </div>
+          </div>
+
+          <!-- 准备工作检查清单 -->
+          <div class="guide-section guide-tips" style="margin-bottom:16px">
+            <h3>📋 准备工作检查清单</h3>
+            <p class="guide-desc" style="margin-bottom:6px">开始之前，先确认以下工具是否已装好。没装的全在下面几步里，跟着装就行。</p>
+            <table class="checklist-table">
+              <tr><th>工具</th><th>用途</th><th>检查命令</th><th>必须？</th></tr>
+              <tr>
+                <td><b>Python 3.9+</b></td>
+                <td>运行 Manim</td>
+                <td><code>python3 --version</code>（Mac/Linux）<br/><code>py -3 --version</code>（Windows）</td>
+                <td class="chk-required">✅ 必须</td>
+              </tr>
+              <tr>
+                <td><b>Manim</b></td>
+                <td>动画渲染引擎</td>
+                <td><code>pip show manim</code></td>
+                <td class="chk-required">✅ 必须</td>
+              </tr>
+              <tr>
+                <td><b>ffmpeg</b></td>
+                <td>合成视频文件</td>
+                <td><code>ffmpeg -version</code></td>
+                <td class="chk-required">✅ 必须</td>
+              </tr>
+              <tr>
+                <td><b>LaTeX</b></td>
+                <td>排版数学公式</td>
+                <td><code>latex --version</code></td>
+                <td class="chk-optional">▢ 可选</td>
+              </tr>
+            </table>
+            <p class="guide-hint" style="margin-top:6px">💡 每一步下面都有详细安装方法，跟着走就行。</p>
           </div>
 
           <!-- 第 1 步：装 Python -->
@@ -207,17 +240,17 @@
             </div>
           </div>
 
-          <!-- 第 2.5 步：检查 ffmpeg / LaTeX（参考合集「安装」篇） -->
+          <!-- 第 2.5 步：检查 ffmpeg / LaTeX -->
           <div class="guide-section step">
             <div class="step-num">+</div>
             <div class="step-body">
-              <h3>🎥 顺手检查两个"幕后工具"（大多数电脑已自带）</h3>
-              <p class="guide-desc">Manim 渲染视频还需要两个工具，多数电脑已装好，只需确认一下：</p>
+              <h3>🎥 检查两个幕后工具：ffmpeg 和 LaTeX</h3>
+              <p class="guide-desc">Manim 渲染视频还需要两个工具，不是电脑自带的，需要手动安装：</p>
               <ul class="guide-ul">
-                <li><b>ffmpeg</b> — 把动画合成视频（mp4）。没它渲染会失败。</li>
+                <li><b>ffmpeg</b> — 把动画合成视频（mp4）。<b>必须装</b>，没它渲染会失败。</li>
                 <li><b>LaTeX</b> — 排版数学公式。只用文字/图形可以不管它。</li>
               </ul>
-              <p class="guide-hint">在终端 / 命令行输入下面命令检查 ffmpeg：</p>
+              <p class="guide-hint">在终端输入下面命令检查 ffmpeg：</p>
               <div class="code-block">
                 <code>ffmpeg -version</code>
                 <button class="btn btn-tiny copy-inline" data-copy="ffmpeg -version">复制</button>

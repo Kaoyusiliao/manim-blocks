@@ -4,6 +4,17 @@
 
 在线使用：**https://kaoyusiliao.github.io/manim-blocks/**
 
+## 准备工作
+
+使用前需要安装以下工具。没装的全在下面几步里，跟着装就行。
+
+| 工具 | 用途 | 检查命令 | 必须？ |
+|------|------|---------|--------|
+| **Python 3.9+** | 运行 Manim | `python3 --version`（Mac/Linux）<br/>`py -3 --version`（Windows） | ✅ 必须 |
+| **Manim** | 动画渲染引擎 | `pip show manim` | ✅ 必须 |
+| **ffmpeg** | 合成视频文件 | `ffmpeg -version` | ✅ 必须 |
+| **LaTeX** | 排版数学公式 | `latex --version` | ▢ 可选 |
+
 ## 怎么用
 
 ### 🖥 网页版
