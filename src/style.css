@@ -282,6 +282,15 @@ body {
   outline: none;
 }
 .quality-select:focus { border-color: var(--blue); }
+.server-status {
+  font-size: 11px;
+  font-weight: 600;
+  cursor: default;
+  white-space: nowrap;
+}
+.server-status.online { color: var(--green); }
+.server-status.offline { color: #e74c3c; }
+.server-status.checking { color: #999; }
 .panel-title {
   font-size: 12px;
   font-weight: 600;

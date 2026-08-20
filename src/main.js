@@ -1695,7 +1695,36 @@ const qualitySelect = document.getElementById('qualitySelect');
 const videoContainer = document.getElementById('videoContainer');
 const videoPlayer = document.getElementById('videoPlayer');
 const videoStatus = document.getElementById('videoStatus');
+const serverStatus = document.getElementById('serverStatus');
 
+// ── 检测渲染服务器是否在线 ─────────────────────────
+async function checkServer() {
+  const startCmd = 'python3 render_server.py';
+  try {
+    const res = await fetch(RENDER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: '', scene: 'MyScene', quality: 'l' }),
+      signal: AbortSignal.timeout(2000),
+    });
+    // 服务器在运行（即使 code 为空也会返回 400，但说明服务器活着）
+    serverStatus.textContent = '● 渲染在线';
+    serverStatus.className = 'server-status online';
+    runBtn.disabled = false;
+    runBtn.title = '';
+  } catch {
+    serverStatus.textContent = '● 渲染离线';
+    serverStatus.className = 'server-status offline';
+    runBtn.disabled = true;
+    runBtn.title = '需先启动渲染服务器';
+  }
+}
+
+// 页面加载时检测，之后每 10 秒刷新
+checkServer();
+setInterval(checkServer, 10000);
+
+// ── 运行按钮点击 ─────────────────────────────────
 runBtn.addEventListener('click', async () => {
   const code = generateCode(workspace);
   if (!code.trim() || code.includes('pass  # ⚠️')) {
@@ -1737,6 +1766,8 @@ runBtn.addEventListener('click', async () => {
   } catch (e) {
     videoStatus.textContent = '❌ ' + e.message;
     videoStatus.className = 'error';
+    // 网络错误大概率是服务器没启动，重新检测
+    checkServer();
   } finally {
     runBtn.disabled = false;
     runBtn.textContent = '▶ 运行';
