@@ -1737,7 +1737,9 @@ async function checkServer() {
         <button class="btn btn-tiny" id="copyStartCmd">📋 复制</button>
       </div>
       <div class="offline-desc" style="margin-top:8px">
-        或用 <code>./start.sh</code> 一键启动 Web GUI + 渲染服务器
+        或 <code>pnpm dev</code> 自动启动 Web GUI + 渲染服务器<br/>
+        已用 <code>pnpm dev</code> 启动但还显示离线？<br/>
+        等几秒让服务器就绪，或刷新页面重试
       </div>
     </div>
   `;

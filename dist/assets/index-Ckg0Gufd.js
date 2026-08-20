@@ -1630,7 +1630,9 @@ pause
         <button class="btn btn-tiny" id="copyStartCmd">📋 复制</button>
       </div>
       <div class="offline-desc" style="margin-top:8px">
-        或用 <code>./start.sh</code> 一键启动 Web GUI + 渲染服务器
+        或 <code>pnpm dev</code> 自动启动 Web GUI + 渲染服务器<br/>
+        已用 <code>pnpm dev</code> 启动但还显示离线？<br/>
+        等几秒让服务器就绪，或刷新页面重试
       </div>
     </div>
   `,Hi.className="",$r.style.display="";const r=document.getElementById("copyStartCmd");r&&r.addEventListener("click",()=>{navigator.clipboard.writeText("python3 render_server.py").then(()=>{r.textContent="✅ 已复制",setTimeout(()=>r.textContent="📋 复制",2e3)})})}ta();setInterval(ta,1e4);Es.addEventListener("click",ta);uo.addEventListener("click",async()=>{const r=Zl(Et);if(!r.trim()||r.includes("pass  # ⚠️")){Jl.classList.remove("hidden"),Hi.textContent="⚠️ 先把积木拼成程序再运行",Hi.className="error";return}uo.disabled=!0,uo.textContent="⏳ 渲染中…",Jl.classList.remove("hidden"),$r.src="",Hi.textContent="🎬 正在渲染，请稍候…",Hi.className="";try{const l=await fetch(H$,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code:r,scene:"MyScene",quality:nO.value})});if(!l.ok){const R=await l.json();throw new Error(R.error||`HTTP ${l.status}`)}const s=await l.blob(),c=URL.createObjectURL(s);$r.src=c,$r.load(),Hi.textContent="✅ 渲染完成！点击 ▶ 播放",Hi.className="success"}catch(l){Hi.textContent="❌ "+l.message,Hi.className="error",ta()}finally{uo.disabled=!1,uo.textContent="▶ 运行"}});
