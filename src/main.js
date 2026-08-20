@@ -638,6 +638,7 @@ document.getElementById('loadFirstExample').addEventListener('click', () => {
 const EXAMPLES = [
   {
     name: '第 1 课 · 第一个动画',
+    level: 'basic',
     emoji: '🌈',
     desc: '红色圆形从中心画出 —— 学会「物体 + 动画」两步走（对应：基本图形/常用动画）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
@@ -656,6 +657,7 @@ const EXAMPLES = [
   },
   {
     name: '第 2 课 · 公式书写',
+    level: 'basic',
     emoji: '∑',
     desc: '爱因斯坦公式逐字写出（对应：文字和公式）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
@@ -674,6 +676,7 @@ const EXAMPLES = [
   },
   {
     name: '第 3 课 · 旋转星形',
+    level: 'basic',
     emoji: '⭐',
     desc: '五角星重复旋转 5 次 —— 学会「重复」积木（对应：常用动画/图形样式）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
@@ -698,6 +701,7 @@ const EXAMPLES = [
   },
   {
     name: '第 4 课 · 3D 立方体',
+    level: 'basic',
     emoji: '🧊',
     desc: '三维立方体旋转 —— 自动启用 3D 场景和相机视角',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
@@ -722,6 +726,7 @@ const EXAMPLES = [
   },
   {
     name: '第 5 课 · 函数曲线',
+    level: 'basic',
     emoji: '📈',
     desc: '坐标轴 + 网格平面 + 抛物线（对应：坐标系）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
@@ -749,6 +754,7 @@ const EXAMPLES = [
   },
   {
     name: '第 6 课 · 文字动画',
+    level: 'basic',
     emoji: '🎨',
     desc: '字母逐个平滑淡入 + 移动 + 淡出（对应：文本样式）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
@@ -773,6 +779,7 @@ const EXAMPLES = [
   },
   {
     name: '第 7 课 · 变形动画',
+    level: 'basic',
     emoji: '🔄',
     desc: '圆形平滑变形为正方形（对应：高级动画/变换效果）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
@@ -807,6 +814,7 @@ const EXAMPLES = [
   },
   {
     name: '第 8 课 · 滚动字幕',
+    level: 'basic',
     emoji: '📜',
     desc: '文字从屏幕底部滚入再滚出（合集经典：滚动字幕）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
@@ -825,6 +833,7 @@ const EXAMPLES = [
   },
   {
     name: '第 9 课 · 圆规动画',
+    level: 'basic',
     emoji: '🧭',
     desc: '用弧线画圆 —— 动态几何演示（合集经典：圆规动画）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
@@ -846,6 +855,7 @@ const EXAMPLES = [
   },
   {
     name: '第 10 课 · 匀速玫瑰线',
+    level: 'advanced',
     emoji: '🌹',
     desc: '五瓣玫瑰线匀速画出（等弧长参数化，对应：参数曲线/弧长文章）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
@@ -857,6 +867,76 @@ const EXAMPLES = [
 <field name="VAR">curve</field><field name="DURATION">6</field><next>
 <block type="scene_wait">
 <field name="SECONDS">6</field></block>
+</next></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
+  {
+    name: '第 11 课 · 心形线',
+    emoji: '❤️',
+    desc: '用独立参数曲线画心形（对应合集：参数化曲线篇）',
+    level: 'advanced',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_parametric_function" x="30" y="30">
+<field name="VAR">heart</field><field name="FUNC">lambda t: (16*np.sin(t)**3, 13*np.cos(t) - 5*np.cos(2*t) - 2*np.cos(3*t) - np.cos(4*t), 0)</field><field name="T0">0</field><field name="T1">6.28</field><field name="STEP">0.01</field><field name="COLOR">PINK</field><next>
+<block type="animate_create">
+<field name="VAR">heart</field><field name="DURATION">3</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
+  {
+    name: '第 12 课 · 3D 螺旋线',
+    emoji: '🌀',
+    desc: '三维空间中的螺旋线（自动 3D 场景 + 立体着色）',
+    level: 'advanced',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_parametric_function_3d" x="30" y="30">
+<field name="VAR">curve</field><field name="FUNC">lambda u: (1.2*np.cos(u), 1.2*np.sin(u), u*0.05)</field><field name="T0">-18.8</field><field name="T1">31.4</field><field name="STEP">0.01</field><field name="COLOR">RED</field><next>
+<block type="animate_create">
+<field name="VAR">curve</field><field name="DURATION">3</field><next>
+<block type="scene_wait">
+<field name="SECONDS">3</field></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
+  {
+    name: '第 13 课 · 齐步走动画',
+    emoji: '👯',
+    desc: '多个物体同步出现（对应合集：多动画齐步走）',
+    level: 'advanced',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_circle" x="30" y="30">
+<field name="VAR">c</field><field name="X">-2</field><field name="Y">0</field><next>
+<block type="animate_create">
+<field name="VAR">c</field><field name="DURATION">2</field><next>
+<block type="animate_group">
+<field name="OBJ">c</field><field name="COUNT">4</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
+  {
+    name: '第 14 课 · 错峰淡入',
+    emoji: '⏱️',
+    desc: '多个副本依次错峰淡入，形成流动感（对应合集：动画组合/节奏控制）',
+    level: 'advanced',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_square" x="30" y="30">
+<field name="VAR">sq</field><field name="X">0</field><field name="Y">0</field><next>
+<block type="animate_create">
+<field name="VAR">sq</field><field name="DURATION">1</field><next>
+<block type="animate_lagged_start">
+<field name="OBJ">sq</field><field name="COUNT">5</field><next>
+<block type="scene_wait">
+<field name="SECONDS">3</field></block>
 </next></block>
 </next></block>
 </next></block>
@@ -893,17 +973,33 @@ function loadExample(index) {
 const examplesModal = document.getElementById('examplesModal');
 const examplesGrid = document.getElementById('examplesGrid');
 
-// 生成示例卡片
-EXAMPLES.forEach((ex, i) => {
-  const card = document.createElement('button');
-  card.className = 'example-card';
-  card.innerHTML = `
-    <div class="example-emoji">${ex.emoji}</div>
-    <div class="example-name">${ex.name}</div>
-    <div class="example-desc">${ex.desc}</div>
-  `;
-  card.addEventListener('click', () => loadExample(i));
-  examplesGrid.appendChild(card);
+// 生成课程卡片（按当前选中的 level 过滤）
+let currentLevel = 'basic';
+function renderCourses() {
+  examplesGrid.innerHTML = '';
+  EXAMPLES.forEach((ex, i) => {
+    if (ex.level !== currentLevel) return;
+    const card = document.createElement('button');
+    card.className = 'example-card';
+    card.innerHTML = `
+      <div class="example-emoji">${ex.emoji}</div>
+      <div class="example-name">${ex.name}</div>
+      <div class="example-desc">${ex.desc}</div>
+    `;
+    card.addEventListener('click', () => loadExample(i));
+    examplesGrid.appendChild(card);
+  });
+}
+renderCourses();
+
+// 基础 / 进阶 标签切换
+document.querySelectorAll('.course-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.course-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentLevel = tab.dataset.level;
+    renderCourses();
+  });
 });
 
 document.getElementById('examplesBtn').addEventListener('click', () => {

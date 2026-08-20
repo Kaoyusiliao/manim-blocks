@@ -288,7 +288,7 @@
       </aside>
     </main>
 
-    <!-- ═══ 示例模板弹窗 ═══ -->
+    <!-- ═══ 教程弹窗 ═══ -->
     <div id="examplesModal" class="modal hidden">
       <div class="modal-backdrop" data-close-modal></div>
       <div class="modal-card">
@@ -296,10 +296,17 @@
           <h3>🧩 教程课程</h3>
           <button class="modal-close" data-close-modal>✕</button>
         </div>
-        <p class="modal-desc">从「基本图形」开始，跟着课程搭建积木，右边自动生成代码。每课都能直接运行！</p>
+        <p class="modal-desc">跟着课程搭建积木，右边自动生成代码，每课都能直接运行！</p>
+        <div class="course-tabs">
+          <button class="course-tab active" data-level="basic">📘 基础</button>
+          <button class="course-tab" data-level="advanced">🚀 进阶</button>
+        </div>
         <div class="modal-grid" id="examplesGrid">
           <!-- 由 JS 动态生成 -->
         </div>
+        <p class="course-credit">
+          课程改编自 wang_yb 的 <a href="https://www.cnblogs.com/wang_yb/collections/13744" target="_blank" rel="noopener">《Manim 动画教程》合集</a>，特此鸣谢 🙏
+        </p>
       </div>
     </div>
 
