@@ -1770,3 +1770,15 @@ runBtn.addEventListener('click', async () => {
     runBtn.textContent = '▶ 运行';
   }
 });
+
+// ── 快速开始复制按钮 ──────────────────────────────
+
+document.querySelectorAll('.qs-copy').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const cmd = btn.dataset.copy;
+    navigator.clipboard.writeText(cmd).then(() => {
+      btn.textContent = '✅';
+      setTimeout(() => (btn.textContent = '📋'), 2000);
+    });
+  });
+});

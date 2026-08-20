@@ -359,6 +359,80 @@ body {
   font-weight: 600;
   font-size: 12px;
 }
+
+/* ═══ 快速开始步骤 ═══ */
+.render-quick-start {
+  margin-bottom: 10px;
+}
+.qs-step {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  align-items: flex-start;
+}
+.qs-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.qs-body { flex: 1; min-width: 0; }
+.qs-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 3px;
+}
+.qs-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.qs-cmd-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f5f5f5;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin-top: 2px;
+}
+.qs-cmd {
+  font-size: 12px;
+  font-family: var(--font-code);
+  color: #2c3e50;
+}
+.qs-copy {
+  height: 22px !important;
+  padding: 0 6px !important;
+  font-size: 11px !important;
+  min-width: 32px;
+}
+.qs-hint {
+  font-size: 11px;
+  color: #999;
+  margin-top: 2px;
+}
+.qs-download-btn {
+  display: inline-block;
+  background: var(--green);
+  color: #fff;
+  padding: 2px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.qs-download-btn:hover { background: var(--green-dark); }
 .render-guide-steps {
   margin: 8px 0 8px 20px;
   padding: 0;
