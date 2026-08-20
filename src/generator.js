@@ -680,12 +680,19 @@ codeGens.animate_group = (b, n) => {
   const count = _v(b, 'COUNT');
   const varName = _v(b, 'OBJ');
   const lines = [];
-  lines.push(indent(n) + `${varName}_group = VGroup()`);
-  lines.push(indent(n) + `for _ in range(${count}):`);
-  lines.push(indent(n + 1) + `${varName}_group.add(${varName}.copy())`);
+  lines.push(indent(n) + `${varName}_group = VGroup(*[${varName}.copy() for _ in range(${count})])`);
+  lines.push(indent(n) + `${varName}_group.arrange(RIGHT, buff=0.5)`);
   lines.push(indent(n) + `self.play(AnimationGroup(*[Create(m) for m in ${varName}_group]))`);
   return lines.join('\n');
 };
+
+// 两个物体同时移动（合集「多动画齐步走」方法一）
+codeGens.animate_together = (b, n) =>
+  indent(n) +
+  `self.play(\n` +
+  indent(n + 1) + `${_v(b, 'A')}.animate.shift(${_v(b, 'DX1')} * RIGHT + ${_v(b, 'DY1')} * UP),\n` +
+  indent(n + 1) + `${_v(b, 'B')}.animate.shift(${_v(b, 'DX2')} * RIGHT + ${_v(b, 'DY2')} * UP),\n` +
+  indent(n) + `)`;
 
 // ── 更多动画 ──────────────────────────────────────────
 

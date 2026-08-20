@@ -1411,13 +1411,27 @@ export const blockDefs = [
   },
   {
     type: 'animate_group',
-    message0: '同时播放动画 %1  %2 次',
+    message0: '复制 %1 为 %2 个并排列',
     args0: [
       { type: 'field_variable', name: 'OBJ', variable: 'obj' },
-      { type: 'field_number', name: 'COUNT', value: 3, min: 1, max: 50, precision: 1 },
+      { type: 'field_number', name: 'COUNT', value: 4, min: 1, max: 50, precision: 1 },
     ],
     previousStatement: null, nextStatement: null,
-    colour: 330, tooltip: '同时播放多个相同物体的创建动画（同步出现）',
+    colour: 330, tooltip: '复制物体为多个并横向排列（配合 AnimationGroup 同时出现）',
+  },
+  {
+    type: 'animate_together',
+    message0: '同时移动 %1 和 %2   A 偏移(%3,%4)  B 偏移(%5,%6)',
+    args0: [
+      { type: 'field_variable', name: 'A', variable: 'obj1' },
+      { type: 'field_variable', name: 'B', variable: 'obj2' },
+      { type: 'field_number', name: 'DX1', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'DY1', value: 2, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'DX2', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'DY2', value: -2, min: -10, max: 10, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '两个物体同时移动（对应合集「多动画齐步走」方法一）',
   },
   {
     type: 'animate_fade_to_color',

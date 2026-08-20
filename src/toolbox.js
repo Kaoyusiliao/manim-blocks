@@ -200,6 +200,7 @@ export const toolboxJson = {
         { kind: 'block', type: 'animate_fade_in_letters' },
         { kind: 'block', type: 'animate_speed' },
         { kind: 'block', type: 'animate_group' },
+        { kind: 'block', type: 'animate_together' },
         { kind: 'block', type: 'animate_fade_to_color' },
         { kind: 'block', type: 'animate_transform_from_copy' },
         { kind: 'block', type: 'animate_grow_from_edge' },

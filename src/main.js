@@ -905,19 +905,26 @@ const EXAMPLES = [
 </xml>`,
   },
   {
-    name: '第 13 课 · 齐步走动画',
+    name: '第 13 课 · 齐步走',
     emoji: '👯',
-    desc: '多个物体同步出现（对应合集：多动画齐步走）',
+    desc: '圆和方形同时移动：圆上移、方下移（对应合集：如何让多个动画齐步走·方法一）',
     level: 'advanced',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_circle" x="30" y="30">
-<field name="VAR">c</field><field name="X">-2</field><field name="Y">0</field><next>
+<field name="VAR">circle</field><field name="X">-2</field><field name="Y">0</field><next>
+<block type="object_square">
+<field name="VAR">square</field><field name="X">2</field><field name="Y">0</field><next>
 <block type="animate_create">
-<field name="VAR">c</field><field name="DURATION">2</field><next>
-<block type="animate_group">
-<field name="OBJ">c</field><field name="COUNT">4</field><next>
+<field name="VAR">circle</field><field name="DURATION">1</field><next>
+<block type="animate_create">
+<field name="VAR">square</field><field name="DURATION">1</field><next>
+<block type="animate_together">
+<field name="A">circle</field><field name="B">square</field><field name="DX1">0</field><field name="DY1">2</field><field name="DX2">0</field><field name="DY2">-2</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block>
+</next></block>
+</next></block>
+</next></block>
 </next></block>
 </next></block>
 </next></block>
