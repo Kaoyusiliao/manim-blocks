@@ -66,6 +66,289 @@ function updatePreview() {
   previewEl.innerHTML = `<code class="hljs language-python">${highlighted}</code>`;
 }
 
+// ── 🔍 积木搜索 ──────────────────────────────────────
+
+// 从 blockDefs 构建 type → 中文显示名 映射（去掉 %1 占位符）
+const blockNameMap = new Map();
+for (const def of blockDefs) {
+  if (def.message0) {
+    const name = def.message0.replace(/%\d+/g, '').trim();
+    blockNameMap.set(def.type, name);
+  }
+}
+// 补充内置过程块
+blockNameMap.set('procedures_defnoreturn', '自制积木（定义）');
+blockNameMap.set('procedures_callnoreturn', '自制积木（调用）');
+
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+
+searchInput.addEventListener('input', () => {
+  const q = searchInput.value.trim().toLowerCase();
+  if (q.length < 1) {
+    searchResults.classList.add('hidden');
+    return;
+  }
+  // 匹配积木名（含 type 关键字）
+  const matches = [];
+  for (const [type, name] of blockNameMap) {
+    if (name.toLowerCase().includes(q) || type.toLowerCase().includes(q)) {
+      matches.push({ type, name });
+    }
+  }
+  // 按名称排序，最多显示 12 个
+  matches.sort((a, b) => a.name.localeCompare(b.name, 'zh'));
+  renderSearchResults(matches.slice(0, 12));
+});
+
+function renderSearchResults(matches) {
+  if (matches.length === 0) {
+    searchResults.innerHTML = '<div class="search-empty">没有找到匹配的积木</div>';
+    searchResults.classList.remove('hidden');
+    return;
+  }
+  searchResults.innerHTML = '';
+  for (const m of matches) {
+    const item = document.createElement('button');
+    item.className = 'search-item';
+    item.textContent = m.name;
+    item.addEventListener('click', () => {
+      addBlockToWorkspace(m.type);
+      searchInput.value = '';
+      searchResults.classList.add('hidden');
+    });
+    searchResults.appendChild(item);
+  }
+  searchResults.classList.remove('hidden');
+}
+
+/** 创建一个积木放到工作区（自动避开已有积木） */
+function addBlockToWorkspace(type) {
+  const block = workspace.newBlock(type);
+  block.initSvg();
+  // 放置到工作区右下侧（避免和现有积木重叠）
+  const metrics = workspace.getMetrics();
+  const topBlocks = workspace.getTopBlocks(false);
+  const y = topBlocks.length > 0
+    ? topBlocks[topBlocks.length - 1].getRelativeToSurfaceXY().y + 120
+    : 30;
+  block.moveBy(30, y);
+  // 记录位置
+  block.getSvgRoot().setAttribute('transform', `translate(30, ${y})`);
+  updatePreview();
+}
+
+// 点击外部关闭搜索结果
+document.addEventListener('click', (e) => {
+  if (!searchBar.contains(e.target)) searchResults.classList.add('hidden');
+});
+
+// ════════════════════════════════════════════════════
+// 📤 导入 .py → 反解成积木
+// ════════════════════════════════════════════════════
+
+const importBtn = document.getElementById('importBtn');
+const importFile = document.getElementById('importFile');
+
+importBtn.addEventListener('click', () => importFile.click());
+importFile.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const ok = importPyToWorkspace(reader.result);
+    if (ok) {
+      const orig = importBtn.textContent;
+      importBtn.textContent = '✅ 已导入';
+      setTimeout(() => (importBtn.textContent = orig), 2500);
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = ''; // 允许重复选择同一文件
+});
+
+/**
+ * 把 Python 代码反解成 Blockly 积木 XML。
+ * 支持本工具生成器能产生的常见 Manim 模式；无法识别的行显示为「自定义代码」积木。
+ */
+function pyToXml(code) {
+  const lines = code.split('\n').map(l => l.trim());
+  // 过滤：import、class 定义、def construct、空行、注释
+  const codeLines = lines.filter(l =>
+    l && !l.startsWith('import ') && !l.startsWith('from ') &&
+    !l.startsWith('class ') && !l.startsWith('def ') && !l.startsWith('#') &&
+    !l.startsWith('self.wait(') && l !== 'pass' && !l.startsWith('    #')
+  );
+
+  const blocks = []; // [{type, fields:{}, statement:null}]
+
+  for (const line of codeLines) {
+    let b = matchLine(line);
+    if (b) blocks.push(b);
+  }
+  return blocksToXml(blocks);
+}
+
+/** 匹配一行代码 → 积木描述；不认识返回 null */
+function matchLine(line) {
+  const F = (name, val) => ({ name, val });
+
+  // ── 物体创建 ──
+  let m;
+  if ((m = /^(\w+) = Circle\(\)$/.exec(line)))
+    return { type: 'object_circle', fields: [F('VAR', m[1]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = Square\(\)$/.exec(line)))
+    return { type: 'object_square', fields: [F('VAR', m[1]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = Triangle\(\)$/.exec(line)))
+    return { type: 'object_triangle', fields: [F('VAR', m[1]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = Dot\(\)$/.exec(line)))
+    return { type: 'object_dot', fields: [F('VAR', m[1]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = Rectangle\(width=([\d.]+), height=([\d.]+)\)$/.exec(line)))
+    return { type: 'object_rectangle', fields: [F('VAR', m[1]), F('W', m[2]), F('H', m[3]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = RegularPolygon\(n=(\d+)\)$/.exec(line)))
+    return { type: 'object_regular_polygon', fields: [F('VAR', m[1]), F('N', m[2]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = RoundedRectangle\(width=([\d.]+), height=([\d.]+), corner_radius=([\d.]+)\)$/.exec(line)))
+    return { type: 'object_rounded_rectangle', fields: [F('VAR', m[1]), F('W', m[2]), F('H', m[3]), F('R', m[4]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = Ellipse\(width=([\d.]+), height=([\d.]+)\)$/.exec(line)))
+    return { type: 'object_ellipse', fields: [F('VAR', m[1]), F('W', m[2]), F('H', m[3]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = Line\(\[([-\d.]+), ([-\d.]+), 0\], \[([-\d.]+), ([-\d.]+), 0\]\)$/.exec(line)))
+    return { type: 'object_line', fields: [F('VAR', m[1]), F('X1', m[2]), F('Y1', m[3]), F('X2', m[4]), F('Y2', m[5])] };
+  if ((m = /^(\w+) = Arrow\(\[([-\d.]+), ([-\d.]+), 0\], \[([-\d.]+), ([-\d.]+), 0\]\)$/.exec(line)))
+    return { type: 'object_arrow', fields: [F('VAR', m[1]), F('X1', m[2]), F('Y1', m[3]), F('X2', m[4]), F('Y2', m[5])] };
+  if ((m = /^(\w+) = DashedLine\(\[([-\d.]+), ([-\d.]+), 0\], \[([-\d.]+), ([-\d.]+), 0\]\)$/.exec(line)))
+    return { type: 'object_dashed_line', fields: [F('VAR', m[1]), F('X1', m[2]), F('Y1', m[3]), F('X2', m[4]), F('Y2', m[5])] };
+  if ((m = /^(\w+) = Tex\(r"([^"]*)"\)$/.exec(line)))
+    return { type: 'object_tex', fields: [F('VAR', m[1]), F('TEX', m[2]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = MathTex\(r"([^"]*)"\)$/.exec(line)))
+    return { type: 'object_math_tex', fields: [F('VAR', m[1]), F('TEX', m[2]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = Text\("([^"]*)"\)$/.exec(line)))
+    return { type: 'object_text', fields: [F('VAR', m[1]), F('CONTENT', m[2]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = Axes\(x_range=\[([-\d.]+), ([-\d.]+)\], y_range=\[([-\d.]+), ([-\d.]+)\][^)]*\)$/.exec(line)))
+    return { type: 'object_axes', fields: [F('VAR', m[1]), F('XMIN', m[2]), F('XMAX', m[3]), F('YMIN', m[4]), F('YMAX', m[5])] };
+  if ((m = /^(\w+) = NumberPlane\(x_range=\[([-\d.]+), ([-\d.]+)\], y_range=\[([-\d.]+), ([-\d.]+)\][^)]*\)$/.exec(line)))
+    return { type: 'object_number_plane', fields: [F('VAR', m[1]), F('XMIN', m[2]), F('XMAX', m[3]), F('YMIN', m[4]), F('YMAX', m[5]), F('X', '0'), F('Y', '0')] };
+  if ((m = /^(\w+) = (\w+)\.plot\(lambda x: ([^,)]+), color=(\w+)\)$/.exec(line)))
+    return { type: 'object_graph', fields: [F('AXES', m[2]), F('VAR', m[1]), F('FUNC', m[3])] };
+  if ((m = /^(\w+) = Sphere\(radius=([\d.]+)\)$/.exec(line)))
+    return { type: 'object3d_sphere', fields: [F('VAR', m[1]), F('R', m[2]), F('X', '0'), F('Y', '0'), F('Z', '0')] };
+  if ((m = /^(\w+) = Cube\(side_length=([\d.]+)\)$/.exec(line)))
+    return { type: 'object3d_cube', fields: [F('VAR', m[1]), F('L', m[2]), F('X', '0'), F('Y', '0'), F('Z', '0')] };
+  if ((m = /^(\w+) = Cylinder\(radius=([\d.]+), height=([\d.]+)\)$/.exec(line)))
+    return { type: 'object3d_cylinder', fields: [F('VAR', m[1]), F('R', m[2]), F('H', m[3]), F('X', '0'), F('Y', '0'), F('Z', '0')] };
+  if ((m = /^(\w+) = Cone\(base_radius=([\d.]+), height=([\d.]+)\)$/.exec(line)))
+    return { type: 'object3d_cone', fields: [F('VAR', m[1]), F('R', m[2]), F('H', m[3]), F('X', '0'), F('Y', '0'), F('Z', '0')] };
+  if ((m = /^(\w+) = Torus\(major_radius=([\d.]+), minor_radius=([\d.]+)\)$/.exec(line)))
+    return { type: 'object3d_torus', fields: [F('VAR', m[1]), F('R', m[2]), F('R2', m[3]), F('X', '0'), F('Y', '0'), F('Z', '0')] };
+  if ((m = /^(\w+) = Prism\(dimensions=\[([\d.]+), ([\d.]+), ([\d.]+)\]\)$/.exec(line)))
+    return { type: 'object3d_prism', fields: [F('VAR', m[1]), F('W', m[2]), F('H', m[3]), F('D', m[4]), F('X', '0'), F('Y', '0'), F('Z', '0')] };
+
+  // ── 属性 ──
+  if ((m = /^(\w+)\.set_color\((\w+)\)$/.exec(line)))
+    return { type: 'property_color', fields: [F('VAR', m[1]), F('COLOR', m[2])] };
+  if ((m = /^(\w+)\.set_opacity\(([\d.]+)\)$/.exec(line)))
+    return { type: 'property_opacity', fields: [F('VAR', m[1]), F('OPACITY', m[2])] };
+  if ((m = /^(\w+)\.scale\(([\d.]+)\)$/.exec(line)))
+    return { type: 'property_scale', fields: [F('VAR', m[1]), F('SCALE', m[2])] };
+  if ((m = /^(\w+)\.rotate\(([-\d.]+) \* DEGREES\)$/.exec(line)))
+    return { type: 'property_rotate', fields: [F('VAR', m[1]), F('ANGLE', m[2])] };
+  if ((m = /^(\w+)\.move_to\(([-\d.]+) \* RIGHT \+ ([-\d.]+) \* UP\)$/.exec(line)))
+    return { type: 'property_move_to', fields: [F('VAR', m[1]), F('X', m[2]), F('Y', m[3])] };
+  if ((m = /^(\w+)\.move_to\(\[([-\d.]+), ([-\d.]+), ([-\d.]+)\]\)$/.exec(line)))
+    return { type: 'property_move_to', fields: [F('VAR', m[1]), F('X', m[2]), F('Y', m[3])] };
+  if ((m = /^(\w+)\.shift\(([-\d.]+) \* RIGHT \+ ([-\d.]+) \* UP\)$/.exec(line)))
+    return { type: 'property_shift', fields: [F('VAR', m[1]), F('DX', m[2]), F('DY', m[3])] };
+  if ((m = /^(\w+)\.set_stroke\(width=([\d.]+)\)$/.exec(line)))
+    return { type: 'property_stroke_width', fields: [F('VAR', m[1]), F('W', m[2])] };
+  if ((m = /^(\w+)\.set_fill\(opacity=([\d.]+)\)$/.exec(line)))
+    return { type: 'property_fill_opacity', fields: [F('VAR', m[1]), F('OPACITY', m[2])] };
+
+  // ── 动画 ──
+  if ((m = /^self\.play\(Create\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_create', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(FadeIn\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_fade_in', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(FadeOut\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_fade_out', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(Write\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_write', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(Unwrite\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_unwrite', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(Uncreate\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_uncreate', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(GrowFromCenter\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_grow_from_center', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(Rotate\((\w+), ([-\d.]+) \* DEGREES\)\)$/.exec(line)))
+    return { type: 'animate_rotate', fields: [F('VAR', m[1]), F('ANGLE', m[2])] };
+  if ((m = /^self\.play\(Transform\((\w+), (\w+)\)\)$/.exec(line)))
+    return { type: 'animate_transform', fields: [F('OBJ', m[1]), F('TARGET', m[2])] };
+  if ((m = /^self\.play\(ReplacementTransform\((\w+), (\w+)\)\)$/.exec(line)))
+    return { type: 'animate_replacement_transform', fields: [F('OBJ', m[1]), F('TARGET', m[2])] };
+  if ((m = /^self\.play\((\w+)\.animate\.shift\(([-\d.]+) \* RIGHT \+ ([-\d.]+) \* UP\)\)$/.exec(line)))
+    return { type: 'animate_shift', fields: [F('VAR', m[1]), F('DX', m[2]), F('DY', m[3])] };
+  if ((m = /^self\.play\((\w+)\.animate\.scale\(([\d.]+)\)\)$/.exec(line)))
+    return { type: 'animate_scale', fields: [F('VAR', m[1]), F('SCALE', m[2])] };
+  if ((m = /^self\.play\(Indicate\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_indicate', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(Flash\((\w+), line_length=[\d.]+, num_lines=(\d+)\)\)$/.exec(line)))
+    return { type: 'animate_flash', fields: [F('VAR', m[1]), F('COUNT', m[2])] };
+  if ((m = /^self\.play\(Wiggle\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_wiggle', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(SpiralIn\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_spiral_in', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(ShrinkToCenter\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_shrink_to_center', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(FadeTransform\((\w+), (\w+)\)\)$/.exec(line)))
+    return { type: 'animate_fade_transform', fields: [F('OBJ', m[1]), F('TARGET', m[2])] };
+  if ((m = /^self\.play\(DrawBorderThenFill\((\w+)\)\)$/.exec(line)))
+    return { type: 'animate_draw_then_fill', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.play\(FadeIn\((\w+), lag_ratio=([\d.]+)\)\)$/.exec(line)))
+    return { type: 'animate_fade_in_letters', fields: [F('VAR', m[1]), F('RATIO', m[2])] };
+
+  // ── 场景 ──
+  if ((m = /^self\.add\((\w+)\)$/.exec(line)))
+    return { type: 'scene_add', fields: [F('VAR', m[1])] };
+  if ((m = /^self\.remove\((\w+)\)$/.exec(line)))
+    return { type: 'scene_remove', fields: [F('VAR', m[1])] };
+
+  // ── 未识别 → 自定义代码 ──
+  return { type: 'custom_code', fields: [F('CODE', line)] };
+}
+
+/** 把积木描述列表转成咬合的 Blockly XML */
+function blocksToXml(blocks) {
+  if (blocks.length === 0) return null;
+  // 从后往前构建 next 链
+  let inner = null;
+  for (let i = blocks.length - 1; i >= 0; i--) {
+    const b = blocks[i];
+    const fields = b.fields.map(f =>
+      `<field name="${f.name}">${String(f.val).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;')}</field>`
+    ).join('');
+    const attrs = i === 0 ? ' x="30" y="30"' : '';
+    if (i === blocks.length - 1) {
+      inner = `<block type="${b.type}"${attrs}>\n${fields}</block>`;
+    } else {
+      inner = `<block type="${b.type}"${attrs}>\n${fields}<next>\n${inner}\n</next>\n</block>`;
+    }
+  }
+  return `<xml xmlns="https://developers.google.com/blockly/xml">\n${inner}\n</xml>`;
+}
+
+/** 导入 .py 到工作区，成功返回 true */
+function importPyToWorkspace(code) {
+  const xml = pyToXml(code);
+  if (!xml) {
+    alert('没有识别到可导入的代码');
+    return false;
+  }
+  workspace.clear();
+  const dom = Blockly.utils.xml.textToDom(xml);
+  Blockly.Xml.domToWorkspace(dom, workspace);
+  updateEmptyHint();
+  updatePreview();
+  return true;
+}
+
 // 积木变化时刷新预览（防抖 300ms）
 let previewTimer = null;
 workspace.addChangeListener(() => {
