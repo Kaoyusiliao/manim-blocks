@@ -348,6 +348,36 @@ body {
   line-height: 1.6;
   margin-bottom: 10px;
 }
+.render-guide-main { margin-bottom: 6px; }
+.render-guide-details {
+  margin: 6px 0;
+  font-size: 12px;
+}
+.render-guide-details summary {
+  cursor: pointer;
+  color: var(--blue);
+  font-weight: 600;
+  font-size: 12px;
+}
+.render-guide-steps {
+  margin: 8px 0 8px 20px;
+  padding: 0;
+}
+.render-guide-steps li {
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+.render-guide-steps code {
+  font-size: 11px;
+  background: #f0f0f0;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+.render-guide-hint {
+  font-size: 11px;
+  color: #999;
+  margin-top: 4px;
+}
 .render-guide-hint {
   font-size: 11px;
   color: #999;

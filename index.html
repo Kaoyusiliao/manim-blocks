@@ -85,11 +85,27 @@
             </summary>
             <div class="render-body">
               <div class="render-guide">
-                <p>使用桌面版 Manim Blocks，搭好积木后点「▶ 运行」
-                即可在浏览器内直接渲染动画视频，无需复制代码到终端。</p>
+                <p class="render-guide-main">
+                  🖥 在本地运行渲染服务器，即可在浏览器中一键渲染动画。
+                </p>
+
+                <details class="render-guide-details">
+                  <summary>📖 查看详细设置步骤</summary>
+                  <ol class="render-guide-steps">
+                    <li><b>安装 Python 和 Manim</b>
+                      <br/>终端运行：<code class="inline-code">pip install manim</code></li>
+                    <li><b>下载项目</b>
+                      <br/>从 <a href="https://github.com/Kaoyusiliao/manim-blocks" target="_blank">GitHub</a>
+                      下载或克隆本项目到本地</li>
+                    <li><b>启动渲染服务器</b>
+                      <br/>在项目文件夹中运行：<code class="inline-code">python3 render_server.py</code></li>
+                    <li><b>回到本页面</b>
+                      <br/>刷新后「▶ 运行」按钮即可使用</li>
+                  </ol>
+                </details>
+
                 <p class="render-guide-hint">
-                  💡 桌面版暂未发布，敬请期待。<br/>
-                  当前请使用「📋 复制代码」→ 终端运行的方式。
+                  💡 桌面版（Tauri）开发中，届时无需任何手动设置。
                 </p>
               </div>
               <div class="render-controls">
