@@ -443,6 +443,24 @@ codeGens.object_parametric_curve_uniform = (b, n) => {
   return lines.join('\n');
 };
 
+// 独立参数曲线（ParametricFunction，2D/心形线等）
+codeGens.object_parametric_function = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = ParametricFunction(\n` +
+  indent(n + 1) + `${_v(b, 'FUNC')},\n` +
+  indent(n + 1) + `t_range=[${_v(b, 'T0')}, ${_v(b, 'T1')}, ${_v(b, 'STEP')}],\n` +
+  indent(n + 1) + `color=${b.getFieldValue('COLOR')},\n` +
+  indent(n) + `)`;
+
+// 3D 参数曲线（螺旋线等，自动立体着色 + ThreeDScene）
+codeGens.object_parametric_function_3d = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = ParametricFunction(\n` +
+  indent(n + 1) + `${_v(b, 'FUNC')},\n` +
+  indent(n + 1) + `t_range=[${_v(b, 'T0')}, ${_v(b, 'T1')}, ${_v(b, 'STEP')}],\n` +
+  indent(n + 1) + `color=${b.getFieldValue('COLOR')},\n` +
+  indent(n) + `).set_shade_in_3d(True)`;
+
 // ── 3D 物体 ──────────────────────────────────────────
 
 function maybeMoveTo3D(block, n) {
@@ -1078,7 +1096,7 @@ export function generateCode(workspace) {
       needsVectorScene = true;
     if (types.has('scene_zoomed')) needsZoomed = true;
     for (const t of types) {
-      if (t.startsWith('object3d_') || t === 'camera_3d_orientation') needs3D = true;
+      if (t.startsWith('object3d_') || t === 'camera_3d_orientation' || t === 'object_parametric_function_3d') needs3D = true;
     }
   }
 

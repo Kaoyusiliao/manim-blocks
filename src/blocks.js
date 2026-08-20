@@ -728,6 +728,44 @@ export const blockDefs = [
     previousStatement: null, nextStatement: null,
     colour: 230, tooltip: '绘制参数曲线且保证匀速（等弧长参数化）— 用 Create 动画时笔画速度均匀',
   },
+  {
+    type: 'object_parametric_function',
+    message0: '创建参数曲线 %1  参数方程 %2  t(%3,%4) 步长 %5  颜色 %6',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'curve' },
+      { type: 'field_input', name: 'FUNC', text: 'lambda t: (16*np.sin(t)**3, 13*np.cos(t) - 5*np.cos(2*t) - 2*np.cos(3*t) - np.cos(4*t), 0)' },
+      { type: 'field_number', name: 'T0', value: 0, min: -100, max: 100, precision: 0.5 },
+      { type: 'field_number', name: 'T1', value: 6.28, min: -100, max: 100, precision: 0.5 },
+      { type: 'field_number', name: 'STEP', value: 0.01, min: 0.001, max: 1, precision: 0.001 },
+      { type: 'field_dropdown', name: 'COLOR',
+        options: [
+          ['粉色', 'PINK'], ['红色', 'RED'], ['蓝色', 'BLUE'], ['绿色', 'GREEN'],
+          ['黄色', 'YELLOW'], ['紫色', 'PURPLE'], ['橙色', 'ORANGE'], ['青色', 'TEAL'],
+        ],
+      },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '用 ParametricFunction 创建独立参数曲线（不依赖坐标轴），如心形线',
+  },
+  {
+    type: 'object_parametric_function_3d',
+    message0: '创建 3D 参数曲线 %1  参数方程 %2  t(%3,%4) 步长 %5  颜色 %6',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'curve' },
+      { type: 'field_input', name: 'FUNC', text: 'lambda u: (1.2*np.cos(u), 1.2*np.sin(u), u*0.05)' },
+      { type: 'field_number', name: 'T0', value: -18.8, min: -100, max: 100, precision: 0.5 },
+      { type: 'field_number', name: 'T1', value: 31.4, min: -100, max: 100, precision: 0.5 },
+      { type: 'field_number', name: 'STEP', value: 0.01, min: 0.001, max: 1, precision: 0.001 },
+      { type: 'field_dropdown', name: 'COLOR',
+        options: [
+          ['红色', 'RED'], ['粉色', 'PINK'], ['蓝色', 'BLUE'], ['绿色', 'GREEN'],
+          ['黄色', 'YELLOW'], ['紫色', 'PURPLE'], ['橙色', 'ORANGE'], ['青色', 'TEAL'],
+        ],
+      },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建 3D 空间参数曲线（自动启用 3D 场景和立体着色），如螺旋线',
+  },
 
   // ── 3D 物体 ────────────────────────────────────────
   {
