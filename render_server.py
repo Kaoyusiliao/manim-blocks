@@ -14,12 +14,43 @@ import os
 import subprocess
 import shutil
 import socket
+import sys
 import tempfile
 import uuid
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse
 
 PORT = 3081
+
+
+def _free_port(port):
+    """释放被占用的端口（跨平台）"""
+    try:
+        if sys.platform == 'win32':
+            # Windows: 用 netstat 找 PID
+            result = subprocess.run(
+                ['netstat', '-ano', '|', 'findstr', f':{port}'],
+                capture_output=True, text=True, timeout=5, shell=True
+            )
+            for line in result.stdout.splitlines():
+                parts = line.strip().split()
+                if len(parts) >= 5 and 'LISTENING' in line:
+                    pid = parts[-1]
+                    subprocess.run(['taskkill', '/F', '/PID', pid],
+                                   capture_output=True, timeout=3)
+                    print(f'  🧹 释放端口 {port}（已终止进程 {pid}）')
+        else:
+            # macOS / Linux: 用 lsof
+            result = subprocess.run(
+                ['lsof', '-ti', f':{port}'],
+                capture_output=True, text=True, timeout=5
+            )
+            for pid in result.stdout.strip().split():
+                if pid:
+                    subprocess.run(['kill', pid], capture_output=True, timeout=3)
+                    print(f'  🧹 释放端口 {port}（已终止旧进程 {pid}）')
+    except Exception:
+        pass  # 没有旧进程或工具不可用
 
 
 class ReusableHTTPServer(HTTPServer):
@@ -144,18 +175,7 @@ class RenderHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    # 释放旧端口（如果之前的进程没退干净）
-    try:
-        old_pids = subprocess.run(
-            ['lsof', '-ti', f':{PORT}'],
-            capture_output=True, text=True, timeout=5
-        ).stdout.strip().split()
-        for pid in old_pids:
-            if pid:
-                subprocess.run(['kill', pid], capture_output=True, timeout=3)
-                print(f'  🧹 释放端口 {PORT}（已终止旧进程 {pid}）')
-    except Exception:
-        pass
+    _free_port(PORT)
 
     print(f'🎬  Manim 渲染服务器')
     print(f'    地址: http://127.0.0.1:{PORT}')

@@ -3,18 +3,33 @@
  * Manim Blocks — 开发服务器
  * 同时启动 Vite (Web GUI) + Python 渲染服务器
  * 按 Ctrl+C 一起退出，无需手动管理。
+ * 支持 macOS / Linux / Windows。
  */
 
 import { spawn } from 'child_process';
+import { platform } from 'os';
+import { existsSync } from 'fs';
 import { createServer } from 'vite';
 
 const PORT = 3080;
 const RENDER_PORT = 3081;
 
+// ── 跨平台 Python 检测 ──────────────────────────
+function findPython() {
+  // Windows: 优先 py 启动器，再试 python
+  if (platform() === 'win32') {
+    // py -3 调用 Python 3.x
+    return ['py', '-3'];
+  }
+  // macOS / Linux
+  return ['python3'];
+}
+
+// ── 1. 启动渲染服务器 ─────────────────────────
 async function main() {
-  // ── 1. 启动渲染服务器 ─────────────────────────
   console.log('📡 启动渲染服务器...');
-  const render = spawn('python3', ['render_server.py'], {
+  const [pyCmd, ...pyArgs] = findPython();
+  const render = spawn(pyCmd, [...pyArgs, 'render_server.py'], {
     stdio: ['ignore', 'inherit', 'inherit'],
   });
 
@@ -51,10 +66,7 @@ async function waitForPort(port, timeoutMs) {
   const start = Date.now();
   while (Date.now() - start < timeoutMs) {
     try {
-      const res = await fetch(`http://127.0.0.1:${port}/render`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: '{}',
+      await fetch(`http://127.0.0.1:${port}/health`, {
         signal: AbortSignal.timeout(500),
       });
       return; // 服务器就绪
