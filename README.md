@@ -13,7 +13,7 @@
 | **Python 3.9+** | 运行 Manim | `python3 --version`（Mac/Linux）<br/>`py -3 --version`（Windows） | ✅ 必须 |
 | **Manim** | 动画渲染引擎 | `pip show manim` | ✅ 必须 |
 | **ffmpeg** | 合成视频文件 | `ffmpeg -version` | ✅ 必须 |
-| **LaTeX** | 排版数学公式 | `latex --version` | ▢ 可选 |
+| **LaTeX** | 排版数学公式 | `latex --version` | ▢ 仅公式需要 |
 
 ## 怎么用
 
