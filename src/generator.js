@@ -1494,8 +1494,10 @@ function autoFixVariables(body) {
   let re3 = /self\.play\(\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\.animate/g;
   // 组合动画中的组变量：AnimationGroup(*[Create(m) for m in X]) / LaggedStart(...) / Succession(...)
   let re4 = /for\s+[a-zA-Z_][a-zA-Z0-9_]*\s+in\s+([a-zA-Z_][a-zA-Z0-9_]*)\]/g;
+  // 物体被添加到 VGroup 或其他容器：group.add(obj)
+  let re5 = /\.add\(\s*([a-zA-Z_][a-zA-Z0-9_]*)/g;
   let xm;
-  for (const re of [re1, re2, re3, re4]) {
+  for (const re of [re1, re2, re3, re4, re5]) {
     while ((xm = re.exec(body)) !== null) displayed.add(xm[1]);
   }
   // VGroup 组合中的成员算已处理
