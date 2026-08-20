@@ -135,7 +135,7 @@ class RenderHandler(BaseHTTPRequestHandler):
                     data = f.read()
                 self._video(data)
             else:
-                err = proc.stderr[:2000] if proc.stderr else '未知错误（无输出）'
+                err = proc.stderr[:10000] if proc.stderr else '未知错误（无输出）'
                 self._json(500, {'error': err.strip()})
 
         except subprocess.TimeoutExpired:
