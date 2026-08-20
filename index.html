@@ -72,24 +72,41 @@
         <div class="panel-content active" id="tab-preview">
           <div class="panel-toolbar">
             <span class="panel-title">Python 代码</span>
-            <span id="serverStatus" class="server-status" title="渲染服务器状态">● 检测中…</span>
-            <div class="toolbar-right">
-              <select id="qualitySelect" class="quality-select">
-                <option value="l">⚡ 快速 (480p)</option>
-                <option value="m" selected>🔶 中等 (720p)</option>
-                <option value="h">🔷 高清 (1080p)</option>
-                <option value="k">💎 4K (2160p)</option>
-              </select>
-              <button id="runBtn" class="btn btn-tiny btn-run">▶ 运行</button>
-              <button id="copyCodeBtn" class="btn btn-tiny">📋 复制代码</button>
-            </div>
+            <button id="copyCodeBtn" class="btn btn-tiny">📋 复制代码</button>
           </div>
           <pre id="codePreview"><code class="language-python"># 从左侧拖拽积木开始创作
 # 或点顶部「🧩 教程」一键加载现成作品</code></pre>
-          <div id="videoContainer" class="hidden">
-            <video id="videoPlayer" controls playsinline></video>
-            <div id="videoStatus"></div>
-          </div>
+
+          <!-- 一键渲染（可折叠） -->
+          <details class="render-section" id="renderSection">
+            <summary class="render-summary">
+              <span class="render-summary-text">🎬 一键渲染（需安装桌面版）</span>
+              <span id="renderBadge" class="render-badge checking">检测中…</span>
+            </summary>
+            <div class="render-body">
+              <div class="render-guide">
+                <p>使用桌面版 Manim Blocks，搭好积木后点「▶ 运行」
+                即可在浏览器内直接渲染动画视频，无需复制代码到终端。</p>
+                <p class="render-guide-hint">
+                  💡 桌面版暂未发布，敬请期待。<br/>
+                  当前请使用「📋 复制代码」→ 终端运行的方式。
+                </p>
+              </div>
+              <div class="render-controls">
+                <select id="qualitySelect" class="quality-select">
+                  <option value="l">⚡ 快速 (480p)</option>
+                  <option value="m" selected>🔶 中等 (720p)</option>
+                  <option value="h">🔷 高清 (1080p)</option>
+                  <option value="k">💎 4K (2160p)</option>
+                </select>
+                <button id="runBtn" class="btn btn-tiny btn-run" disabled>▶ 运行</button>
+              </div>
+              <div id="videoContainer" class="hidden">
+                <video id="videoPlayer" controls playsinline></video>
+                <div id="videoStatus"></div>
+              </div>
+            </div>
+          </details>
         </div>
 
         <!-- 新手教程标签 -->

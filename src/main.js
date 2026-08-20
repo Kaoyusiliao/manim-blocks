@@ -1695,10 +1695,10 @@ const qualitySelect = document.getElementById('qualitySelect');
 const videoContainer = document.getElementById('videoContainer');
 const videoPlayer = document.getElementById('videoPlayer');
 const videoStatus = document.getElementById('videoStatus');
-const serverStatus = document.getElementById('serverStatus');
+const renderBadge = document.getElementById('renderBadge');
 
-// ── 检测渲染服务器是否在线 ─────────────────────────
-async function checkServer() {
+// 检测渲染服务器是否在线
+async function checkRenderServer() {
   try {
     const res = await fetch(RENDER_URL, {
       method: 'POST',
@@ -1706,67 +1706,21 @@ async function checkServer() {
       body: JSON.stringify({ code: '', scene: 'MyScene', quality: 'l' }),
       signal: AbortSignal.timeout(2000),
     });
-    // 服务器在运行
-    serverStatus.textContent = '● 渲染在线';
-    serverStatus.className = 'server-status online';
-    serverStatus.title = '渲染服务器运行中';
+    renderBadge.textContent = '● 在线';
+    renderBadge.className = 'render-badge online';
     runBtn.disabled = false;
-    runBtn.title = '';
     videoContainer.classList.add('hidden');
-    return;
   } catch {
-    // 服务器离线
-  }
-
-  serverStatus.textContent = '● 渲染离线';
-  serverStatus.className = 'server-status offline';
-  serverStatus.title = '点击复制启动命令';
-  runBtn.disabled = true;
-  runBtn.title = '需先启动渲染服务器';
-
-  // 离线时显示提示面板
-  videoContainer.classList.remove('hidden');
-  videoPlayer.style.display = 'none';
-  videoStatus.innerHTML = `
-    <div class="offline-hint">
-      <div class="offline-icon">🎬</div>
-      <div class="offline-title">渲染服务器未启动</div>
-      <div class="offline-desc">
-        在终端中运行以下命令（从项目文件夹）：<br/>
-        <code style="font-size:11px;color:#999">cd /Users/smlnoah/Documents/GitHub/manim-blocks</code>
-      </div>
-      <div class="offline-cmd">
-        <code>pnpm dev</code>
-        <button class="btn btn-tiny" id="copyStartCmd">📋 复制</button>
-      </div>
-      <div class="offline-desc" style="margin-top:6px;font-size:11px;color:#777">
-        这个命令会自动启动 Web GUI + 渲染服务器
-      </div>
-    </div>
-  `;
-  videoStatus.className = '';
-  videoPlayer.style.display = '';
-
-  // 复制启动命令
-  const copyBtn = document.getElementById('copyStartCmd');
-  if (copyBtn) {
-    copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText('cd /Users/smlnoah/Documents/GitHub/manim-blocks && pnpm dev').then(() => {
-        copyBtn.textContent = '✅ 已复制';
-        setTimeout(() => (copyBtn.textContent = '📋 复制'), 2000);
-      });
-    });
+    renderBadge.textContent = '● 离线';
+    renderBadge.className = 'render-badge offline';
+    runBtn.disabled = true;
   }
 }
 
-// 页面加载时检测，之后每 10 秒刷新
-checkServer();
-setInterval(checkServer, 10000);
+checkRenderServer();
+setInterval(checkRenderServer, 10000);
 
-// 点击状态指示器重新检测
-serverStatus.addEventListener('click', checkServer);
-
-// ── 运行按钮点击 ─────────────────────────────────
+// 运行按钮
 runBtn.addEventListener('click', async () => {
   const code = generateCode(workspace);
   if (!code.trim() || code.includes('pass  # ⚠️')) {
@@ -1808,8 +1762,6 @@ runBtn.addEventListener('click', async () => {
   } catch (e) {
     videoStatus.textContent = '❌ ' + e.message;
     videoStatus.className = 'error';
-    // 网络错误大概率是服务器没启动，重新检测
-    checkServer();
   } finally {
     runBtn.disabled = false;
     runBtn.textContent = '▶ 运行';
