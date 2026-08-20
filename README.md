@@ -35,7 +35,11 @@ pnpm dev
 
 浏览器打开后，搭积木 → 展开「🎬 一键渲染」面板 → 点「▶ 运行」。
 
-> 💡 **Mac 用户：** 项目文件夹里有 `start.command`，双击即可启动，无需打开终端。
+> 💡 **快捷方式：** 项目文件夹里有 `start.command`（Mac）或 `start.bat`（Windows），双击即可启动，无需打开终端。
+
+如果只想用渲染功能（不修改代码），也可以单独启动渲染服务器：
+> - **Mac：** `python3 render_server.py`
+> - **Windows：** `py -3 render_server.py`
 
 ### 📥 传统方式（无需渲染服务器）
 
@@ -102,7 +106,8 @@ pnpm build     # 输出到 dist/
 
 按 Ctrl+C 同时退出两个进程。
 
-> 渲染服务器需要 Python 3.8+ 和 Manim。也可单独运行：`python3 render_server.py`
+> 渲染服务器需要 Python 3.8+ 和 Manim。
+> 也可单独运行：Mac 用 `python3 render_server.py`，Windows 用 `py -3 render_server.py`
 
 ## 部署
 
