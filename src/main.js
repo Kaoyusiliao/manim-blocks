@@ -1176,10 +1176,10 @@ const EXAMPLES = [
 <field name="AXES">ax</field><field name="FUNC">f</field><field name="COLOR">YELLOW</field><field name="VAR">graph</field><next>
 <block type="custom_code">
 <field name="CODE">tangent = ax.plot(lambda x: k*(x-1) + f(1), color=RED)</field><next>
-<block type="scene_add">
-<field name="VAR">ax</field><next>
-<block type="scene_add">
-<field name="VAR">graph</field><next>
+<block type="animate_create">
+<field name="VAR">ax</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">graph</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
 <field name="VAR">tangent</field><field name="DURATION">2</field><next>
 <block type="scene_wait">
@@ -1213,12 +1213,12 @@ const EXAMPLES = [
 <field name="CODE">riemann = ax.get_riemann_rectangles(graph, x_range=[0, 2], dx=0.5, stroke_color=WHITE)</field><next>
 <block type="custom_code">
 <field name="CODE">label = MathTex(f"\\\\int_0^2 x^2 \\\\, dx = {area_val:.4f}").next_to(ax, DOWN)</field><next>
-<block type="scene_add">
-<field name="VAR">ax</field><next>
-<block type="scene_add">
-<field name="VAR">graph</field><next>
-<block type="scene_add">
-<field name="VAR">riemann</field><next>
+<block type="animate_create">
+<field name="VAR">ax</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">graph</field><field name="DURATION">1.5</field><next>
+<block type="animate_create">
+<field name="VAR">riemann</field><field name="DURATION">2</field><next>
 <block type="animate_write">
 <field name="VAR">label</field><field name="DURATION">2</field><next>
 <block type="scene_wait">

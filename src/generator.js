@@ -253,7 +253,7 @@ codeGens.object_markup_text = (b, n) =>
   indent(n) + `${_v(b, 'VAR')} = MarkupText("${esc(_v(b, 'CONTENT'))}")` + maybeMoveTo(b, n);
 
 codeGens.object_title = (b, n) =>
-  indent(n) + `${_v(b, 'VAR')} = Text("${esc(_v(b, 'CONTENT'))}", font_size=48, color=WHITE).to_edge(UP, buff=0.5)`;
+  indent(n) + `${_v(b, 'VAR')} = Text("${esc(_v(b, 'CONTENT'))}", font_size=48, color=WHITE, stroke_width=1).to_edge(UP, buff=0.5)`;
 
 codeGens.object_bulleted_list = (b, n) => {
   const items = _v(b, 'CONTENT').split(',').map(s => s.trim()).filter(Boolean);
