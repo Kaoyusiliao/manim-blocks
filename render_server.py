@@ -33,8 +33,8 @@ class RenderHandler(BaseHTTPRequestHandler):
 
     # ── CORS 预检 ─────────────────────────────────
     def do_OPTIONS(self):
-        self._cors()
         self.send_response(200)
+        self._cors()
         self.end_headers()
 
     # ── 渲染入口 ─────────────────────────────────
