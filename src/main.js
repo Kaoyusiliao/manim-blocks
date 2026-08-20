@@ -1699,7 +1699,6 @@ const serverStatus = document.getElementById('serverStatus');
 
 // ── 检测渲染服务器是否在线 ─────────────────────────
 async function checkServer() {
-  const startCmd = 'python3 render_server.py';
   try {
     const res = await fetch(RENDER_URL, {
       method: 'POST',
@@ -1707,22 +1706,62 @@ async function checkServer() {
       body: JSON.stringify({ code: '', scene: 'MyScene', quality: 'l' }),
       signal: AbortSignal.timeout(2000),
     });
-    // 服务器在运行（即使 code 为空也会返回 400，但说明服务器活着）
+    // 服务器在运行
     serverStatus.textContent = '● 渲染在线';
     serverStatus.className = 'server-status online';
+    serverStatus.title = '渲染服务器运行中';
     runBtn.disabled = false;
     runBtn.title = '';
+    videoContainer.classList.add('hidden');
+    return;
   } catch {
-    serverStatus.textContent = '● 渲染离线';
-    serverStatus.className = 'server-status offline';
-    runBtn.disabled = true;
-    runBtn.title = '需先启动渲染服务器';
+    // 服务器离线
+  }
+
+  serverStatus.textContent = '● 渲染离线';
+  serverStatus.className = 'server-status offline';
+  serverStatus.title = '点击复制启动命令';
+  runBtn.disabled = true;
+  runBtn.title = '需先启动渲染服务器';
+
+  // 离线时显示提示面板
+  videoContainer.classList.remove('hidden');
+  videoPlayer.style.display = 'none';
+  videoStatus.innerHTML = `
+    <div class="offline-hint">
+      <div class="offline-icon">🎬</div>
+      <div class="offline-title">渲染服务器未启动</div>
+      <div class="offline-desc">在终端运行以下命令启动：</div>
+      <div class="offline-cmd">
+        <code>python3 render_server.py</code>
+        <button class="btn btn-tiny" id="copyStartCmd">📋 复制</button>
+      </div>
+      <div class="offline-desc" style="margin-top:8px">
+        或用 <code>./start.sh</code> 一键启动 Web GUI + 渲染服务器
+      </div>
+    </div>
+  `;
+  videoStatus.className = '';
+  videoPlayer.style.display = '';
+
+  // 复制启动命令
+  const copyBtn = document.getElementById('copyStartCmd');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText('python3 render_server.py').then(() => {
+        copyBtn.textContent = '✅ 已复制';
+        setTimeout(() => (copyBtn.textContent = '📋 复制'), 2000);
+      });
+    });
   }
 }
 
 // 页面加载时检测，之后每 10 秒刷新
 checkServer();
 setInterval(checkServer, 10000);
+
+// 点击状态指示器重新检测
+serverStatus.addEventListener('click', checkServer);
 
 // ── 运行按钮点击 ─────────────────────────────────
 runBtn.addEventListener('click', async () => {

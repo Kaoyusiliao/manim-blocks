@@ -289,7 +289,7 @@ body {
   white-space: nowrap;
 }
 .server-status.online { color: var(--green); }
-.server-status.offline { color: #e74c3c; }
+.server-status.offline { color: #e74c3c; cursor: pointer; }
 .server-status.checking { color: #999; }
 .panel-title {
   font-size: 12px;
@@ -338,6 +338,25 @@ body {
 }
 #videoStatus.error { color: #ff6b6b; }
 #videoStatus.success { color: #59C059; }
+
+.offline-hint {
+  padding: 20px;
+  text-align: center;
+  color: #ccc;
+}
+.offline-icon { font-size: 36px; margin-bottom: 8px; }
+.offline-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #eee; }
+.offline-desc { font-size: 12px; color: #999; margin-bottom: 4px; }
+.offline-cmd {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #2a2a2a;
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+.offline-cmd code { font-size: 13px; color: #59C059; }
 
 /* ── 快速开始面板 ── */
 #tab-guide {
