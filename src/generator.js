@@ -1316,8 +1316,10 @@ function autoFixVariables(body) {
   let re2 = /self\.play\(\s*[A-Za-z_][A-Za-z0-9_]*\s*\(\s*([a-zA-Z_][a-zA-Z0-9_]*)/g;
   // self.play(x.animate...) — 直接方法链
   let re3 = /self\.play\(\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*\.animate/g;
+  // 组合动画中的组变量：AnimationGroup(*[Create(m) for m in X]) / LaggedStart(...) / Succession(...)
+  let re4 = /for\s+[a-zA-Z_][a-zA-Z0-9_]*\s+in\s+([a-zA-Z_][a-zA-Z0-9_]*)\]/g;
   let xm;
-  for (const re of [re1, re2, re3]) {
+  for (const re of [re1, re2, re3, re4]) {
     while ((xm = re.exec(body)) !== null) displayed.add(xm[1]);
   }
   // VGroup 组合中的成员算已处理
@@ -1335,16 +1337,20 @@ function autoFixVariables(body) {
     if (!displayed.has(name)) toAdd.push(name);
   }
 
+  // 自动 add 要紧跟对应变量的「创建语句」之后（不能在动画之后/之前乱插）
   if (toAdd.length > 0) {
-    const adds = toAdd.map(v => P + `self.add(${v})`).join('\n');
-    // 插到第一个动画之前，保证物体在动画前就已就位（显示顺序正确）
-    const playIdx = body.indexOf('self.play(');
-    if (playIdx > -1) {
-      const insertAt = body.lastIndexOf('\n', playIdx) + 1;
-      body = body.slice(0, insertAt) + adds + '\n' + body.slice(insertAt);
-    } else {
-      body = body + '\n' + adds;
+    const lines = body.split('\n');
+    const additions = [];
+    for (const v of toAdd) {
+      const idx = lines.findIndex(l => new RegExp(`^\\s*${v}\\s*=`).test(l));
+      additions.push([idx > -1 ? idx : lines.length - 1, `${P}self.add(${v})`]);
     }
+    // 从后往前插入，避免索引错乱
+    additions.sort((a, b) => a[0] - b[0]);
+    for (let i = additions.length - 1; i >= 0; i--) {
+      lines.splice(additions[i][0] + 1, 0, additions[i][1]);
+    }
+    body = lines.join('\n');
   }
 
   // ── 5. 还原被保护的字符串字面量 ──
