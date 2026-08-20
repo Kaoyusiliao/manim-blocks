@@ -1,0 +1,58 @@
+name: CLA Assistant
+on:
+  issue_comment:
+    types: [created]
+  pull_request_target:
+    types: [opened, closed, synchronize]
+
+jobs:
+  cla:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+      pull-requests: write
+      statuses: write
+    steps:
+      - name: CLA Assistant
+        if: (github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA' || github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA') || github.event_name == 'pull_request_target'
+        uses: contributor-assistant/github-action@v2.6.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          path-to-signatures: 'cla/signatures.json'
+          path-to-document: 'https://github.com/Kaoyusiliao/manim-blocks/blob/main/CLA.md'
+          branch: 'main'
+          allowlist: Kaoyusiliao
+          remote-organization-name: Kaoyusiliao
+          remote-repository-name: manim-blocks
+          create-file-commit-message: 'chore: update CLA signatures'
+          signed-commit-message: 'chore: $contributorName signed CLA'
+          custom-notsigned-prcomment: |
+            ## ✅ 感谢您的贡献！请签署 CLA
+
+            在合并之前，请先阅读并签署贡献者许可协议（CLA）：
+
+            📄 [阅读 CLA](https://github.com/Kaoyusiliao/manim-blocks/blob/main/CLA.md)
+
+            **如何签署：** 在此评论中回复以下内容：
+
+            ```
+            I have read the CLA Document and I hereby sign the CLA
+            ```
+
+            ---
+
+            ## ✅ Thank You for Contributing! Please sign the CLA
+
+            Before we can merge your contribution, please read and sign our Contributor License Agreement:
+
+            📄 [Read CLA](https://github.com/Kaoyusiliao/manim-blocks/blob/main/CLA.md)
+
+            **To sign:** Reply with this comment:
+
+            ```
+            I have read the CLA Document and I hereby sign the CLA
+            ```
+          custom-pr-sign-comment: '✅ 感谢您签署 CLA！Thank you for signing the CLA!'
+          custom-unauthorized-comment: '⚠️ 请使用 GitHub 账号登录后评论。Please sign in with your GitHub account.'

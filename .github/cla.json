@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "repository": "Kaoyusiliao/manim-blocks",
+  "claUrl": "https://github.com/Kaoyusiliao/manim-blocks/blob/main/CLA.md",
+  "pullRequestLabels": ["cla-signed"],
+  "signLabel": "cla-signed",
+  "allowlist": ["Kaoyusiliao"],
+  "blocking": true,
+  "message": "## ✅ 感谢您的贡献！\n\n感谢您向 Manim Blocks 提交贡献。在合并之前，请先签署贡献者许可协议（CLA）：\n\n📄 [阅读 CLA](https://github.com/Kaoyusiliao/manim-blocks/blob/main/CLA.md)\n\n**如何签署：** 在此评论中回复以下内容即可：\n\n> I have read the CLA Document and I hereby sign the CLA\n\n---\n\n## ✅ Thank You for Contributing!\n\nBefore we can merge your contribution, please sign our Contributor License Agreement:\n\n📄 [Read CLA](https://github.com/Kaoyusiliao/manim-blocks/blob/main/CLA.md)\n\n**To sign:** Reply with this comment:\n\n> I have read the CLA Document and I hereby sign the CLA"
+}
