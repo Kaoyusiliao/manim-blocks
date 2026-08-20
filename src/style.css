@@ -664,6 +664,7 @@ body {
   margin-bottom: 14px;
 }
 .hint-steps { font-size: 12.5px; }
+.hint-quote { font-size: 13px; color: var(--text-muted); font-style: italic; }
 
 /* ═══ 示例模态框 ═══ */
 

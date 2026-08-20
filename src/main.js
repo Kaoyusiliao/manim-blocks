@@ -599,7 +599,9 @@ function updateEmptyHint() {
     emptyHintDesc.innerHTML = `试试这样：<br/>
       <span class="hint-steps">1️⃣ 点左侧「🔵 物体」→ 拖「创建圆形」到这里<br/>
       2️⃣ 再拖一个「🟠 动画」→「创建动画」<b>接在圆形下面</b><br/>
-      3️⃣ 右边立刻显示生成的代码！</span>`;
+      3️⃣ 右边立刻显示生成的代码！</span>
+      <br/><br/>
+      <span class="hint-quote">💬 不是只有伟大的艺术家才能做出好作品的。</span>`;
     emptyHintBtn.style.display = '';
     emptyHint.classList.remove('hidden');
     return;

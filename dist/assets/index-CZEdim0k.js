@@ -934,7 +934,9 @@ pause
 `,l=new Blob([r],{type:"application/x-bat"}),s=URL.createObjectURL(l),c=document.createElement("a");c.href=s,c.download="install_manim.bat",document.body.appendChild(c),c.click(),document.body.removeChild(c),URL.revokeObjectURL(s)}document.getElementById("downloadScriptBtn").addEventListener("click",JS);document.getElementById("downloadScriptWinBtn").addEventListener("click",qS);const hr=document.getElementById("emptyHint"),m$=hr.querySelector("h3"),$$=hr.querySelector("p"),g$=document.getElementById("loadFirstExample");function jl(){const r=yt.getTopBlocks(!0);if(r.length===0){m$.textContent="从左边拖积木到这里开始",$$.innerHTML=`试试这样：<br/>
       <span class="hint-steps">1️⃣ 点左侧「🔵 物体」→ 拖「创建圆形」到这里<br/>
       2️⃣ 再拖一个「🟠 动画」→「创建动画」<b>接在圆形下面</b><br/>
-      3️⃣ 右边立刻显示生成的代码！</span>`,g$.style.display="",hr.classList.remove("hidden");return}r.filter(s=>s.getNextBlock()).length===0?(m$.textContent="🧩 把积木上下拼在一起",$$.innerHTML=`<span class="hint-steps">
+      3️⃣ 右边立刻显示生成的代码！</span>
+      <br/><br/>
+      <span class="hint-quote">💬 不是只有伟大的艺术家才能做出好作品的。</span>`,g$.style.display="",hr.classList.remove("hidden");return}r.filter(s=>s.getNextBlock()).length===0?(m$.textContent="🧩 把积木上下拼在一起",$$.innerHTML=`<span class="hint-steps">
       积木要像乐高一样<b>上下拼接</b>才会成为程序。<br/>
       把上面的积木拖到另一个积木的下面，出现凹槽对齐后松手。<br/><br/>
       💡 或者点「🧩 示例」一键加载拼好的作品。</span>`,g$.style.display="none",hr.classList.remove("hidden")):hr.classList.add("hidden")}yt.addChangeListener(jl);jl();document.getElementById("loadFirstExample").addEventListener("click",()=>{L$(0)});const v$=[{name:"第 1 课 · 第一个动画",level:"basic",emoji:"🌈",desc:"红色圆形从中心画出 —— 学会「物体 + 动画」两步走（对应：基本图形/常用动画）",xml:`<xml xmlns="https://developers.google.com/blockly/xml">
