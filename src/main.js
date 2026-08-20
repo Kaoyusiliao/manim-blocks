@@ -1773,12 +1773,29 @@ runBtn.addEventListener('click', async () => {
 
 // ── 快速开始复制按钮 ──────────────────────────────
 
-document.querySelectorAll('.qs-copy').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const cmd = btn.dataset.copy;
-    navigator.clipboard.writeText(cmd).then(() => {
-      btn.textContent = '✅';
-      setTimeout(() => (btn.textContent = '📋'), 2000);
+// 检测操作系统，显示正确的命令
+(function detectOS() {
+  const cmdStart = document.getElementById('cmdStart');
+  const cmdInstall = document.getElementById('cmdInstall');
+  const qsHint = document.getElementById('qsHint');
+  const qsCopyBtn = document.getElementById('qsCopyBtn');
+  if (!cmdStart) return;
+
+  const isWin = navigator.userAgent.includes('Windows');
+  const startCmd = isWin ? 'py -3 render_server.py' : 'python3 render_server.py';
+  const installCmd = 'pip install manim';
+  const hint = isWin
+    ? '在项目文件夹中运行（或双击 start.bat）'
+    : '在项目文件夹中运行（或双击 start.command）';
+
+  cmdStart.textContent = startCmd;
+  if (cmdInstall) cmdInstall.textContent = installCmd;
+  qsHint.textContent = hint;
+
+  qsCopyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(startCmd).then(() => {
+      qsCopyBtn.textContent = '✅';
+      setTimeout(() => (qsCopyBtn.textContent = '📋'), 2000);
     });
   });
-});
+})();
