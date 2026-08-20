@@ -32,6 +32,12 @@ class RenderHandler(BaseHTTPRequestHandler):
         self.end_headers()
 
     # ── 渲染入口 ─────────────────────────────────
+    def do_GET(self):
+        """健康检查"""
+        path = urlparse(self.path).path
+        if path == '/health':
+            self._json(200, {'status': 'ok'})
+
     def do_POST(self):
         path = urlparse(self.path).path
         if path != '/render':

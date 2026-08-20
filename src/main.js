@@ -1700,14 +1700,15 @@ const renderBadge = document.getElementById('renderBadge');
 // 检测服务器状态（仅作显示，不禁用按钮）
 async function checkRenderServer() {
   try {
-    const res = await fetch(RENDER_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code: '', scene: 'MyScene', quality: 'l' }),
+    const res = await fetch('http://127.0.0.1:3081/health', {
       signal: AbortSignal.timeout(2000),
     });
-    renderBadge.textContent = '● 在线';
-    renderBadge.className = 'render-badge online';
+    if (res.ok) {
+      renderBadge.textContent = '● 在线';
+      renderBadge.className = 'render-badge online';
+    } else {
+      throw new Error('not ok');
+    }
   } catch {
     renderBadge.textContent = '● 离线';
     renderBadge.className = 'render-badge offline';
