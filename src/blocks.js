@@ -636,7 +636,7 @@ export const blockDefs = [
   },
   {
     type: 'object_circular_arrangement',
-    message0: '环形排列 %1 围绕 %2 数量 %3 间距半径 %4 圆半径 %5 颜色 %6 → %7',
+    message0: '环形排列 %6 围绕 %1 数量 %2 间距半径 %3 圆半径 %4 颜色 %5',
     args0: [
       { type: 'field_variable', name: 'CENTER', variable: 'center' },
       { type: 'field_number', name: 'COUNT', value: 6, min: 3, max: 24, precision: 1 },
