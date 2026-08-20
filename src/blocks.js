@@ -1434,6 +1434,25 @@ export const blockDefs = [
     colour: 330, tooltip: '两个物体同时移动（对应合集「多动画齐步走」方法一）',
   },
   {
+    type: 'animate_change_speed',
+    message0: '变速沿路径移动 %1 沿 %2  速度曲线 %3  时长 %4 秒',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'obj' },
+      { type: 'field_variable', name: 'PATH', variable: 'path' },
+      { type: 'field_dropdown', name: 'SPEEDINFO',
+        options: [
+          ['重力加速（越来越快）', '{0: 0.1, 0.3: 0.5, 1: 2.0}'],
+          ['先快后慢', '{0: 2.0, 0.5: 1.0, 1: 0.2}'],
+          ['匀速突然变慢（强调终点）', '{0: 1.0, 0.8: 1.0, 1: 0.1}'],
+          ['先慢后快再慢（小车）', '{0: 0.3, 0.7: 1.8, 1: 0.2}'],
+        ],
+      },
+      { type: 'field_number', name: 'DURATION', value: 3, min: 0.5, max: 30, precision: 0.5 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '沿路径移动并用 ChangeSpeed 变速（对应合集：掌握ChangeSpeed类）',
+  },
+  {
     type: 'animate_fade_to_color',
     message0: '淡变颜色 %1 → %2',
     args0: [

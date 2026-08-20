@@ -694,6 +694,17 @@ codeGens.animate_together = (b, n) =>
   indent(n + 1) + `${_v(b, 'B')}.animate.shift(${_v(b, 'DX2')} * RIGHT + ${_v(b, 'DY2')} * UP),\n` +
   indent(n) + `)`;
 
+// 变速沿路径移动（合集：掌握ChangeSpeed类）
+codeGens.animate_change_speed = (b, n) =>
+  indent(n) +
+  `self.play(\n` +
+  indent(n + 1) + `ChangeSpeed(\n` +
+  indent(n + 2) + `MoveAlongPath(${_v(b, 'VAR')}, ${_v(b, 'PATH')}),\n` +
+  indent(n + 2) + `speedinfo=${b.getFieldValue('SPEEDINFO')},\n` +
+  indent(n + 1) + `),\n` +
+  indent(n + 1) + `run_time=${_v(b, 'DURATION')},\n` +
+  indent(n) + `)`;
+
 // ── 更多动画 ──────────────────────────────────────────
 
 codeGens.animate_fade_to_color = (b, n) =>

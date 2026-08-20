@@ -949,6 +949,28 @@ const EXAMPLES = [
 </next></block>
 </xml>`,
   },
+  {
+    name: '第 15 课 · 变速动画',
+    emoji: '🎢',
+    desc: '小球自由落体越来越快（ChangeSpeed 变速，对应合集：掌握ChangeSpeed类）',
+    level: 'advanced',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_dot" x="30" y="30">
+<field name="VAR">ball</field><field name="X">0</field><field name="Y">3</field><next>
+<block type="property_color">
+<field name="VAR">ball</field><field name="COLOR">YELLOW</field><next>
+<block type="object_line" x="30" y="100">
+<field name="VAR">path</field><field name="X1">0</field><field name="Y1">3</field><field name="X2">0</field><field name="Y2">-3</field><next>
+<block type="animate_change_speed">
+<field name="VAR">ball</field><field name="PATH">path</field><field name="SPEEDINFO">{0: 0.1, 0.3: 0.5, 1: 2.0}</field><field name="DURATION">3</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
 ];
 
 /** 加载示例到工作区 */
