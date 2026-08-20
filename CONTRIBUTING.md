@@ -65,7 +65,7 @@ src/
 1. **`src/blocks.js`** — 定义积木：类型名、显示文字、参数、颜色
 2. **`src/toolbox.js`** — 把积木加入对应分类
 3. **`src/generator.js`** — 写代码生成函数（积木 → Python 代码）
-4. **`src/main.js`** — （可选）在「导入 .py 反解」的 `matchLine()` 里加反向匹配规则，让生成的代码能反解回积木
+4. **`src/main.js`** — 在「导入 .py 反解」的 `matchLine()` 里加反向匹配规则，让生成的代码能反解回积木；也可在 `EXAMPLES` 数组里加新课程
 
 > 新增积木后，建议在 `main.js` 的 `matchLine()` 里补一条对应的正则反向规则，这样「📤 导入 .py」也能识别它。参考已有的匹配模式。
 
