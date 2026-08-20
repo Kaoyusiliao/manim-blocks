@@ -258,6 +258,7 @@ export const toolboxJson = {
         { kind: 'block', type: 'object_graph' },
         { kind: 'block', type: 'object_implicit_graph' },
         { kind: 'block', type: 'object_parametric_curve' },
+        { kind: 'block', type: 'object_parametric_curve_uniform' },
         { kind: 'block', type: 'object_number_plane' },
         { kind: 'block', type: 'object_number_line' },
         { kind: 'block', type: 'object_polar_plane' },

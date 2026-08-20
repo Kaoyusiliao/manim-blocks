@@ -421,6 +421,28 @@ codeGens.object_parametric_curve = (b, n) =>
   `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot_parametric_curve(${_v(b, 'FUNC')}, ` +
   `t_range=[${_v(b, 'T0')}, ${_v(b, 'T1')}], color=YELLOW)`;
 
+// 参数曲线·匀速绘制：纯 numpy 等弧长参数化（无需 sympy/scipy）
+codeGens.object_parametric_curve_uniform = (b, n) => {
+  const fn = _v(b, 'FUNC');
+  const t0 = _v(b, 'T0');
+  const t1 = _v(b, 'T1');
+  const N = _v(b, 'N');
+  const varName = _v(b, 'VAR');
+  const axes = _v(b, 'AXES');
+  const lines = [
+    indent(n) + `# 等弧长参数化：让 Create 绘制速度均匀`,
+    indent(n) + `${varName}_fn = ${fn}`,
+    indent(n) + `_t_dense = np.linspace(${t0}, ${t1}, 2000)`,
+    indent(n) + `_pts_dense = np.array([${varName}_fn(tt) for tt in _t_dense])`,
+    indent(n) + `_seg = np.linalg.norm(np.diff(_pts_dense, axis=0), axis=1)`,
+    indent(n) + `_arc = np.concatenate([[0], np.cumsum(_seg)])`,
+    indent(n) + `_t_uniform = np.interp(np.linspace(0, _arc[-1], ${N}), _arc, _t_dense)`,
+    indent(n) + `${varName} = VMobject(color=PINK, stroke_width=3)`,
+    indent(n) + `${varName}.set_points_as_corners([${axes}.c2p(*${varName}_fn(t)) for t in _t_uniform])`,
+  ];
+  return lines.join('\n');
+};
+
 // ── 3D 物体 ──────────────────────────────────────────
 
 function maybeMoveTo3D(block, n) {
@@ -1295,7 +1317,14 @@ function autoFixVariables(body) {
 
   if (toAdd.length > 0) {
     const adds = toAdd.map(v => P + `self.add(${v})`).join('\n');
-    body = body + '\n' + adds;
+    // 插到第一个动画之前，保证物体在动画前就已就位（显示顺序正确）
+    const playIdx = body.indexOf('self.play(');
+    if (playIdx > -1) {
+      const insertAt = body.lastIndexOf('\n', playIdx) + 1;
+      body = body.slice(0, insertAt) + adds + '\n' + body.slice(insertAt);
+    } else {
+      body = body + '\n' + adds;
+    }
   }
 
   // ── 5. 还原被保护的字符串字面量 ──

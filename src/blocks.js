@@ -714,6 +714,20 @@ export const blockDefs = [
     previousStatement: null, nextStatement: null,
     colour: 230, tooltip: '绘制参数曲线，t 是参数',
   },
+  {
+    type: 'object_parametric_curve_uniform',
+    message0: '参数曲线·匀速绘制 %1  坐标轴 %2  参数方程 %3  t 范围(%4,%5)  点数 %6',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'curve' },
+      { type: 'field_variable', name: 'AXES', variable: 'axes' },
+      { type: 'field_input', name: 'FUNC', text: 'lambda t: (np.cos(5*t) * np.cos(t), np.cos(5*t) * np.sin(t))' },
+      { type: 'field_number', name: 'T0', value: 0, min: -100, max: 100, precision: 0.5 },
+      { type: 'field_number', name: 'T1', value: 3.14, min: -100, max: 100, precision: 0.5 },
+      { type: 'field_number', name: 'N', value: 500, min: 50, max: 5000, precision: 50 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '绘制参数曲线且保证匀速（等弧长参数化）— 用 Create 动画时笔画速度均匀',
+  },
 
   // ── 3D 物体 ────────────────────────────────────────
   {
