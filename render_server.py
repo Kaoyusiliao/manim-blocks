@@ -22,6 +22,12 @@ from urllib.parse import urlparse
 PORT = 3081
 
 
+class ReusableHTTPServer(HTTPServer):
+    """允许端口复用的 HTTP 服务器（解决 Address already in use）"""
+    allow_reuse_address = True
+    daemon_threads = True
+
+
 class RenderHandler(BaseHTTPRequestHandler):
     """接收代码 → 跑 manim → 返回 MP4"""
 
@@ -140,11 +146,6 @@ class RenderHandler(BaseHTTPRequestHandler):
 if __name__ == '__main__':
     # 释放旧端口（如果之前的进程没退干净）
     try:
-        # 尝试 kill 占端口的旧进程（macOS / Linux）
-        subprocess.run(
-            ['lsof', '-ti', f':{PORT}'],
-            capture_output=True, text=True, timeout=5
-        )
         old_pids = subprocess.run(
             ['lsof', '-ti', f':{PORT}'],
             capture_output=True, text=True, timeout=5
@@ -154,7 +155,7 @@ if __name__ == '__main__':
                 subprocess.run(['kill', pid], capture_output=True, timeout=3)
                 print(f'  🧹 释放端口 {PORT}（已终止旧进程 {pid}）')
     except Exception:
-        pass  # 无旧进程或 lsof 不可用
+        pass
 
     print(f'🎬  Manim 渲染服务器')
     print(f'    地址: http://127.0.0.1:{PORT}')
@@ -163,7 +164,5 @@ if __name__ == '__main__':
     print()
     print(f'    启动 Web GUI 后，点击「▶ 运行」即可一键渲染')
 
-    server = HTTPServer(('127.0.0.1', PORT), RenderHandler)
-    # 允许端口复用
-    server.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server = ReusableHTTPServer(('127.0.0.1', PORT), RenderHandler)
     server.serve_forever()
