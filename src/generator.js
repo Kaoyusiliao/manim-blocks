@@ -1429,6 +1429,7 @@ function autoFixVariables(body) {
   const created = new Map(); // 变量名 -> 类名/方法名
   // 第一遍：匹配 var = ClassName( 模式（大写开头的类名）
   const classRe = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = ([A-Z][A-Za-z0-9_]*)\(/gm;
+  let m;
   while ((m = classRe.exec(body)) !== null) {
     created.set(m[1], m[2]);
   }
