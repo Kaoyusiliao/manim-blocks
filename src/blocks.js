@@ -2161,7 +2161,7 @@ export const blockDefs = [
   {
     type: 'custom_function',
     message0: '自定义函数 %1',
-    args0: [{ type: 'field_input', name: 'FUNC', text: 'def f(x):\n    return x**3' }],
+    args0: [{ type: 'field_input', name: 'FUNC', text: 'def f(x):\n return x**3' }],
     previousStatement: null, nextStatement: null,
     colour: 20, tooltip: '定义自己的 Python 函数（多行用换行分隔）',
   },
