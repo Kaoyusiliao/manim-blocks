@@ -1487,17 +1487,9 @@ function autoFixVariables(body) {
     used.add(w);
   }
 
-  // ── 3. 修正未定义的引用：用第一个创建的物体替代 ──
-  const firstCreated = [...created.keys()][0];
-  for (const u of used) {
-    if (!created.has(u)) {
-      // 跳过函数调用（symbols("x")、diff(...)、lambdify(...) 等），避免把函数名替换成变量名
-      const callRe = new RegExp(`\\b${u}\\s*\\(`);
-      if (callRe.test(body)) continue;
-      const re = new RegExp(`\\b${u}\\b`, 'g');
-      body = body.replace(re, firstCreated);
-    }
-  }
+  // ── 3. 修正未定义的引用 ──
+  // 已禁用：此逻辑过于激进，对 SymPy/数学函数误伤率太高
+  // （如 symbols、diff、lambdify 等函数名会被替换成第一个创建的变量名）
 
   // ── 4. 找出「创建了但从未显示」的物体，自动补 self.add() ──
   const displayed = new Set();
