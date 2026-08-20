@@ -7,6 +7,14 @@ export const toolboxJson = {
   kind: 'categoryToolbox',
   contents: [
 
+    // ── 🎛 自制积木 ──────────────────────────────────
+    {
+      kind: 'category',
+      name: '🎛 自制积木',
+      colour: '210',
+      custom: 'PROCEDURE',
+    },
+
     // ── 🎩 事件 ──────────────────────────────────────
     {
       kind: 'category',

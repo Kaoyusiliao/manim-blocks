@@ -12,6 +12,7 @@
 import * as Blockly from 'blockly';
 import * as ZhHans from 'blockly/msg/zh-hans';
 Blockly.setLocale(ZhHans);
+import { procedures as procBlocks } from 'blockly/blocks';
 import { blockDefs } from './blocks.js';
 import { toolboxJson } from './toolbox.js';
 import { generateCode } from './generator.js';
@@ -23,6 +24,8 @@ hljs.registerLanguage('python', python);
 // ── 注册积木 ──────────────────────────────────────────
 
 Blockly.common.defineBlocksWithJsonArray(blockDefs);
+// 注册内置「自制积木」过程块（procedures_defnoreturn 等）
+Blockly.common.defineBlocks(procBlocks.blocks);
 
 // ── 注入工作区 ─────────────────────────────────────────
 

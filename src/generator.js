@@ -66,6 +66,17 @@ function valueBlock(block) {
     return `"${block.getFieldValue('TEXT')}"`;
   }
 
+  // procedures_callreturn — 有返回值的自制积木调用
+  if (block.type === 'procedures_callreturn') {
+    const name = procName(block);
+    const args = [];
+    for (let i = 0; i < block.getVars().length; i++) {
+      const target = block.getInputTargetBlock(`arg${i}`);
+      args.push(target ? valueBlock(target) : '0');
+    }
+    return `self.${name}(${args.join(', ')})`;
+  }
+
   const vg = valueGens[block.type];
   if (vg) return vg(block);
 
@@ -893,6 +904,90 @@ codeGens.list_for_each = (b, n) => {
 
 codeGens.event_start = (b, n) => indent(n) + '# 场景开始';
 
+// ── 🎛 自制积木（Scratch 过程块）─────────────────────
+// 定义块生成 class 内的方法（不在 construct 里），由 generateCode 收集后放到类层级。
+// 收集器：procedureDefLines（class 内、construct 外的方法定义）
+
+const procedureDefLines = [];
+
+/** 获取过程名（处理 Blockly 内置字段） */
+function procName(block) {
+  const field = block.getField('NAME');
+  return field ? field.getValue() : 'unnamed';
+}
+
+/** 生成无返回值过程定义 */
+function procDefNoReturn(block, n) {
+  const name = procName(block);
+  const params = block.getVars(); // 参数名数组
+  const inner = block.getInputTargetBlock('STACK');
+  const body = inner ? blockChainToCode(inner, n + 1) : indent(n + 1) + 'pass';
+  const paramStr = params.length > 0 ? params.join(', ') : '';
+  const lines = [];
+  lines.push(indent(n) + `def ${name}(self${paramStr ? ', ' + paramStr : ''}):`);
+  lines.push(body);
+  return lines.join('\n');
+}
+
+/** 生成有返回值过程定义 */
+function procDefReturn(block, n) {
+  const name = procName(block);
+  const params = block.getVars();
+  const inner = block.getInputTargetBlock('STACK');
+  const retBlock = block.getInputTargetBlock('RETURN');
+  let body = inner ? blockChainToCode(inner, n + 1) : indent(n + 1) + 'pass';
+  if (retBlock) {
+    body += '\n' + indent(n + 1) + 'return ' + valueBlock(retBlock);
+  }
+  const paramStr = params.length > 0 ? params.join(', ') : '';
+  const lines = [];
+  lines.push(indent(n) + `def ${name}(self${paramStr ? ', ' + paramStr : ''}):`);
+  lines.push(body);
+  return lines.join('\n');
+}
+
+codeGens.procedures_defnoreturn = (b, n) => {
+  procedureDefLines.push(procDefNoReturn(b, 1));
+  return null; // 不在 construct 里输出
+};
+
+codeGens.procedures_defreturn = (b, n) => {
+  procedureDefLines.push(procDefReturn(b, 1));
+  return null;
+};
+
+/** 无返回值调用：self.名称(参数...) */
+codeGens.procedures_callnoreturn = (b, n) => {
+  const name = procName(b);
+  const args = [];
+  for (let i = 0; i < b.getVars().length; i++) {
+    const target = b.getInputTargetBlock(`arg${i}`);
+    args.push(target ? valueBlock(target) : '0');
+  }
+  const argStr = args.length > 0 ? args.join(', ') : '';
+  return indent(n) + `self.${name}(${argStr})`;
+};
+
+/** 有返回值调用：作为值块 */
+codeGens.procedures_callreturn = (b, n) => {
+  const name = procName(b);
+  const args = [];
+  for (let i = 0; i < b.getVars().length; i++) {
+    const target = b.getInputTargetBlock(`arg${i}`);
+    args.push(target ? valueBlock(target) : '0');
+  }
+  const argStr = args.length > 0 ? args.join(', ') : '';
+  return indent(n) + `self.${name}(${argStr})`;
+};
+
+// procedures_ifreturn 只在 defreturn 内出现，随 body 一起生成
+codeGens.procedures_ifreturn = (b, n) => {
+  const cond = valueBlock(b.getInputTargetBlock('CONDITION'));
+  const ret = b.getInputTargetBlock('VALUE');
+  const retStr = ret ? valueBlock(ret) : 'None';
+  return `${indent(n)}if ${cond}:\n${indent(n + 1)}return ${retStr}`;
+};
+
 // ── 🛠 通用积木 ───────────────────────────────────────
 
 codeGens.custom_code = (b, n) => {
@@ -976,7 +1071,16 @@ export function generateCode(workspace) {
   // 规则：程序 = 通过 next 连接在一起的积木链。
   // 孤立的积木（没有和任何积木连接）视为「移开的草稿」，不写入程序。
   // 这与 Scratch 一致：只有拼在脚本里的积木才执行。
+  // 例外：自制积木「定义块」即使独立放置也要收集（变成 class 方法）。
   let body;
+
+  // 先收集「自制积木定义块」— 只收集孤立的（链内的由 blockChainToCode 收集，避免重复）
+  for (const b of topBlocks) {
+    if (!b.getNextBlock() && !b.getPreviousBlock()) {
+      if (b.type === 'procedures_defnoreturn') procedureDefLines.push(procDefNoReturn(b, 1));
+      else if (b.type === 'procedures_defreturn') procedureDefLines.push(procDefReturn(b, 1));
+    }
+  }
 
   if (chainHeads.length > 0) {
     // 有咬合的链 → 只生成这些链
@@ -1051,12 +1155,20 @@ export function generateCode(workspace) {
   else if (needsZoomed) sceneClass = 'ZoomedScene';
   else if (needsVectorScene) sceneClass = 'VectorScene';
 
+  // 自制积木定义（class 内、construct 外的方法）
+  let methodsBlock = '';
+  if (procedureDefLines.length > 0) {
+    methodsBlock = '\n' + procedureDefLines.join('\n\n');
+    procedureDefLines.length = 0; // 清空，防止多次生成重复
+  }
+
   return `${imports.join('\n')}
 
 class MyScene(${sceneClass}):
     def construct(self):
 ${body}
 ${extraWait}
+${methodsBlock}
 `;
 }
 
