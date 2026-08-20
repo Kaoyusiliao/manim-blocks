@@ -1697,7 +1697,7 @@ const videoPlayer = document.getElementById('videoPlayer');
 const videoStatus = document.getElementById('videoStatus');
 const renderBadge = document.getElementById('renderBadge');
 
-// 检测渲染服务器是否在线
+// 检测服务器状态（仅作显示，不禁用按钮）
 async function checkRenderServer() {
   try {
     const res = await fetch(RENDER_URL, {
@@ -1708,19 +1708,16 @@ async function checkRenderServer() {
     });
     renderBadge.textContent = '● 在线';
     renderBadge.className = 'render-badge online';
-    runBtn.disabled = false;
-    videoContainer.classList.add('hidden');
   } catch {
     renderBadge.textContent = '● 离线';
     renderBadge.className = 'render-badge offline';
-    runBtn.disabled = true;
   }
 }
 
 checkRenderServer();
 setInterval(checkRenderServer, 10000);
 
-// 运行按钮
+// 运行按钮（始终可点，失败时显示错误）
 runBtn.addEventListener('click', async () => {
   const code = generateCode(workspace);
   if (!code.trim() || code.includes('pass  # ⚠️')) {
@@ -1760,7 +1757,12 @@ runBtn.addEventListener('click', async () => {
     videoStatus.textContent = '✅ 渲染完成！点击 ▶ 播放';
     videoStatus.className = 'success';
   } catch (e) {
-    videoStatus.textContent = '❌ ' + e.message;
+    const msg = e.message;
+    if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('ERR_CONNECTION_REFUSED')) {
+      videoStatus.textContent = '❌ 渲染服务器未启动，请先启动渲染服务器';
+    } else {
+      videoStatus.textContent = '❌ ' + msg;
+    }
     videoStatus.className = 'error';
   } finally {
     runBtn.disabled = false;
