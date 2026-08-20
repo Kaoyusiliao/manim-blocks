@@ -1424,14 +1424,19 @@ function autoFixVariables(body) {
   });
 
   // ── 1. 找出所有「创建物体」语句及其变量名 ──
-  // 匹配形如:  var = Circle() / var = Sphere(radius=1) / var = VGroup(...) / var = obj.method(...)
+  // 匹配形如:  var = Circle() / var = Sphere(radius=1) / var = VGroup(...)
   // 注意：代码行有 8 空格缩进，用 ^\s* 匹配
-  // 排除 function_name(...) 函数调用（如 symbols()、diff()、lambdify() 等）
   const created = new Map(); // 变量名 -> 类名/方法名
-  const createRe = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = (?:[A-Z][A-Za-z0-9_]*|[a-zA-Z_][a-zA-Z0-9_]*\.[a-zA-Z_][a-zA-Z0-9_]*)\s*\(/gm;
-  let m;
-  while ((m = createRe.exec(body)) !== null) {
+  // 第一遍：匹配 var = ClassName( 模式（大写开头的类名）
+  const classRe = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = ([A-Z][A-Za-z0-9_]*)\(/gm;
+  while ((m = classRe.exec(body)) !== null) {
     created.set(m[1], m[2]);
+  }
+  // 第二遍：匹配 var = 已有变量.method( 模式（如 graph = ax.plot(...)）
+  // 仅在 obj 已在 created 中时才匹配，避免误抓 SymPy 方法调用（如 df.subs(...)）
+  const methodRe = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = ([a-zA-Z_][a-zA-Z0-9_]*)\.([a-zA-Z_][a-zA-Z0-9_]*)\(/gm;
+  while ((m = methodRe.exec(body)) !== null) {
+    if (created.has(m[2])) created.set(m[1], m[2] + '.' + m[3]);
   }
   if (created.size === 0) return body;
 
