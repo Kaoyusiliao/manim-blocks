@@ -1424,10 +1424,11 @@ function autoFixVariables(body) {
   });
 
   // ── 1. 找出所有「创建物体」语句及其变量名 ──
-  // 匹配形如:  var = Circle() / var = Sphere(radius=1) / var = VGroup(...)
+  // 匹配形如:  var = Circle() / var = Sphere(radius=1) / var = VGroup(...) / var = obj.method(...)
   // 注意：代码行有 8 空格缩进，用 ^\s* 匹配
-  const created = new Map(); // 变量名 -> 类名
-  const createRe = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = ([A-Z][A-Za-z0-9_]*)\(/gm;
+  // 排除 function_name(...) 函数调用（如 symbols()、diff()、lambdify() 等）
+  const created = new Map(); // 变量名 -> 类名/方法名
+  const createRe = /^\s*([a-zA-Z_][a-zA-Z0-9_]*) = (?:[A-Z][A-Za-z0-9_]*|[a-zA-Z_][a-zA-Z0-9_]*\.[a-zA-Z_][a-zA-Z0-9_]*)\s*\(/gm;
   let m;
   while ((m = createRe.exec(body)) !== null) {
     created.set(m[1], m[2]);
@@ -1484,6 +1485,9 @@ function autoFixVariables(body) {
   const firstCreated = [...created.keys()][0];
   for (const u of used) {
     if (!created.has(u)) {
+      // 跳过函数调用（symbols("x")、diff(...)、lambdify(...) 等），避免把函数名替换成变量名
+      const callRe = new RegExp(`\\b${u}\\s*\\(`);
+      if (callRe.test(body)) continue;
       const re = new RegExp(`\\b${u}\\b`, 'g');
       body = body.replace(re, firstCreated);
     }
