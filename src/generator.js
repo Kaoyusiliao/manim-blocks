@@ -1319,9 +1319,9 @@ export function generateCode(workspace) {
   // 3. 依赖顺序错误（先画图后建坐标轴）→ 自动重排
   // 4. 坐标类对象误用 set_fill/set_stroke → 改为 set_color
   if (body.trim() && !body.includes('pass  #')) {
-    body = autoFixVariables(body);
-    body = reorderDependencies(body);
-    body = fixCoordinateFill(body);
+    try { body = autoFixVariables(body); } catch (e) { console.error('autoFixVariables 失败:', e); }
+    try { body = reorderDependencies(body); } catch (e) { console.error('reorderDependencies 失败:', e); }
+    try { body = fixCoordinateFill(body); } catch (e) { console.error('fixCoordinateFill 失败:', e); }
   }
 
   // 用了 np.xxx 但没导入 numpy → 自动补 import
