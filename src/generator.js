@@ -537,7 +537,9 @@ codeGens.object_axes = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = Axes(x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], ` +
   `y_range=[${_v(b, 'YMIN')}, ${_v(b, 'YMAX')}], ` +
-  `x_length=6, y_length=4, axis_config={"include_numbers": True})`;
+  // y_length 按 x/y 范围比例计算，保持纵横比一致（圆不变形）
+  `x_length=6, y_length=6 * (${_v(b, 'YMAX')} - ${_v(b, 'YMIN')}) / (${_v(b, 'XMAX')} - ${_v(b, 'XMIN')}), ` +
+  `axis_config={"include_numbers": True})`;
 codeGens.object_graph = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot(lambda x: ${_v(b, 'FUNC')}, color=YELLOW)`;
@@ -589,7 +591,7 @@ codeGens.property_next_to  = (b, n) =>
 // ── 🟠 动画 ──────────────────────────────────────────
 
 codeGens.animate_create = (b, n) =>
-  indent(n) + `self.play(Create(${_v(b, 'VAR')}))`;
+  indent(n) + `self.play(Create(${_v(b, 'VAR')}), run_time=2)`;
 codeGens.animate_fade_in = (b, n) =>
   indent(n) + `self.play(FadeIn(${_v(b, 'VAR')}))`;
 codeGens.animate_fade_out = (b, n) =>

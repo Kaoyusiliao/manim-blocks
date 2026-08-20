@@ -850,9 +850,9 @@ const EXAMPLES = [
     desc: '五瓣玫瑰线匀速画出（等弧长参数化，对应：参数曲线/弧长文章）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_axes" x="30" y="30">
-<field name="VAR">axes</field><field name="XMIN">-3</field><field name="XMAX">3</field><field name="YMIN">-3</field><field name="YMAX">3</field><next>
+<field name="VAR">axes</field><field name="XMIN">-2.5</field><field name="XMAX">2.5</field><field name="YMIN">-2.5</field><field name="YMAX">2.5</field><next>
 <block type="object_parametric_curve_uniform">
-<field name="VAR">curve</field><field name="AXES">axes</field><field name="FUNC">lambda t: (np.cos(5*t)*np.cos(t), np.cos(5*t)*np.sin(t))</field><field name="T0">0</field><field name="T1">3.14</field><field name="N">500</field><next>
+<field name="VAR">curve</field><field name="AXES">axes</field><field name="FUNC">lambda t: (2*np.cos(5*t)*np.cos(t), 2*np.cos(5*t)*np.sin(t))</field><field name="T0">0</field><field name="T1">3.14</field><field name="N">800</field><next>
 <block type="animate_create">
 <field name="VAR">curve</field><next>
 <block type="scene_wait">
