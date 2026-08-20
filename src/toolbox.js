@@ -263,6 +263,8 @@ export const toolboxJson = {
       contents: [
         { kind: 'block', type: 'object_axes' },
         { kind: 'block', type: 'object_graph' },
+        { kind: 'block', type: 'object_graph_func' },
+        { kind: 'block', type: 'object_dot_axes' },
         { kind: 'block', type: 'object_implicit_graph' },
         { kind: 'block', type: 'object_parametric_curve' },
         { kind: 'block', type: 'object_parametric_curve_uniform' },
@@ -380,6 +382,30 @@ export const toolboxJson = {
             { kind: 'block', type: 'list_for_each' },
           ],
         },
+      ],
+    },
+
+    // ── 🔶 SymPy 符号计算 ──────────────────────────────
+    {
+      kind: 'category',
+      name: '🔶 SymPy',
+      colour: '50', // yellow
+      contents: [
+        { kind: 'block', type: 'sympy_import' },
+        { kind: 'block', type: 'sympy_expr' },
+        { kind: 'block', type: 'sympy_solve' },
+        { kind: 'block', type: 'sympy_nsolve' },
+        { kind: 'block', type: 'sympy_diff' },
+        { kind: 'block', type: 'sympy_integrate' },
+        { kind: 'block', type: 'sympy_evalf' },
+        { kind: 'block', type: 'sympy_subs' },
+        { kind: 'block', type: 'sympy_lambdify' },
+        { kind: 'block', type: 'sympy_latex' },
+        { kind: 'block', type: 'sympy_factor' },
+        { kind: 'block', type: 'sympy_expand' },
+        { kind: 'block', type: 'sympy_limit' },
+        { kind: 'block', type: 'sympy_series' },
+        { kind: 'block', type: 'sympy_dsolve' },
       ],
     },
 

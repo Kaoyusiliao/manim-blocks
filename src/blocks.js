@@ -1027,6 +1027,35 @@ export const blockDefs = [
     colour: 230, tooltip: '在坐标轴上绘制函数图像，如 x**2（x 的平方）',
   },
   {
+    type: 'object_graph_func',
+    message0: '在坐标轴 %1 上画函数 %2  颜色 %3 → %4',
+    args0: [
+      { type: 'field_variable', name: 'AXES', variable: 'axes' },
+      { type: 'field_variable', name: 'FUNC', variable: 'f' },
+      { type: 'field_dropdown', name: 'COLOR',
+        options: [['黄色','YELLOW'],['红色','RED'],['蓝色','BLUE'],['绿色','GREEN'],['橙色','ORANGE'],['紫色','PURPLE'],['粉色','PINK'],['白色','WHITE']],
+      },
+      { type: 'field_variable', name: 'VAR', variable: 'graph' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '用 Python 函数变量（如 lambdify 生成的）在坐标轴上画图',
+  },
+  {
+    type: 'object_dot_axes',
+    message0: '在坐标轴 %1 上点 (%2, %3)  颜色 %4 → %5',
+    args0: [
+      { type: 'field_variable', name: 'AXES', variable: 'axes' },
+      { type: 'field_input', name: 'X', text: '0' },
+      { type: 'field_input', name: 'Y', text: '0' },
+      { type: 'field_dropdown', name: 'COLOR',
+        options: [['黄色','YELLOW'],['红色','RED'],['蓝色','BLUE'],['绿色','GREEN'],['橙色','ORANGE'],['紫色','PURPLE'],['粉色','PINK'],['白色','WHITE']],
+      },
+      { type: 'field_variable', name: 'VAR', variable: 'dot' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '在坐标轴上的指定位置创建点',
+  },
+  {
     type: 'object_function_graph',
     message0: '创建函数曲线 %1  函数 %2  x(%3,%4)',
     args0: [
@@ -2375,4 +2404,174 @@ export const blockDefs = [
     colour: 50, tooltip: '布尔值（真/假）',
   },
 
+  // ════════════════════════════════════════════════════
+  // 🔶 SymPy 符号计算积木
+  // ════════════════════════════════════════════════════
+
+  {
+    type: 'sympy_import',
+    message0: 'SymPy 导入 %1  符号 %2',
+    args0: [
+      { type: 'field_input', name: 'MODULES', text: 'from sympy import *' },
+      { type: 'field_input', name: 'SYMBOLS', text: 'x, y, t' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '导入 SymPy 并定义符号变量（必须放在最前面）',
+  },
+  {
+    type: 'sympy_expr',
+    message0: 'SymPy 表达式 %1 = %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'expr' },
+      { type: 'field_input', name: 'EXPR', text: 'x**2 - 4*x + 3' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '定义 SymPy 符号表达式',
+  },
+  {
+    type: 'sympy_solve',
+    message0: 'SymPy 解方程 %1 = 0  求 %2 → %3',
+    args0: [
+      { type: 'field_input', name: 'EXPR', text: 'x**2 - 4*x + 3' },
+      { type: 'field_input', name: 'VARS', text: 'x' },
+      { type: 'field_variable', name: 'VAR', variable: 'solutions' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '解方程 f(x)=0，返回解列表',
+  },
+  {
+    type: 'sympy_nsolve',
+    message0: 'SymPy 数值解 %1 = 0  初始值 %2 → %3',
+    args0: [
+      { type: 'field_input', name: 'EXPR', text: 'sin(x) - x/2' },
+      { type: 'field_number', name: 'GUESS', value: 1.8, min: -100, max: 100, precision: 0.1 },
+      { type: 'field_variable', name: 'VAR', variable: 'root' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '数值求解方程（需要初始猜测值）',
+  },
+  {
+    type: 'sympy_diff',
+    message0: 'SymPy 求导 %1 对 %2 → %3',
+    args0: [
+      { type: 'field_variable', name: 'EXPR', variable: 'expr' },
+      { type: 'field_input', name: 'VAR', text: 'x' },
+      { type: 'field_variable', name: 'RESULT', variable: 'derivative' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '对表达式求导',
+  },
+  {
+    type: 'sympy_integrate',
+    message0: 'SymPy 积分 %1 对 %2  从 %3 到 %4 → %5',
+    args0: [
+      { type: 'field_input', name: 'EXPR', text: 'x**2' },
+      { type: 'field_input', name: 'VAR', text: 'x' },
+      { type: 'field_input', name: 'LOWER', text: '0' },
+      { type: 'field_input', name: 'UPPER', text: '2' },
+      { type: 'field_variable', name: 'RESULT', variable: 'area' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '定积分计算',
+  },
+  {
+    type: 'sympy_evalf',
+    message0: 'SymPy 数值化 %1 → %2',
+    args0: [
+      { type: 'field_variable', name: 'EXPR', variable: 'expr' },
+      { type: 'field_variable', name: 'VAR', variable: 'value' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '将 SymPy 表达式转为浮点数',
+  },
+  {
+    type: 'sympy_subs',
+    message0: 'SymPy 代入 %1 中 %2 = %3 → %4',
+    args0: [
+      { type: 'field_variable', name: 'EXPR', variable: 'expr' },
+      { type: 'field_input', name: 'VAR', text: 'x' },
+      { type: 'field_input', name: 'VALUE', text: '1' },
+      { type: 'field_variable', name: 'RESULT', variable: 'result' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '将符号表达式中的变量替换为数值',
+  },
+  {
+    type: 'sympy_lambdify',
+    message0: 'SymPy 转数值函数 %1  变量 %2 → %3',
+    args0: [
+      { type: 'field_variable', name: 'EXPR', variable: 'expr' },
+      { type: 'field_input', name: 'VARS', text: 'x' },
+      { type: 'field_variable', name: 'VAR', variable: 'f' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '将 SymPy 表达式转为可调用的 numpy 函数',
+  },
+  {
+    type: 'sympy_latex',
+    message0: 'SymPy 转 LaTeX %1 → %2',
+    args0: [
+      { type: 'field_input', name: 'EXPR', text: 'x**2 + 5*x + 6' },
+      { type: 'field_variable', name: 'VAR', variable: 'latex_str' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '将表达式转为 LaTeX 字符串，用于 MathTex 显示',
+  },
+  {
+    type: 'sympy_factor',
+    message0: 'SymPy 因式分解 %1 → %2',
+    args0: [
+      { type: 'field_input', name: 'EXPR', text: 'x**2 + 5*x + 6' },
+      { type: 'field_variable', name: 'VAR', variable: 'factored' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '因式分解多项式',
+  },
+  {
+    type: 'sympy_expand',
+    message0: 'SymPy 展开 %1 → %2',
+    args0: [
+      { type: 'field_input', name: 'EXPR', text: '(x+2)*(x+3)' },
+      { type: 'field_variable', name: 'VAR', variable: 'expanded' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '展开多项式',
+  },
+  {
+    type: 'sympy_limit',
+    message0: 'SymPy 求极限 %1  变量 %2 → %3  值 %4 → %5',
+    args0: [
+      { type: 'field_input', name: 'EXPR', text: 'sin(x)/x' },
+      { type: 'field_input', name: 'VAR', text: 'x' },
+      { type: 'field_input', name: 'TO', text: '0' },
+      { type: 'field_variable', name: 'RESULT', variable: 'lim_val' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '计算极限值',
+  },
+  {
+    type: 'sympy_series',
+    message0: 'SymPy 泰勒展开 %1  变量 %2  在 %3  到 %4 阶 → %5',
+    args0: [
+      { type: 'field_input', name: 'EXPR', text: 'sin(x)' },
+      { type: 'field_input', name: 'VAR', text: 'x' },
+      { type: 'field_input', name: 'AT', text: '0' },
+      { type: 'field_number', name: 'ORDER', value: 4, min: 2, max: 20, precision: 1 },
+      { type: 'field_variable', name: 'RESULT', variable: 'taylor' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '泰勒级数展开到指定阶数',
+  },
+  {
+    type: 'sympy_dsolve',
+    message0: 'SymPy 解微分方程 %1  函数 %2  初始 %3 = %4 → %5',
+    args0: [
+      { type: 'field_input', name: 'ODE', text: 'm*diff(x(t),t,2) + k*x(t)' },
+      { type: 'field_input', name: 'FUNC', text: 'x(t)' },
+      { type: 'field_input', name: 'ICS', text: 'x(0)=1, x\'(0)=0' },
+      { type: 'field_variable', name: 'RESULT', variable: 'solution' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 50, tooltip: '求解常微分方程（含初始条件）',
+  },
 ];

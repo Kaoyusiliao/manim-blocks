@@ -559,6 +559,14 @@ codeGens.object_graph = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot(lambda x: ${_v(b, 'FUNC')}, color=YELLOW)`;
 
+codeGens.object_graph_func = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = ${_v(b, 'AXES')}.plot(${_v(b, 'FUNC')}, color=${b.getFieldValue('COLOR')})`;
+
+codeGens.object_dot_axes = (b, n) =>
+  indent(n) +
+  `${_v(b, 'VAR')} = Dot(${_v(b, 'AXES')}.c2p(${_v(b, 'X')}, ${_v(b, 'Y')}), color=${b.getFieldValue('COLOR')})`;
+
 codeGens.object_function_graph = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = FunctionGraph(${_v(b, 'FUNC')}, x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], color=YELLOW)`;
@@ -1138,6 +1146,90 @@ codeGens.custom_import = (b, n) => {
 codeGens.math_number   = (b, n) => indent(n) + `_ = ${_v(b, 'NUM')}`;
 codeGens.logic_boolean  = (b, n) => indent(n) + `_ = ${_v(b, 'BOOL') === 'True' ? 'True' : 'False'}`;
 
+// ── 🔶 SymPy 符号计算 ──────────────────────────────────
+
+// Shared state: tracks SymPy imports and symbol definitions
+// so multiple sympy blocks share one import + one symbols() call
+let sympyImported = false;
+let sympySymbols = new Set();
+
+codeGens.sympy_import = (b, n) => {
+  const modules = _v(b, 'MODULES');
+  const symbols = _v(b, 'SYMBOLS').split(',').map(s => s.trim()).filter(Boolean);
+  pendingImports.add(modules);
+  symbols.forEach(s => sympySymbols.add(s));
+  const symStr = [...sympySymbols].join(', ');
+  return indent(n) + `${symStr} = symbols("${symStr}")`;
+};
+
+codeGens.sympy_expr = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = ${_v(b, 'EXPR')}`;
+
+codeGens.sympy_solve = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = solve(${_v(b, 'EXPR')}, ${_v(b, 'VARS')})`;
+
+codeGens.sympy_nsolve = (b, n) => {
+  const expr = _v(b, 'EXPR');
+  const guess = _v(b, 'GUESS');
+  const varName = _v(b, 'VAR');
+  return `${indent(n)}${varName} = float(N(nsolve(Eq(${expr}, 0), ${guess})))`;
+};
+
+codeGens.sympy_diff = (b, n) =>
+  indent(n) + `${_v(b, 'RESULT')} = diff(${_v(b, 'EXPR')}, ${_v(b, 'VAR')})`;
+
+codeGens.sympy_integrate = (b, n) =>
+  indent(n) + `${_v(b, 'RESULT')} = integrate(${_v(b, 'EXPR')}, (${_v(b, 'VAR')}, ${_v(b, 'LOWER')}, ${_v(b, 'UPPER')}))`;
+
+codeGens.sympy_evalf = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = float(N(${_v(b, 'EXPR')}))`;
+
+codeGens.sympy_subs = (b, n) =>
+  indent(n) + `${_v(b, 'RESULT')} = ${_v(b, 'EXPR')}.subs(${_v(b, 'VAR')}, ${_v(b, 'VALUE')})`;
+
+codeGens.sympy_lambdify = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = lambdify(${_v(b, 'VARS')}, ${_v(b, 'EXPR')}, "numpy")`;
+
+codeGens.sympy_latex = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = latex(${_v(b, 'EXPR')})`;
+
+codeGens.sympy_factor = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = factor(${_v(b, 'EXPR')})`;
+
+codeGens.sympy_expand = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = expand(${_v(b, 'EXPR')})`;
+
+codeGens.sympy_limit = (b, n) => {
+  const expr = _v(b, 'EXPR');
+  const varName = _v(b, 'VAR');
+  const to = _v(b, 'TO');
+  const resultVar = _v(b, 'RESULT');
+  return `${indent(n)}${resultVar} = limit(${expr}, ${varName}, ${to})`;
+};
+
+codeGens.sympy_series = (b, n) => {
+  const expr = _v(b, 'EXPR');
+  const varName = _v(b, 'VAR');
+  const at = _v(b, 'AT');
+  const order = _v(b, 'ORDER');
+  const resultVar = _v(b, 'RESULT');
+  return `${indent(n)}${resultVar} = series(${expr}, ${varName}, ${at}, ${order}).removeO()`;
+};
+
+codeGens.sympy_dsolve = (b, n) => {
+  const ode = _v(b, 'ODE');
+  const func = _v(b, 'FUNC');
+  const ics = _v(b, 'ICS');
+  const resultVar = _v(b, 'RESULT');
+  // Parse initial conditions
+  const icLines = ics.split(',').map(s => s.trim()).filter(Boolean).map(ic => {
+    const parts = ic.split('=').map(x => x.trim());
+    if (parts.length === 2) return `${parts[0]}: ${parts[1]}`;
+    return ic;
+  }).join(', ');
+  return `${indent(n)}${resultVar} = dsolve(Eq(diff(${func}, t, 2) + ${ode}, 0), ${func}, ics={${icLines}})`;
+};
+
 // ── 主生成函数 ────────────────────────────────────────
 
 // 收集自定义 import（custom_import 积木产生）
@@ -1166,6 +1258,12 @@ export function generateCode(workspace) {
     if (types.has('op_random')) needsRandom = true;
     if (types.has('op_sin') || types.has('op_cos') || types.has('op_tan') || types.has('op_sqrt'))
       needsMath = true;
+    if (types.has('sympy_import') || types.has('sympy_expr') || types.has('sympy_solve') ||
+        types.has('sympy_nsolve') || types.has('sympy_diff') || types.has('sympy_integrate') ||
+        types.has('sympy_evalf') || types.has('sympy_subs') || types.has('sympy_lambdify') ||
+        types.has('sympy_latex') || types.has('sympy_factor') || types.has('sympy_expand') ||
+        types.has('sympy_limit') || types.has('sympy_series') || types.has('sympy_dsolve'))
+      pendingImports.add('from sympy import *');
     if (types.has('camera_zoom') || types.has('camera_move_to') ||
         types.has('camera_animate_zoom') || types.has('camera_restore'))
       needsMovingCamera = true;
