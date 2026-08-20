@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manim Blocks — 积木式数学动画创作</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
-  <script type="module" crossorigin src="./assets/index-BeKIzuyP.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Br3jVdk4.css">
+  <script type="module" crossorigin src="./assets/index-Bgc1MmmO.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-DE5ItFno.css">
 </head>
 <body>
   <div id="app">
@@ -78,56 +78,36 @@
           <pre id="codePreview"><code class="language-python"># 从左侧拖拽积木开始创作
 # 或点顶部「🧩 教程」一键加载现成作品</code></pre>
 
-          <!-- 一键渲染（默认展开） -->
-          <details class="render-section" id="renderSection" open>
+          <!-- 一键渲染（可折叠） -->
+          <details class="render-section" id="renderSection">
             <summary class="render-summary">
               <span class="render-summary-text">🎬 一键渲染</span>
               <span id="renderBadge" class="render-badge">检测中…</span>
             </summary>
             <div class="render-body">
-              <div class="render-quick-start" id="renderQuickStart">
-                <div class="qs-step">
-                  <div class="qs-num">1</div>
-                  <div class="qs-body">
-                    <div class="qs-title">安装 Python 和 Manim</div>
-                    <div class="qs-cmd-line">
-                      <code class="qs-cmd" id="cmdInstall">pip install manim</code>
-                      <button class="btn btn-tiny qs-copy" data-copy="pip install manim">📋</button>
-                    </div>
-                  </div>
-                </div>
-                <div class="qs-step">
-                  <div class="qs-num">2</div>
-                  <div class="qs-body">
-                    <div class="qs-title">下载项目</div>
-                    <div class="qs-desc">
-                      <a href="https://github.com/Kaoyusiliao/manim-blocks/archive/refs/heads/main.zip" target="_blank" class="qs-download-btn">📥 下载 ZIP</a>
-                      或 <a href="https://github.com/Kaoyusiliao/manim-blocks" target="_blank">克隆到本地</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="qs-step">
-                  <div class="qs-num">3</div>
-                  <div class="qs-body">
-                    <div class="qs-title">启动渲染服务器</div>
-                    <div class="qs-cmd-line">
-                      <code class="qs-cmd" id="cmdStart">python3 render_server.py</code>
-                      <button class="btn btn-tiny qs-copy" id="qsCopyBtn">📋</button>
-                    </div>
-                    <div class="qs-hint" id="qsHint">在项目文件夹中运行此命令</div>
-                  </div>
-                </div>
-                <div class="qs-step">
-                  <div class="qs-num">4</div>
-                  <div class="qs-body">
-                    <div class="qs-title">刷新本页面</div>
-                    <div class="qs-desc">状态变为 <b>● 在线</b> 后，点「▶ 运行」即可</div>
-                  </div>
-                </div>
-              </div>
+              <div class="render-guide">
+                <p class="render-guide-main">
+                  在本地运行渲染服务器，即可在浏览器中直接渲染动画，无需复制代码到终端。
+                </p>
 
-              <div class="render-guide-hint">
-                💡 桌面版（Tauri）开发中，届时无需任何安装，下载即用。
+                <details class="render-guide-details">
+                  <summary>📖 查看设置步骤</summary>
+                  <ol class="render-guide-steps">
+                    <li><b>下载项目</b><br/>
+                      从 <a href="https://github.com/Kaoyusiliao/manim-blocks" target="_blank">GitHub</a>
+                      下载或克隆到本地</li>
+                    <li><b>启动渲染服务器</b><br/>
+                      Mac/Linux：<code class="inline-code">python3 render_server.py</code><br/>
+                      Windows：<code class="inline-code">py -3 render_server.py</code></li>
+                    <li><b>刷新本页面</b><br/>
+                      状态变为 <b>● 在线</b> 后，点「▶ 运行」即可</li>
+                  </ol>
+                </details>
+
+                <p class="render-guide-hint">
+                  💡 已安装 Python 和 Manim？直接跳到第 2 步。<br/>
+                  没装过？先看右侧「📖 新手教程」第 1–3 步。
+                </p>
               </div>
 
               <div class="render-controls">

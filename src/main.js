@@ -1772,36 +1772,4 @@ runBtn.addEventListener('click', async () => {
 });
 
 // ── 快速开始复制按钮 ──────────────────────────────
-
-// 检测操作系统，显示正确的命令
-(function detectOS() {
-  const cmdStart = document.getElementById('cmdStart');
-  const cmdInstall = document.getElementById('cmdInstall');
-  const qsHint = document.getElementById('qsHint');
-  const qsCopyBtn = document.getElementById('qsCopyBtn');
-  if (!cmdStart) return;
-
-  const isWin = navigator.userAgent.includes('Windows');
-  const isLinux = navigator.userAgent.includes('Linux');
-  const startCmd = isWin ? 'py -3 render_server.py' : 'python3 render_server.py';
-  const installCmd = 'pip install manim';
-  let hint;
-  if (isWin) {
-    hint = '在项目文件夹中运行（或双击 start.bat）';
-  } else if (isLinux) {
-    hint = '在项目文件夹中运行（或双击 start.sh）';
-  } else {
-    hint = '在项目文件夹中运行（或双击 start.command）';
-  }
-
-  cmdStart.textContent = startCmd;
-  if (cmdInstall) cmdInstall.textContent = installCmd;
-  qsHint.textContent = hint;
-
-  qsCopyBtn.addEventListener('click', () => {
-    navigator.clipboard.writeText(startCmd).then(() => {
-      qsCopyBtn.textContent = '✅';
-      setTimeout(() => (qsCopyBtn.textContent = '📋'), 2000);
-    });
-  });
-})();
+// 已通过 .copy-inline 按钮统一处理
