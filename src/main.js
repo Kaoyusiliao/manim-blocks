@@ -1553,9 +1553,15 @@ function loadExample(index) {
   // 清空工作区
   workspace.clear();
 
-  // 解析 XML 并加载
-  const dom = Blockly.utils.xml.textToDom(example.xml);
-  Blockly.Xml.domToWorkspace(dom, workspace);
+  try {
+    // 解析 XML 并加载
+    const dom = Blockly.utils.xml.textToDom(example.xml);
+    Blockly.Xml.domToWorkspace(dom, workspace);
+  } catch (e) {
+    console.error('加载示例失败:', e);
+    alert('加载示例失败: ' + e.message);
+    return;
+  }
 
   // 收起模态框
   document.getElementById('examplesModal').classList.add('hidden');
