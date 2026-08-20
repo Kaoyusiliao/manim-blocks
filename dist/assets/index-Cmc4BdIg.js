@@ -1242,7 +1242,7 @@ pause
 <block type="custom_code">
 <field name="CODE">riemann = ax.get_riemann_rectangles(graph, x_range=[0, 2], dx=0.5, stroke_color=WHITE)</field><next>
 <block type="custom_code">
-<field name="CODE">label = MathTex(f"\\\\int_0^2 x^2 \\\\, dx = {area:.4f}").next_to(ax, DOWN)</field><next>
+<field name="CODE">label = MathTex(f"\\\\int_0^2 x^2 \\\\, dx = {area_val:.4f}").next_to(ax, DOWN)</field><next>
 <block type="scene_add">
 <field name="VAR">ax</field><next>
 <block type="scene_add">
