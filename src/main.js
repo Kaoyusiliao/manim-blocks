@@ -1686,3 +1686,54 @@ try {
     if (btn) btn.click();
   }
 } catch (e) {}
+
+// ── ▶ 运行按钮 → 渲染服务器 ──────────────────────────
+
+const RENDER_URL = 'http://127.0.0.1:3081/render';
+const runBtn = document.getElementById('runBtn');
+const videoContainer = document.getElementById('videoContainer');
+const videoPlayer = document.getElementById('videoPlayer');
+const videoStatus = document.getElementById('videoStatus');
+
+runBtn.addEventListener('click', async () => {
+  const code = generateCode(workspace);
+  if (!code.trim() || code.includes('pass  # ⚠️')) {
+    videoContainer.classList.remove('hidden');
+    videoStatus.textContent = '⚠️ 先把积木拼成程序再运行';
+    videoStatus.className = 'error';
+    return;
+  }
+
+  runBtn.disabled = true;
+  runBtn.textContent = '⏳ 渲染中…';
+  videoContainer.classList.remove('hidden');
+  videoPlayer.src = '';
+  videoStatus.textContent = '🎬 正在渲染，请稍候…';
+  videoStatus.className = '';
+
+  try {
+    const res = await fetch(RENDER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code, scene: 'MyScene' }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || `HTTP ${res.status}`);
+    }
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    videoPlayer.src = url;
+    videoPlayer.load();
+    videoStatus.textContent = '✅ 渲染完成！点击 ▶ 播放';
+    videoStatus.className = 'success';
+  } catch (e) {
+    videoStatus.textContent = '❌ ' + e.message;
+    videoStatus.className = 'error';
+  } finally {
+    runBtn.disabled = false;
+    runBtn.textContent = '▶ 运行';
+  }
+});

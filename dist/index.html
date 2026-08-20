@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manim Blocks — 积木式数学动画创作</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
-  <script type="module" crossorigin src="./assets/index-CZEdim0k.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-DDWKXoSb.css">
+  <script type="module" crossorigin src="./assets/index-Dv1SB9Qp.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BlXgmqSV.css">
 </head>
 <body>
   <div id="app">
@@ -73,10 +73,15 @@
         <div class="panel-content active" id="tab-preview">
           <div class="panel-toolbar">
             <span class="panel-title">Python 代码</span>
+            <button id="runBtn" class="btn btn-tiny btn-run">▶ 运行</button>
             <button id="copyCodeBtn" class="btn btn-tiny">📋 复制代码</button>
           </div>
           <pre id="codePreview"><code class="language-python"># 从左侧拖拽积木开始创作
 # 或点顶部「🧩 教程」一键加载现成作品</code></pre>
+          <div id="videoContainer" class="hidden">
+            <video id="videoPlayer" controls playsinline></video>
+            <div id="videoStatus"></div>
+          </div>
         </div>
 
         <!-- 新手教程标签 -->

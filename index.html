@@ -72,10 +72,15 @@
         <div class="panel-content active" id="tab-preview">
           <div class="panel-toolbar">
             <span class="panel-title">Python 代码</span>
+            <button id="runBtn" class="btn btn-tiny btn-run">▶ 运行</button>
             <button id="copyCodeBtn" class="btn btn-tiny">📋 复制代码</button>
           </div>
           <pre id="codePreview"><code class="language-python"># 从左侧拖拽积木开始创作
 # 或点顶部「🧩 教程」一键加载现成作品</code></pre>
+          <div id="videoContainer" class="hidden">
+            <video id="videoPlayer" controls playsinline></video>
+            <div id="videoStatus"></div>
+          </div>
         </div>
 
         <!-- 新手教程标签 -->

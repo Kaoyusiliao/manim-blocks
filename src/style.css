@@ -174,6 +174,9 @@ body {
   white-space: nowrap;
 }
 .btn-tiny:hover { background: var(--blue-dark); }
+.btn-run { background: var(--green); }
+.btn-run:hover { background: var(--green-dark); }
+.btn-run:disabled { background: #999; cursor: not-allowed; }
 
 /* ═══ 主布局 ═══ */
 
@@ -285,6 +288,28 @@ body {
   border: 1px solid var(--border-light);
 }
 #codePreview code { font-family: inherit; }
+
+#videoContainer {
+  margin: 0 12px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  overflow: hidden;
+  background: #000;
+}
+#videoPlayer {
+  width: 100%;
+  display: block;
+  max-height: 300px;
+}
+#videoStatus {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #999;
+  text-align: center;
+  background: #1a1a1a;
+}
+#videoStatus.error { color: #ff6b6b; }
+#videoStatus.success { color: #59C059; }
 
 /* ── 快速开始面板 ── */
 #tab-guide {
