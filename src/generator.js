@@ -599,7 +599,7 @@ codeGens.animate_fade_out = (b, n) =>
 codeGens.animate_grow_from_center = (b, n) =>
   indent(n) + `self.play(GrowFromCenter(${_v(b, 'VAR')}))`;
 codeGens.animate_write = (b, n) =>
-  indent(n) + `self.play(Write(${_v(b, 'VAR')}))`;
+  indent(n) + `self.play(Write(${_v(b, 'VAR')}), run_time=${_v(b, 'DURATION')})`;
 codeGens.animate_unwrite = (b, n) =>
   indent(n) + `self.play(Unwrite(${_v(b, 'VAR')}))`;
 codeGens.animate_shift = (b, n) =>
@@ -704,6 +704,41 @@ codeGens.animate_change_speed = (b, n) =>
   indent(n + 1) + `),\n` +
   indent(n + 1) + `run_time=${_v(b, 'DURATION')},\n` +
   indent(n) + `)`;
+
+// 节奏移动（rate_func）— 合集：Rate Functions 节奏控制
+codeGens.animate_rhythm = (b, n) =>
+  indent(n) +
+  `self.play(\n` +
+  indent(n + 1) +
+  `${_v(b, 'VAR')}.animate(rate_func=${b.getFieldValue('RATE')}, run_time=${_v(b, 'DURATION')})\n` +
+  indent(n + 2) + `.shift(${_v(b, 'DX')} * RIGHT + ${_v(b, 'DY')} * UP),\n` +
+  indent(n) + `)`;
+
+// 背景图片 — 合集：背景图片
+codeGens.object_background = (b, n) =>
+  indent(n) + `${_v(b, 'VAR')} = ImageMobject("${esc(_v(b, 'PATH'))}")` +
+  `\n${indent(n)}${_v(b, 'VAR')}.scale_to_fit_height(config.frame_height)` +
+  `\n${indent(n)}${_v(b, 'VAR')}.scale_to_fit_width(config.frame_width)` +
+  `\n${indent(n)}${_v(b, 'VAR')}.set_z_index(-100)` +
+  `\n${indent(n)}self.add(${_v(b, 'VAR')})`;
+
+// 公式分段着色 — 合集：公式各部分颜色
+codeGens.object_formula_colors = (b, n) => {
+  const parts = _v(b, 'PARTS').split(',').map(s => s.trim()).filter(Boolean);
+  const colors = b.getFieldValue('COLOR').split(',');
+  const varName = _v(b, 'VAR');
+  const lines = [];
+  const quoted = parts.map(p => `"${esc(p)}"`).join(', ');
+  lines.push(indent(n) + `${varName} = MathTex(${quoted})`);
+  let colorIdx = 0;
+  for (let i = 0; i < parts.length; i++) {
+    if (i % 2 === 0 && colors[colorIdx]) { // 给第 0,2,4... 段着色（符号保持默认）
+      lines.push(indent(n) + `${varName}[${i}].set_color(${colors[colorIdx]})`);
+      colorIdx++;
+    }
+  }
+  return lines.join('\n');
+};
 
 // ── 更多动画 ──────────────────────────────────────────
 
@@ -1279,6 +1314,9 @@ function autoFixVariables(body) {
     'self', 'for', 'in', 'range', 'lambda', 'def', 'return', 'pass',
     'import', 'from', 'as', 'and', 'or', 'not', 'if', 'else', 'while',
     'break', 'continue', 'True', 'False', 'None', '_', 'np', 'math', 'random',
+    // rate_func 节奏函数名（避免被误当成变量）
+    'smooth', 'linear', 'rush_into', 'rush_from', 'there_and_back', 'wiggle',
+    'ease_out_bounce', 'rate_functions', 'running_start', 'smoothstep', 'config',
   ]);
   // 排除 for 循环变量 / 列表推导变量（for x in ...）
   let loopRe = /\bfor\s+([a-zA-Z_][a-zA-Z0-9_]*)/g;

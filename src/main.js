@@ -971,6 +971,82 @@ const EXAMPLES = [
 </next></block>
 </xml>`,
   },
+  {
+    name: '第 16 课 · 动画节奏',
+    emoji: '🎵',
+    desc: '小球往返移动（there_and_back 节奏，对应合集：Rate Functions 节奏控制）',
+    level: 'advanced',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_dot" x="30" y="30">
+<field name="VAR">ball</field><field name="X">-3</field><field name="Y">0</field><next>
+<block type="property_color">
+<field name="VAR">ball</field><field name="COLOR">TEAL</field><next>
+<block type="animate_create">
+<field name="VAR">ball</field><field name="DURATION">1</field><next>
+<block type="animate_rhythm">
+<field name="VAR">ball</field><field name="DX">6</field><field name="DY">0</field><field name="RATE">there_and_back</field><field name="DURATION">3</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
+  {
+    name: '第 17 课 · 背景图片',
+    emoji: '🖼️',
+    desc: '给动画加背景图 + 前景公式（对应合集：背景图片·方法一）',
+    level: 'advanced',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_background" x="30" y="30">
+<field name="VAR">bg</field><field name="PATH">./assets/background.jpg</field><next>
+<block type="object_math_tex" x="30" y="100">
+<field name="VAR">math</field><field name="TEX">\\int_0^\\infty e^{-x^2} dx = \\frac{\\sqrt{\\pi}}{2}</field><field name="X">0</field><field name="Y">0</field><next>
+<block type="animate_write">
+<field name="VAR">math</field><next>
+<block type="scene_wait">
+<field name="SECONDS">3</field></block>
+</next></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
+  {
+    name: '第 18 课 · 公式着色',
+    emoji: '🎨',
+    desc: '勾股定理各段不同颜色（对应合集：公式各部分颜色·拆分法）',
+    level: 'advanced',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_formula_colors" x="30" y="30">
+<field name="VAR">tex</field><field name="PARTS">a^2, +, b^2, =, c^2</field><field name="COLOR">YELLOW,GREEN,RED</field><next>
+<block type="animate_write">
+<field name="VAR">tex</field><field name="DURATION">2</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
+  {
+    name: '第 19 课 · 目录动画',
+    emoji: '📑',
+    desc: '创建目录列表并指示当前项（对应合集：目录动画）',
+    level: 'advanced',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_bulleted_list" x="30" y="30">
+<field name="VAR">catalog</field><field name="CONTENT">manim 是什么, 多平台支持, 基于 Python, 重要依赖</field><field name="X">0</field><field name="Y">1</field><next>
+<block type="animate_write">
+<field name="VAR">catalog</field><field name="DURATION">2</field><next>
+<block type="animate_indicate">
+<field name="VAR">catalog</field><next>
+<block type="scene_wait">
+<field name="SECONDS">3</field></block>
+</next></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
 ];
 
 /** 加载示例到工作区 */

@@ -1095,7 +1095,7 @@ export const blockDefs = [
         options: [
           ['红色', 'RED'], ['蓝色', 'BLUE'], ['绿色', 'GREEN'],
           ['黄色', 'YELLOW'], ['紫色', 'PURPLE'], ['橙色', 'ORANGE'],
-          ['粉色', 'PINK'], ['白色', 'WHITE'], ['灰色', 'GREY'], ['黑色', 'BLACK'],
+          ['粉色', 'PINK'], ['青色', 'TEAL'], ['白色', 'WHITE'], ['灰色', 'GREY'], ['黑色', 'BLACK'],
         ],
       },
     ],
@@ -1250,8 +1250,11 @@ export const blockDefs = [
   },
   {
     type: 'animate_write',
-    message0: '书写显示 %1',
-    args0: [{ type: 'field_variable', name: 'VAR', variable: 'formula' }],
+    message0: '书写显示 %1  时长 %2 秒',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'formula' },
+      { type: 'field_number', name: 'DURATION', value: 2, min: 0.5, max: 30, precision: 0.5 },
+    ],
     previousStatement: null, nextStatement: null,
     colour: 260, tooltip: '播放书写动画，逐字显示公式或文字',
   },
@@ -1451,6 +1454,55 @@ export const blockDefs = [
     ],
     previousStatement: null, nextStatement: null,
     colour: 330, tooltip: '沿路径移动并用 ChangeSpeed 变速（对应合集：掌握ChangeSpeed类）',
+  },
+  {
+    type: 'animate_rhythm',
+    message0: '节奏移动 %1  偏移(%2,%3)  节奏 %4  时长 %5 秒',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'obj' },
+      { type: 'field_number', name: 'DX', value: 3, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'DY', value: 0, min: -10, max: 10, precision: 0.1 },
+      { type: 'field_dropdown', name: 'RATE',
+        options: [
+          ['丝滑（默认 smooth）', 'smooth'],
+          ['匀速（linear）', 'linear'],
+          ['冲刺加速（rush_into）', 'rush_into'],
+          ['刹车减速（rush_from）', 'rush_from'],
+          ['往返（there_and_back）', 'there_and_back'],
+          ['弹跳（ease_out_bounce）', 'rate_functions.ease_out_bounce'],
+        ],
+      },
+      { type: 'field_number', name: 'DURATION', value: 3, min: 0.5, max: 30, precision: 0.5 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 330, tooltip: '移动动画并选择节奏（rate_func）— 对应合集：Rate Functions 节奏控制',
+  },
+  {
+    type: 'object_background',
+    message0: '设置背景图片 %1  路径 %2',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'bg' },
+      { type: 'field_input', name: 'PATH', text: './assets/background.jpg' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '把图片设为背景（铺满屏幕、置于底层）— 对应合集：背景图片',
+  },
+  {
+    type: 'object_formula_colors',
+    message0: '公式分段着色 %1  分段 %2  颜色 %3',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'tex' },
+      { type: 'field_input', name: 'PARTS', text: 'a^2, +, b^2, =, c^2' },
+      { type: 'field_dropdown', name: 'COLOR',
+        options: [
+          ['黄绿红（第1/3/5段）', 'YELLOW,GREEN,RED'],
+          ['蓝紫橙（第1/3/5段）', 'BLUE,PURPLE,ORANGE'],
+          ['全部红色', 'RED,RED,RED'],
+        ],
+      },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 260, tooltip: 'MathTex 拆分后给各段着色（对应合集：公式各部分颜色）',
   },
   {
     type: 'animate_fade_to_color',
