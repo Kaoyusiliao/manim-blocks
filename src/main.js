@@ -1731,15 +1731,14 @@ async function checkServer() {
     <div class="offline-hint">
       <div class="offline-icon">🎬</div>
       <div class="offline-title">渲染服务器未启动</div>
-      <div class="offline-desc">在终端运行以下命令启动：</div>
+      <div class="offline-desc">项目文件夹里有 <code>start.command</code>，<b>双击即可启动</b></div>
+      <div class="offline-desc" style="margin-top:6px">或在终端从项目文件夹运行：</div>
       <div class="offline-cmd">
-        <code>python3 render_server.py</code>
+        <code>pnpm dev</code>
         <button class="btn btn-tiny" id="copyStartCmd">📋 复制</button>
       </div>
-      <div class="offline-desc" style="margin-top:8px">
-        或 <code>pnpm dev</code> 自动启动 Web GUI + 渲染服务器<br/>
-        已用 <code>pnpm dev</code> 启动但还显示离线？<br/>
-        等几秒让服务器就绪，或刷新页面重试
+      <div class="offline-desc" style="margin-top:6px;font-size:11px;color:#777">
+        已在项目文件夹？直接运行 <code>python3 render_server.py</code>
       </div>
     </div>
   `;
@@ -1750,7 +1749,7 @@ async function checkServer() {
   const copyBtn = document.getElementById('copyStartCmd');
   if (copyBtn) {
     copyBtn.addEventListener('click', () => {
-      navigator.clipboard.writeText('python3 render_server.py').then(() => {
+      navigator.clipboard.writeText('pnpm dev').then(() => {
         copyBtn.textContent = '✅ 已复制';
         setTimeout(() => (copyBtn.textContent = '📋 复制'), 2000);
       });
