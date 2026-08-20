@@ -13,6 +13,7 @@ import json
 import os
 import subprocess
 import shutil
+import socket
 import tempfile
 import uuid
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -131,11 +132,32 @@ class RenderHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
+    # 释放旧端口（如果之前的进程没退干净）
+    try:
+        # 尝试 kill 占端口的旧进程（macOS / Linux）
+        subprocess.run(
+            ['lsof', '-ti', f':{PORT}'],
+            capture_output=True, text=True, timeout=5
+        )
+        old_pids = subprocess.run(
+            ['lsof', '-ti', f':{PORT}'],
+            capture_output=True, text=True, timeout=5
+        ).stdout.strip().split()
+        for pid in old_pids:
+            if pid:
+                subprocess.run(['kill', pid], capture_output=True, timeout=3)
+                print(f'  🧹 释放端口 {PORT}（已终止旧进程 {pid}）')
+    except Exception:
+        pass  # 无旧进程或 lsof 不可用
+
     print(f'🎬  Manim 渲染服务器')
     print(f'    地址: http://127.0.0.1:{PORT}')
     print(f'    API:  POST /render  {{ code, scene }}')
     print(f'    返回: video/mp4')
     print()
     print(f'    启动 Web GUI 后，点击「▶ 运行」即可一键渲染')
+
     server = HTTPServer(('127.0.0.1', PORT), RenderHandler)
+    # 允许端口复用
+    server.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     server.serve_forever()
