@@ -1244,7 +1244,7 @@ export function generateCode(workspace) {
   // 重置 SymPy 全局状态（避免跨渲染泄漏）
   sympyImported = false;
   sympySymbols = new Set();
-  pendingImports = new Set();
+  pendingImports.clear();
 
   const topBlocks = workspace.getTopBlocks(true);
   // 只有咬合的链才是程序，孤立积木是草稿
