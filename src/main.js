@@ -1782,11 +1782,17 @@ runBtn.addEventListener('click', async () => {
   if (!cmdStart) return;
 
   const isWin = navigator.userAgent.includes('Windows');
+  const isLinux = navigator.userAgent.includes('Linux');
   const startCmd = isWin ? 'py -3 render_server.py' : 'python3 render_server.py';
   const installCmd = 'pip install manim';
-  const hint = isWin
-    ? '在项目文件夹中运行（或双击 start.bat）'
-    : '在项目文件夹中运行（或双击 start.command）';
+  let hint;
+  if (isWin) {
+    hint = '在项目文件夹中运行（或双击 start.bat）';
+  } else if (isLinux) {
+    hint = '在项目文件夹中运行（或双击 start.sh）';
+  } else {
+    hint = '在项目文件夹中运行（或双击 start.command）';
+  }
 
   cmdStart.textContent = startCmd;
   if (cmdInstall) cmdInstall.textContent = installCmd;
