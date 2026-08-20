@@ -6,7 +6,7 @@
 
 ## 怎么用
 
-### 🖥 在线版（GitHub Pages）
+### 🖥 网页版
 
 直接打开 [https://kaoyusiliao.github.io/manim-blocks/](https://kaoyusiliao.github.io/manim-blocks/)，拖积木 → 复制代码 → 终端运行：
 
@@ -123,7 +123,7 @@ pnpm build     # 输出到 dist/
 
 ## 赞助
 
-如果这个工具帮到了你，欢迎扫码支持，每一份心意都是继续做下去的动力 ❤️
+如果这个工具帮到了你，请作者喝一杯咖啡吧☕️ ❤️
 
 ![微信 / 支付宝收款码](https://raw.githubusercontent.com/Kaoyusiliao/manim-blocks/main/public/sponsor/defund.png)
 
