@@ -552,8 +552,8 @@ codeGens.object_axes = (b, n) =>
   indent(n) +
   `${_v(b, 'VAR')} = Axes(x_range=[${_v(b, 'XMIN')}, ${_v(b, 'XMAX')}], ` +
   `y_range=[${_v(b, 'YMIN')}, ${_v(b, 'YMAX')}], ` +
-  // y_length 按 x/y 范围比例计算，保持纵横比一致（圆不变形）
-  `x_length=6, y_length=6 * (${_v(b, 'YMAX')} - ${_v(b, 'YMIN')}) / (${_v(b, 'XMAX')} - ${_v(b, 'XMIN')}), ` +
+  // y_length 按比例计算但上限 6，避免范围悬殊时溢出屏幕
+  `x_length=6, y_length=min(6, 6 * (${_v(b, 'YMAX')} - ${_v(b, 'YMIN')}) / (${_v(b, 'XMAX')} - ${_v(b, 'XMIN')})), ` +
   `axis_config={"include_numbers": True})`;
 codeGens.object_graph = (b, n) =>
   indent(n) +
