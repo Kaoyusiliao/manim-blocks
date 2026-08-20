@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manim Blocks — 积木式数学动画创作</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
-  <script type="module" crossorigin src="./assets/index-Dv1SB9Qp.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BlXgmqSV.css">
+  <script type="module" crossorigin src="./assets/index-CjHhuW17.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-7Qb-sgNa.css">
 </head>
 <body>
   <div id="app">
@@ -73,8 +73,16 @@
         <div class="panel-content active" id="tab-preview">
           <div class="panel-toolbar">
             <span class="panel-title">Python 代码</span>
-            <button id="runBtn" class="btn btn-tiny btn-run">▶ 运行</button>
-            <button id="copyCodeBtn" class="btn btn-tiny">📋 复制代码</button>
+            <div class="toolbar-right">
+              <select id="qualitySelect" class="quality-select">
+                <option value="l">⚡ 快速 (480p)</option>
+                <option value="m" selected>🔶 中等 (720p)</option>
+                <option value="h">🔷 高清 (1080p)</option>
+                <option value="k">💎 4K (2160p)</option>
+              </select>
+              <button id="runBtn" class="btn btn-tiny btn-run">▶ 运行</button>
+              <button id="copyCodeBtn" class="btn btn-tiny">📋 复制代码</button>
+            </div>
           </div>
           <pre id="codePreview"><code class="language-python"># 从左侧拖拽积木开始创作
 # 或点顶部「🧩 教程」一键加载现成作品</code></pre>
@@ -201,39 +209,39 @@
             </div>
           </div>
 
-          <!-- 第 4 步：下载文件 -->
+          <!-- 第 4 步：一键渲染（推荐） -->
           <div class="guide-section step">
             <div class="step-num">4</div>
             <div class="step-body">
-              <h3>📥 下载代码文件</h3>
-              <p class="guide-desc">搭好积木后，点顶部蓝色按钮 <b>「📥 下载 .py」</b>，浏览器会下载一个叫 <code class="inline-code">manim_scene.py</code> 的文件。</p>
-              <p class="guide-hint">💡 文件默认在「下载」文件夹。记下这个位置，下一步要用。</p>
+              <h3>▶ 一键渲染（推荐）</h3>
+              <p class="guide-desc">搭好积木后，点工具栏的绿色 <b>「▶ 运行」</b> 按钮，选择画质，几秒后动画直接在浏览器里播放！</p>
+              <p class="guide-hint">💡 首次使用需要先启动渲染服务器：<br/>
+                终端里运行 <code class="inline-code">python3 render_server.py</code><br/>
+                或用 <code class="inline-code">./start.sh</code> 一键启动 Web GUI + 渲染服务器</p>
+              <p class="guide-hint">⚡ 快速 (480p) 渲染最快，适合调试；🔶 中等 (720p) 是默认选项；高清和 4K 较慢。</p>
             </div>
           </div>
 
-          <!-- 第 5 步：运行！ -->
+          <!-- 第 5 步：传统方式（下载 .py + 终端运行） -->
           <div class="guide-section step">
             <div class="step-num">5</div>
             <div class="step-body">
-              <h3>🎬 运行，看动画！</h3>
-              <p class="guide-desc">回到终端窗口，需要先「走进」下载文件夹，再运行。分系统看：</p>
+              <h3>📥 传统方式：下载 .py 文件</h3>
+              <p class="guide-desc">如果不想用渲染服务器，也可以点顶部蓝色按钮 <b>「📥 下载 .py」</b>，然后在终端手动运行：</p>
 
               <details class="guide-det" open>
                 <summary>🍎 Mac 用户</summary>
-                <p class="guide-hint">在终端输入（每行后按回车）：</p>
                 <div class="code-block"><code>cd ~/Downloads</code><button class="btn btn-tiny copy-inline" data-copy="cd ~/Downloads">复制</button></div>
                 <div class="code-block"><code>manim -pql manim_scene.py MyScene</code><button class="btn btn-tiny copy-inline" data-copy="manim -pql manim_scene.py MyScene">复制</button></div>
               </details>
 
               <details class="guide-det">
                 <summary>🪟 Windows 用户</summary>
-                <p class="guide-hint">在命令行输入（每行后按回车）：</p>
                 <div class="code-block"><code>cd %USERPROFILE%\Downloads</code><button class="btn btn-tiny copy-inline" data-copy="cd %USERPROFILE%\Downloads">复制</button></div>
                 <div class="code-block"><code>manim -pql manim_scene.py MyScene</code><button class="btn btn-tiny copy-inline" data-copy="manim -pql manim_scene.py MyScene">复制</button></div>
               </details>
 
-              <p class="guide-hint">⏳ 等几十秒（低质量最快），<b>动画会自动弹窗播放！</b>🎉</p>
-              <p class="guide-hint">📁 视频还会存成文件：<code class="inline-code">media/videos/manim_scene/480p15/MyScene.mp4</code></p>
+              <p class="guide-hint">⏳ 等几十秒，动画会自动弹窗播放！🎉</p>
             </div>
           </div>
 

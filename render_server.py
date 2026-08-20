@@ -47,9 +47,19 @@ class RenderHandler(BaseHTTPRequestHandler):
 
         code = body.get('code', '')
         scene = body.get('scene', 'MyScene')
+        quality = body.get('quality', 'l')  # l / m / h / k
         if not code.strip():
             self._json(400, {'error': 'code is required'})
             return
+
+        # 质量参数 → manim 标志
+        quality_flags = {
+            'l': '-pql',   # 480p15  快速
+            'm': '-pqm',   # 720p30  中等
+            'h': '-pqh',   # 1080p30 高清
+            'k': '-pqk',   # 2160p60 4K
+        }
+        qflag = quality_flags.get(quality, '-pql')
 
         # 写入临时目录
         tmp = tempfile.mkdtemp(prefix='manim_blocks_')
@@ -58,9 +68,9 @@ class RenderHandler(BaseHTTPRequestHandler):
             with open(py_file, 'w') as f:
                 f.write(code)
 
-            # 跑 manim（低质量，快速）
+            # 跑 manim
             proc = subprocess.run(
-                ['manim', '-pql', 'scene.py', scene],
+                ['manim', qflag, 'scene.py', scene],
                 cwd=tmp,
                 capture_output=True,
                 text=True,

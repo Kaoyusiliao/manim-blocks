@@ -262,7 +262,26 @@ body {
   justify-content: space-between;
   padding: 10px 16px 8px;
   flex-shrink: 0;
+  gap: 8px;
 }
+.toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.quality-select {
+  height: 26px;
+  padding: 0 8px;
+  font-size: 11px;
+  border-radius: 13px;
+  border: 1px solid var(--border-light);
+  background: #fff;
+  color: var(--text-main);
+  cursor: pointer;
+  font-family: var(--font-ui);
+  outline: none;
+}
+.quality-select:focus { border-color: var(--blue); }
 .panel-title {
   font-size: 12px;
   font-weight: 600;

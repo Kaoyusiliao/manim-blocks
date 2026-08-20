@@ -6,6 +6,25 @@
 
 ## 怎么用
 
+### 方式一：一键渲染（推荐）
+
+搭好积木后，点工具栏的绿色 **「▶ 运行」** 按钮，选择画质，动画直接在浏览器里播放。
+
+首次使用需要先启动渲染服务器：
+
+```bash
+# 方式 A：一键启动 Web GUI + 渲染服务器
+./start.sh
+
+# 方式 B：分两个终端
+# 终端 1：
+python3 render_server.py
+# 终端 2：
+pnpm dev
+```
+
+### 方式二：传统方式
+
 1. 从左侧工具箱把积木拖到工作区
 2. 积木上下拼接成一段程序（没拼的积木不会运行）
 3. 右侧实时显示生成的 Python 代码
@@ -71,7 +90,8 @@ pnpm build     # 输出到 dist/
 - [Google Blockly](https://developers.google.com/blockly) — 积木编辑器
 - [highlight.js](https://highlightjs.org/) — 代码高亮
 - [Vite](https://vitejs.dev/) — 构建
-- 纯前端，无后端，浏览器运行
+- `render_server.py` — 本地渲染服务器（Python 标准库，零依赖）
+- 前端 + 本地渲染服务器，搭积木到动画一站式完成
 
 ## 课程来源
 

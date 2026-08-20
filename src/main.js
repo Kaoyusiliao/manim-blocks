@@ -1691,6 +1691,7 @@ try {
 
 const RENDER_URL = 'http://127.0.0.1:3081/render';
 const runBtn = document.getElementById('runBtn');
+const qualitySelect = document.getElementById('qualitySelect');
 const videoContainer = document.getElementById('videoContainer');
 const videoPlayer = document.getElementById('videoPlayer');
 const videoStatus = document.getElementById('videoStatus');
@@ -1715,7 +1716,11 @@ runBtn.addEventListener('click', async () => {
     const res = await fetch(RENDER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code, scene: 'MyScene' }),
+      body: JSON.stringify({
+        code,
+        scene: 'MyScene',
+        quality: qualitySelect.value,
+      }),
     });
 
     if (!res.ok) {
