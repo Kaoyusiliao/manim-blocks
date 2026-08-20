@@ -112,4 +112,4 @@ codeGens.object_rhombus = (b, n) =>
 
 如果觉得项目有用，也可以通过下面的收款码请维护者喝杯咖啡 ☕
 
-![微信 / 支付宝收款码](https://raw.githubusercontent.com/Kaoyusiliao/manim-blocks/main/public/sponsor/wechat.png)
+![微信 / 支付宝收款码](https://raw.githubusercontent.com/Kaoyusiliao/manim-blocks/main/public/sponsor/defund.png)
