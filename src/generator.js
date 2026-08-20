@@ -591,7 +591,7 @@ codeGens.property_next_to  = (b, n) =>
 // ── 🟠 动画 ──────────────────────────────────────────
 
 codeGens.animate_create = (b, n) =>
-  indent(n) + `self.play(Create(${_v(b, 'VAR')}), run_time=2)`;
+  indent(n) + `self.play(Create(${_v(b, 'VAR')}), run_time=${_v(b, 'DURATION')})`;
 codeGens.animate_fade_in = (b, n) =>
   indent(n) + `self.play(FadeIn(${_v(b, 'VAR')}))`;
 codeGens.animate_fade_out = (b, n) =>

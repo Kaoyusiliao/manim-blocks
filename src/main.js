@@ -854,7 +854,7 @@ const EXAMPLES = [
 <block type="object_parametric_curve_uniform">
 <field name="VAR">curve</field><field name="AXES">axes</field><field name="FUNC">lambda t: (2*np.cos(5*t)*np.cos(t), 2*np.cos(5*t)*np.sin(t))</field><field name="T0">0</field><field name="T1">3.14</field><field name="N">800</field><next>
 <block type="animate_create">
-<field name="VAR">curve</field><next>
+<field name="VAR">curve</field><field name="DURATION">6</field><next>
 <block type="scene_wait">
 <field name="SECONDS">6</field></block>
 </next></block>

@@ -1185,10 +1185,13 @@ export const blockDefs = [
 
   {
     type: 'animate_create',
-    message0: '创建动画 %1',
-    args0: [{ type: 'field_variable', name: 'VAR', variable: 'obj' }],
+    message0: '创建动画 %1  时长 %2 秒',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'obj' },
+      { type: 'field_number', name: 'DURATION', value: 2, min: 0.5, max: 30, precision: 0.5 },
+    ],
     previousStatement: null, nextStatement: null,
-    colour: 330, tooltip: '播放创建动画，展示物体的绘制过程',
+    colour: 330, tooltip: '播放创建动画，展示物体的绘制过程（时长越大画得越慢）',
   },
   {
     type: 'animate_fade_in',
