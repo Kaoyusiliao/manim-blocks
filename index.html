@@ -21,7 +21,7 @@
         <span class="subtitle">像搭积木一样做数学动画，同时学习数学与编程</span>
       </div>
       <div class="header-right">
-        <button id="examplesBtn" class="btn btn-examples">🧩 示例</button>
+        <button id="examplesBtn" class="btn btn-examples">🧩 教程</button>
         <button id="discussBtn" class="btn btn-discuss">💬 讨论</button>
         <button id="sponsorBtn" class="btn btn-sponsor">💖 赞助</button>
         <button id="downloadBtn" class="btn btn-primary">📥 下载 .py</button>
@@ -56,7 +56,7 @@
             <span class="hint-steps">1️⃣ 点左侧「🔵 物体」→ 拖「创建圆形」到这里<br/>
             2️⃣ 再拖一个「🟠 动画」→「创建动画」接在下面<br/>
             3️⃣ 右边立刻显示生成的代码！</span></p>
-            <button id="loadFirstExample" class="btn btn-primary">✨ 一键加载示例（推荐）</button>
+            <button id="loadFirstExample" class="btn btn-primary">✨ 打开第 1 课（推荐）</button>
           </div>
         </div>
       </section>
@@ -75,7 +75,7 @@
             <button id="copyCodeBtn" class="btn btn-tiny">📋 复制代码</button>
           </div>
           <pre id="codePreview"><code class="language-python"># 从左侧拖拽积木开始创作
-# 或点顶部「🧩 示例」一键加载现成作品</code></pre>
+# 或点顶部「🧩 教程」一键加载现成作品</code></pre>
         </div>
 
         <!-- 新手教程标签 -->
@@ -154,6 +154,28 @@
                 <button class="btn btn-tiny copy-inline" data-copy="pip install manim -i https://pypi.tuna.tsinghua.edu.cn/simple">复制</button>
               </div>
               <p class="guide-hint">✅ 看到 <code class="inline-code">Successfully installed manim</code> 就成功了！</p>
+              <p class="guide-hint">🆕 <b>升级提醒：</b>如果之前装过旧版，可运行 <code class="inline-code">pip install -U manim</code> 升级到最新版（本工具适配 Manim CE 0.19+，建议升级）。</p>
+            </div>
+          </div>
+
+          <!-- 第 2.5 步：检查 ffmpeg / LaTeX（参考合集「安装」篇） -->
+          <div class="guide-section step">
+            <div class="step-num">+</div>
+            <div class="step-body">
+              <h3>🎥 顺手检查两个"幕后工具"（大多数电脑已自带）</h3>
+              <p class="guide-desc">Manim 渲染视频还需要两个工具，多数电脑已装好，只需确认一下：</p>
+              <ul class="guide-ul">
+                <li><b>ffmpeg</b> — 把动画合成视频（mp4）。没它渲染会失败。</li>
+                <li><b>LaTeX</b> — 排版数学公式。只用文字/图形可以不管它。</li>
+              </ul>
+              <p class="guide-hint">在终端 / 命令行输入下面命令检查 ffmpeg：</p>
+              <div class="code-block">
+                <code>ffmpeg -version</code>
+                <button class="btn btn-tiny copy-inline" data-copy="ffmpeg -version">复制</button>
+              </div>
+              <p class="guide-hint">✅ 显示一堆版本信息 → 已装好，跳过。<br/>
+              ❌ 提示找不到 → 到 <b>ffmpeg.org/download.html</b> 下载安装，或 Mac 用 <code class="inline-code">brew install ffmpeg</code>。</p>
+              <p class="guide-hint">💡 LaTeX 缺失时，用到公式才会报错；装 <b>MiKTeX</b>（Windows）或 <b>MacTeX</b>（Mac）即可解决。</p>
             </div>
           </div>
 
@@ -169,7 +191,7 @@
                 <li><b>积木上下拼在一起才是一段程序</b> — 没拼的积木是「草稿」，不会运行</li>
                 <li>拼好后积木从上往下执行，顺序就是动画顺序</li>
               </ul>
-              <p class="guide-hint">💡 不会搭？点顶部 <b>「🧩 示例」</b>按钮，一键加载拼好的作品，改改数字就是你的了！</p>
+              <p class="guide-hint">💡 不会搭？点顶部 <b>「🧩 教程」</b>，从课程 1 开始跟着搭！</p>
             </div>
           </div>
 
@@ -245,7 +267,8 @@
             <details>
               <summary>LaTeX 报错 / 中文字符报错（Unicode character）？</summary>
               <p><b>文字</b>（🔵 物体 → 创建文字）支持中文，随便用。<br/>
-              但 <b>公式类</b>（LaTeX 公式 / MathTex / 列表 / 段落）走 LaTeX 排版，<b>默认不支持中文</b>，输入中文会报错。公式请用英文和数学符号，例如 <code class="inline-code">x^2 + y^2 = 1</code>。</p>
+              但 <b>公式类</b>（LaTeX 公式 / MathTex / 列表 / 段落）走 LaTeX 排版，<b>默认不支持中文</b>，输入中文会报错。公式请用英文和数学符号，例如 <code class="inline-code">x^2 + y^2 = 1</code>。<br/><br/>
+              💡 <b>想在公式里用中文？</b>（合集有专门文章）需要配置中文字体：在「🛠 通用 → 自定义代码」里加 <code class="inline-code">Tex.set_default(tex_template=TexTemplateLibrary.ctex)</code> 并安装 LaTeX 的 ctex 宏包。新手建议先避开。</p>
             </details>
             <details>
               <summary>为什么不能在浏览器里直接播放动画？</summary>
@@ -270,10 +293,10 @@
       <div class="modal-backdrop" data-close-modal></div>
       <div class="modal-card">
         <div class="modal-header">
-          <h3>🧩 示例模板</h3>
+          <h3>🧩 教程课程</h3>
           <button class="modal-close" data-close-modal>✕</button>
         </div>
-        <p class="modal-desc">点一个示例，积木自动搭好，右边自动生成代码。改改数字就是你的作品！</p>
+        <p class="modal-desc">从「基本图形」开始，跟着课程搭建积木，右边自动生成代码。每课都能直接运行！</p>
         <div class="modal-grid" id="examplesGrid">
           <!-- 由 JS 动态生成 -->
         </div>

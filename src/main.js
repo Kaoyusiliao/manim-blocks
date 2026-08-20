@@ -637,9 +637,9 @@ document.getElementById('loadFirstExample').addEventListener('click', () => {
  */
 const EXAMPLES = [
   {
-    name: '✨ 第一个动画',
+    name: '第 1 课 · 第一个动画',
     emoji: '🌈',
-    desc: '一个红色圆形从中心出现 —— 最简入门',
+    desc: '红色圆形从中心画出 —— 学会「物体 + 动画」两步走（对应：基本图形/常用动画）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_circle" x="30" y="30">
 <field name="VAR">circle</field><field name="X">0</field><field name="Y">0</field><next>
@@ -649,18 +649,15 @@ const EXAMPLES = [
 <field name="VAR">circle</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
+</next></block>
+</next></block>
+</next></block>
 </xml>`,
   },
   {
-    name: '📐 公式书写',
+    name: '第 2 课 · 公式书写',
     emoji: '∑',
-    desc: '爱因斯坦公式逐字写出，像老师板书',
+    desc: '爱因斯坦公式逐字写出（对应：文字和公式）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_math_tex" x="30" y="30">
 <field name="VAR">formula</field><field name="TEX">E = mc^2</field><field name="X">0</field><field name="Y">1</field><next>
@@ -670,18 +667,15 @@ const EXAMPLES = [
 <field name="VAR">formula</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
+</next></block>
+</next></block>
+</next></block>
 </xml>`,
   },
   {
-    name: '🔁 旋转星形',
+    name: '第 3 课 · 旋转星形',
     emoji: '⭐',
-    desc: '五角星重复旋转 5 次 —— 学会「重复」积木',
+    desc: '五角星重复旋转 5 次 —— 学会「重复」积木（对应：常用动画/图形样式）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_star" x="30" y="30">
 <field name="VAR">star</field><field name="R">2</field><field name="X">0</field><field name="Y">0</field><next>
@@ -696,20 +690,16 @@ const EXAMPLES = [
 </statement><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
 </xml>`,
   },
   {
-    name: '🧊 3D 立方体',
+    name: '第 4 课 · 3D 立方体',
     emoji: '🧊',
-    desc: '三维立方体旋转展示 —— 自动启用 3D 场景',
+    desc: '三维立方体旋转 —— 自动启用 3D 场景和相机视角',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="camera_3d_orientation" x="30" y="30">
 <field name="PHI">75</field><field name="THETA">-45</field><next>
@@ -723,20 +713,17 @@ const EXAMPLES = [
 <field name="VAR">cube</field><field name="ANGLE">360</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
 </xml>`,
   },
   {
-    name: '📊 函数曲线',
+    name: '第 5 课 · 函数曲线',
     emoji: '📈',
-    desc: '坐标轴上画 x² 抛物线 + 网格平面',
+    desc: '坐标轴 + 网格平面 + 抛物线（对应：坐标系）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_number_plane" x="30" y="30">
 <field name="VAR">plane</field><field name="XMIN">-4</field><field name="XMAX">4</field><field name="YMIN">-1</field><field name="YMAX">5</field><field name="X">0</field><field name="Y">0</field><next>
@@ -752,24 +739,18 @@ const EXAMPLES = [
 <field name="VAR">graph</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
 </xml>`,
   },
   {
-    name: '💬 文字动画',
+    name: '第 6 课 · 文字动画',
     emoji: '🎨',
-    desc: '彩色文字 + 字母逐个平滑淡入 + 淡出',
+    desc: '字母逐个平滑淡入 + 移动 + 淡出（对应：文本样式）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_text" x="30" y="30">
 <field name="VAR">text</field><field name="CONTENT">Hello, Manim!</field><field name="X">0</field><field name="Y">0</field><next>
@@ -783,22 +764,17 @@ const EXAMPLES = [
 <field name="VAR">text</field><field name="DX">2</field><field name="DY">1</field><next>
 <block type="animate_fade_out">
 <field name="VAR">text</field></block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
 </xml>`,
   },
   {
-    name: '🎯 变形动画',
+    name: '第 7 课 · 变形动画',
     emoji: '🔄',
-    desc: '圆形平滑变形为正方形 —— Transform 积木',
+    desc: '圆形平滑变形为正方形（对应：高级动画/变换效果）',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="object_circle" x="30" y="30">
 <field name="VAR">circle</field><field name="X">-2</field><field name="Y">0</field><next>
@@ -818,22 +794,72 @@ const EXAMPLES = [
 <field name="OBJ">circle</field><field name="TARGET">square</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
-</next>
-</block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
+  {
+    name: '第 8 课 · 滚动字幕',
+    emoji: '📜',
+    desc: '文字从屏幕底部滚入再滚出（合集经典：滚动字幕）',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_text" x="30" y="30">
+<field name="VAR">text</field><field name="CONTENT">谢谢观看！</field><field name="X">0</field><field name="Y">-4</field><next>
+<block type="property_color">
+<field name="VAR">text</field><field name="COLOR">YELLOW</field><next>
+<block type="animate_shift">
+<field name="VAR">text</field><field name="DX">0</field><field name="DY">8</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
+  {
+    name: '第 9 课 · 圆规动画',
+    emoji: '🧭',
+    desc: '用弧线画圆 —— 动态几何演示（合集经典：圆规动画）',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_dot" x="30" y="30">
+<field name="VAR">center</field><field name="X">0</field><field name="Y">0</field><next>
+<block type="object_arc" x="30" y="100">
+<field name="VAR">arc</field><field name="R">2</field><field name="ANGLE">360</field><field name="X">0</field><field name="Y">0</field><next>
+<block type="animate_create">
+<field name="VAR">arc</field><next>
+<block type="animate_create">
+<field name="VAR">center</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</xml>`,
+  },
+  {
+    name: '第 10 课 · 匀速玫瑰线',
+    emoji: '🌹',
+    desc: '五瓣玫瑰线匀速画出（等弧长参数化，对应：参数曲线/弧长文章）',
+    xml: `<xml xmlns="https://developers.google.com/blockly/xml">
+<block type="object_axes" x="30" y="30">
+<field name="VAR">axes</field><field name="XMIN">-3</field><field name="XMAX">3</field><field name="YMIN">-3</field><field name="YMAX">3</field><next>
+<block type="object_parametric_curve_uniform">
+<field name="VAR">curve</field><field name="AXES">axes</field><field name="FUNC">lambda t: (np.cos(5*t)*np.cos(t), np.cos(5*t)*np.sin(t))</field><field name="T0">0</field><field name="T1">3.14</field><field name="N">500</field><next>
+<block type="animate_create">
+<field name="VAR">curve</field><next>
+<block type="scene_wait">
+<field name="SECONDS">6</field></block>
+</next></block>
+</next></block>
+</next></block>
 </xml>`,
   },
 ];
@@ -862,7 +888,7 @@ function loadExample(index) {
   setTimeout(() => (btn.textContent = orig), 2500);
 }
 
-// ── 示例模态框 ──────────────────────────────────────
+// ── 教程模态框 ──────────────────────────────────────
 
 const examplesModal = document.getElementById('examplesModal');
 const examplesGrid = document.getElementById('examplesGrid');
