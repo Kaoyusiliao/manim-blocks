@@ -13,7 +13,6 @@ import json
 import os
 import subprocess
 import shutil
-import socket
 import sys
 import tempfile
 import uuid
