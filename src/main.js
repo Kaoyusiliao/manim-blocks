@@ -1383,49 +1383,64 @@ self.wait(2)</field></block>
   {
     name: '第 32 课 · 知觉错觉',
     emoji: '👁️',
-    desc: '用 Manim 重现动态艾宾浩斯错觉和穆勒-莱尔错觉（对应合集：探索视觉的边界）',
+    desc: '用积木搭建动态艾宾浩斯错觉——橙色圆大小不变，周围圆大小变化让人产生错觉（对应合集：探索视觉的边界）',
     level: 'advanced',
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
-<block type="custom_code_multiline" x="30" y="30">
-<field name="CODE">from manim import *
-import numpy as np
-
-# 错觉一：动态艾宾浩斯错觉
-class DynamicEbbinghaus(Scene):
-    def construct(self):
-        center = Circle(radius=0.3, color=ORANGE, fill_opacity=1, stroke_width=0)
-        center.move_to(LEFT*2 + UP*2)
-        center2 = center.copy().move_to(ORIGIN)
-        small = VGroup(*[Circle(radius=0.1, color=PURE_BLUE, fill_opacity=1, stroke_width=0).move_to(
-            center.get_center() + 0.4*np.array([np.cos(i*60*DEGREES), np.sin(i*60*DEGREES), 0])
-        ) for i in range(6)])
-        large = VGroup(*[Circle(radius=0.7, color=PURE_BLUE, fill_opacity=1, stroke_width=0).move_to(
-            center2.get_center() + 1.5*np.array([np.cos(i*60*DEGREES), np.sin(i*60*DEGREES), 0])
-        ) for i in range(6)])
-        a = VGroup(center, small)
-        b = VGroup(center2, large)
-        self.add(a)
-        self.wait(1)
-        self.play(ReplacementTransform(a, b), run_time=2)
-        self.play(ReplacementTransform(b, a), run_time=2)
-        self.wait(2)
-
-# 错觉二：动态穆勒-莱尔错觉
-class DynamicMullerLyer(Scene):
-    def construct(self):
-        count = 11; interval = 0.4
-        lines = VGroup()
-        for i in range(count // 2 + 1):
-            v = VGroup(
-                Line(UP*2.5, UP*1.5, stroke_width=2, color=PURE_BLUE),
-                Line(UP*1.5, UP*0.5, stroke_width=2, color=PURE_RED),
-                Line(UP*0.5, DOWN*0.5, stroke_width=2, color=PURE_BLUE),
-                Line(DOWN*0.5, DOWN*1.5, stroke_width=2, color=PURE_RED),
-                Line(DOWN*1.5, DOWN*2.5, stroke_width=2, color=PURE_BLUE),
-            ).shift(LEFT*i*interval)
-            lines.add(v)
-        self.play(Create(lines))
-        self.wait(2)</field></block>
+<block type="object_circle" x="30" y="30">
+<field name="VAR">center1</field><field name="X">-2</field><field name="Y">2</field><next>
+<block type="property_color">
+<field name="VAR">center1</field><field name="COLOR">ORANGE</field><next>
+<block type="property_fill_opacity">
+<field name="VAR">center1</field><field name="OPACITY">1</field><next>
+<block type="property_stroke_width">
+<field name="VAR">center1</field><field name="W">0</field><next>
+<block type="object_circle">
+<field name="VAR">center2</field><field name="X">0</field><field name="Y">0</field><next>
+<block type="property_color">
+<field name="VAR">center2</field><field name="COLOR">ORANGE</field><next>
+<block type="property_fill_opacity">
+<field name="VAR">center2</field><field name="OPACITY">1</field><next>
+<block type="property_stroke_width">
+<field name="VAR">center2</field><field name="W">0</field><next>
+<block type="object_circular_arrangement">
+<field name="CENTER">center1</field><field name="COUNT">6</field><field name="RADIUS">0.4</field><field name="CRADIUS">0.1</field><field name="COLOR">PURE_BLUE</field><field name="VAR">ring_small</field><next>
+<block type="object_group">
+<field name="A">center1</field><field name="B">ring_small</field><field name="VAR">group_a</field><next>
+<block type="object_circular_arrangement">
+<field name="CENTER">center2</field><field name="COUNT">6</field><field name="RADIUS">1.5</field><field name="CRADIUS">0.7</field><field name="COLOR">PURE_BLUE</field><field name="VAR">ring_large</field><next>
+<block type="object_group">
+<field name="A">center2</field><field name="B">ring_large</field><field name="VAR">group_b</field><next>
+<block type="scene_add">
+<field name="VAR">group_a</field><next>
+<block type="scene_wait">
+<field name="SECONDS">1</field><next>
+<block type="animate_replacement_transform">
+<field name="OBJ">group_a</field><field name="TARGET">group_b</field><next>
+<block type="animate_replacement_transform">
+<field name="OBJ">group_b</field><field name="TARGET">group_a</field><next>
+<block type="scene_wait">
+<field name="SECONDS">2</field></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
+</next></block>
 </xml>`,
   },
   {

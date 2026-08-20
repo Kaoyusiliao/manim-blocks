@@ -387,6 +387,21 @@ codeGens.object_brace_label = (b, n) =>
 codeGens.object_group = (b, n) =>
   indent(n) + `${_v(b, 'VAR')} = VGroup(${_v(b, 'A')}, ${_v(b, 'B')})`;
 
+codeGens.object_circular_arrangement = (b, n) => {
+  const center = _v(b, 'CENTER');
+  const count = _v(b, 'COUNT');
+  const radius = _v(b, 'RADIUS');
+  const cradius = _v(b, 'CRADIUS');
+  const color = b.getFieldValue('COLOR');
+  const varName = _v(b, 'VAR');
+  return `${indent(n)}${varName} = VGroup()\n` +
+    `${indent(n)}for i in range(${count}):\n` +
+    `${indent(n + 1)}c = Circle(radius=${cradius}, color=${color}, fill_opacity=1, stroke_width=0)\n` +
+    `${indent(n + 1)}angle = i * TAU / ${count}\n` +
+    `${indent(n + 1)}c.move_to(${center}.get_center() + ${radius} * np.array([np.cos(angle), np.sin(angle), 0]))\n` +
+    `${indent(n + 1)}${varName}.add(c)`;
+};
+
 // ── 进阶坐标 ──────────────────────────────────────────
 
 codeGens.object_number_plane = (b, n) =>

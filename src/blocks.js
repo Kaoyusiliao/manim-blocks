@@ -634,6 +634,22 @@ export const blockDefs = [
     previousStatement: null, nextStatement: null,
     colour: 230, tooltip: '将多个物体组合成一个组',
   },
+  {
+    type: 'object_circular_arrangement',
+    message0: '环形排列 %1 围绕 %2 数量 %3 间距半径 %4 圆半径 %5 颜色 %6 → %7',
+    args0: [
+      { type: 'field_variable', name: 'CENTER', variable: 'center' },
+      { type: 'field_number', name: 'COUNT', value: 6, min: 3, max: 24, precision: 1 },
+      { type: 'field_number', name: 'RADIUS', value: 0.4, min: 0.1, max: 10, precision: 0.1 },
+      { type: 'field_number', name: 'CRADIUS', value: 0.1, min: 0.01, max: 2, precision: 0.05 },
+      { type: 'field_dropdown', name: 'COLOR',
+        options: [['蓝色','PURE_BLUE'],['红色','RED'],['绿色','GREEN'],['黄色','YELLOW'],['橙色','ORANGE'],['紫色','PURPLE']],
+      },
+      { type: 'field_variable', name: 'VAR', variable: 'ring' },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 230, tooltip: '创建N个圆环形排列（用于错觉/齿轮/花瓣等效果）',
+  },
 
   // 进阶坐标
   {

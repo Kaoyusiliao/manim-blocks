@@ -113,6 +113,7 @@ export const toolboxJson = {
         { kind: 'block', type: 'object_brace' },
         { kind: 'block', type: 'object_brace_label' },
         { kind: 'block', type: 'object_group' },
+        { kind: 'block', type: 'object_circular_arrangement' },
         { kind: 'block', type: 'object_function_graph' },
         { kind: 'block', type: 'object_bar_chart' },
         { kind: 'block', type: 'object_vector_field' },
