@@ -1388,24 +1388,44 @@ self.wait(2)</field></block>
     xml: `<xml xmlns="https://developers.google.com/blockly/xml">
 <block type="custom_code_multiline" x="30" y="30">
 <field name="CODE">from manim import *
-config.background_color = WHITE
+import numpy as np
 
-center = Circle(radius=0.3, color=ORANGE, fill_opacity=1, stroke_width=0)
-center.move_to(LEFT*2 + UP*2)
-center2 = center.copy().move_to(ORIGIN)
-small = VGroup(*[Circle(radius=0.1, color=PURE_BLUE, fill_opacity=1, stroke_width=0).move_to(
-    center.get_center() + 0.4*np.array([np.cos(i*60*DEGREES), np.sin(i*60*DEGREES), 0])
-) for i in range(6)])
-large = VGroup(*[Circle(radius=0.7, color=PURE_BLUE, fill_opacity=1, stroke_width=0).move_to(
-    center2.get_center() + 1.5*np.array([np.cos(i*60*DEGREES), np.sin(i*60*DEGREES), 0])
-) for i in range(6)])
-a = VGroup(center, small)
-b = VGroup(center2, large)
-self.add(a)
-self.wait(1)
-self.play(ReplacementTransform(a, b), run_time=2)
-self.play(ReplacementTransform(b, a), run_time=2)
-self.wait(2)</field></block>
+# 错觉一：动态艾宾浩斯错觉
+class DynamicEbbinghaus(Scene):
+    def construct(self):
+        center = Circle(radius=0.3, color=ORANGE, fill_opacity=1, stroke_width=0)
+        center.move_to(LEFT*2 + UP*2)
+        center2 = center.copy().move_to(ORIGIN)
+        small = VGroup(*[Circle(radius=0.1, color=PURE_BLUE, fill_opacity=1, stroke_width=0).move_to(
+            center.get_center() + 0.4*np.array([np.cos(i*60*DEGREES), np.sin(i*60*DEGREES), 0])
+        ) for i in range(6)])
+        large = VGroup(*[Circle(radius=0.7, color=PURE_BLUE, fill_opacity=1, stroke_width=0).move_to(
+            center2.get_center() + 1.5*np.array([np.cos(i*60*DEGREES), np.sin(i*60*DEGREES), 0])
+        ) for i in range(6)])
+        a = VGroup(center, small)
+        b = VGroup(center2, large)
+        self.add(a)
+        self.wait(1)
+        self.play(ReplacementTransform(a, b), run_time=2)
+        self.play(ReplacementTransform(b, a), run_time=2)
+        self.wait(2)
+
+# 错觉二：动态穆勒-莱尔错觉
+class DynamicMullerLyer(Scene):
+    def construct(self):
+        count = 11; interval = 0.4
+        lines = VGroup()
+        for i in range(count // 2 + 1):
+            v = VGroup(
+                Line(UP*2.5, UP*1.5, stroke_width=2, color=PURE_BLUE),
+                Line(UP*1.5, UP*0.5, stroke_width=2, color=PURE_RED),
+                Line(UP*0.5, DOWN*0.5, stroke_width=2, color=PURE_BLUE),
+                Line(DOWN*0.5, DOWN*1.5, stroke_width=2, color=PURE_RED),
+                Line(DOWN*1.5, DOWN*2.5, stroke_width=2, color=PURE_BLUE),
+            ).shift(LEFT*i*interval)
+            lines.add(v)
+        self.play(Create(lines))
+        self.wait(2)</field></block>
 </xml>`,
   },
   {
