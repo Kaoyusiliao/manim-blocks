@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manim Blocks — 积木式数学动画创作</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
-  <script type="module" crossorigin src="./assets/index-DcmZUFGJ.js"></script>
+  <script type="module" crossorigin src="./assets/index-DpvH8VV1.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-Na23wIBx.css">
 </head>
 <body>
@@ -146,15 +146,15 @@
               <h3>📦 安装 Manim 引擎（只要一次）</h3>
               <p class="guide-desc">在刚才那个「终端 / 命令行」窗口里，粘贴下面这行，按回车，等它跑完（约 1-3 分钟）：</p>
               <div class="code-block">
-                <code>pip install manim</code>
-                <button class="btn btn-tiny copy-inline" data-copy="pip install manim">复制</button>
+                <code>pip install manim sympy</code>
+                <button class="btn btn-tiny copy-inline" data-copy="pip install manim sympy">复制</button>
               </div>
               <p class="guide-hint">🐢 如果太慢或失败（国内网络常见），改用清华镜像源：</p>
               <div class="code-block">
-                <code>pip install manim -i https://pypi.tuna.tsinghua.edu.cn/simple</code>
-                <button class="btn btn-tiny copy-inline" data-copy="pip install manim -i https://pypi.tuna.tsinghua.edu.cn/simple">复制</button>
+                <code>pip install manim sympy -i https://pypi.tuna.tsinghua.edu.cn/simple</code>
+                <button class="btn btn-tiny copy-inline" data-copy="pip install manim sympy -i https://pypi.tuna.tsinghua.edu.cn/simple">复制</button>
               </div>
-              <p class="guide-hint">✅ 看到 <code class="inline-code">Successfully installed manim</code> 就成功了！</p>
+              <p class="guide-hint">✅ 看到 <code class="inline-code">Successfully installed manim</code> 就成功了！<br/>📐 顺带装了 <b>sympy</b>（数学公式推导库），进阶课程的「自定义代码」会用到它。</p>
               <p class="guide-hint">🆕 <b>升级提醒：</b>如果之前装过旧版，可运行 <code class="inline-code">pip install -U manim</code> 升级到最新版（本工具适配 Manim CE 0.19+，建议升级）。</p>
             </div>
           </div>
@@ -300,7 +300,13 @@
         <p class="modal-desc">跟着课程搭建积木，右边自动生成代码，每课都能直接运行！</p>
         <div class="course-tabs">
           <button class="course-tab active" data-level="basic">📘 基础</button>
+          <button class="course-tab" data-level="sympy">🧮 SymPy</button>
           <button class="course-tab" data-level="advanced">🚀 进阶</button>
+        </div>
+        <div class="course-subtitle" id="sympyNote" style="display:none;font-size:12px;color:#888;margin:4px 0 8px;padding:0 8px;line-height:1.4;">
+          ⚡ SymPy 系列需要电脑安装 <code style="font-size:12px;background:#eee;padding:1px 5px;border-radius:3px;">sympy</code>（<code style="font-size:12px;background:#eee;padding:1px 5px;border-radius:3px;">pip install sympy</code>），
+          使用「自定义代码（多行）」积木直接运行完整 Python 代码。适合有一定 Manim 基础的用户。
+          点击课程卡片自动加载，右键复制代码到本地运行。
         </div>
         <div class="modal-grid" id="examplesGrid">
           <!-- 由 JS 动态生成 -->

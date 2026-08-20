@@ -32,6 +32,7 @@ export const toolboxJson = {
       colour: '20', // orange-red
       contents: [
         { kind: 'block', type: 'custom_code' },
+        { kind: 'block', type: 'custom_code_multiline' },
         { kind: 'block', type: 'custom_mobject' },
         { kind: 'block', type: 'custom_call_method' },
         { kind: 'block', type: 'custom_function' },

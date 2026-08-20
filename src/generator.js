@@ -1092,6 +1092,13 @@ codeGens.custom_code = (b, n) => {
   return code.split('\n').map(line => indent(n) + line).join('\n');
 };
 
+// 多行自定义代码（SymPy 系列等长代码）
+codeGens.custom_code_multiline = (b, n) => {
+  const code = _v(b, 'CODE').trim();
+  if (!code) return '';
+  return code.split('\n').map(line => indent(n) + line).join('\n');
+};
+
 codeGens.custom_function = (b, n) => {
   const func = _v(b, 'FUNC').trim();
   if (!func) return '';

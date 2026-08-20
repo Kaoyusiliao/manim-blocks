@@ -2299,6 +2299,13 @@ export const blockDefs = [
     colour: 20, tooltip: '直接输入任意 Python/Manim 代码行 — 实现任何功能（点云/渲染器/自定义类等）',
   },
   {
+    type: 'custom_code_multiline',
+    message0: '自定义代码（多行）%1',
+    args0: [{ type: 'field_input', name: 'CODE', text: 'from sympy import *; x = symbols("x")' }],
+    previousStatement: null, nextStatement: null,
+    colour: 20, tooltip: '直接粘贴多行 Python/Manim/SymPy 代码 — 进阶课程（SymPy 系列）用',
+  },
+  {
     type: 'custom_function',
     message0: '自定义函数 %1',
     args0: [{ type: 'field_input', name: 'FUNC', text: 'def f(x):\n return x**3' }],
