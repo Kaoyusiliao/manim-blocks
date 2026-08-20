@@ -1257,6 +1257,7 @@ export function generateCode(workspace) {
   let needs3D = false;
   let needsVectorScene = false;
   let needsZoomed = false;
+  let needsChineseTitle = false;
 
   for (const block of chainHeads) {
     const types = collectBlockTypes(block);
@@ -1275,6 +1276,7 @@ export function generateCode(workspace) {
     if (types.has('scene_vector_scene') || types.has('scene_linear_transform'))
       needsVectorScene = true;
     if (types.has('scene_zoomed')) needsZoomed = true;
+    if (types.has('object_title')) needsChineseTitle = true;
     for (const t of types) {
       if (t.startsWith('object3d_') || t === 'camera_3d_orientation' || t === 'object_parametric_function_3d') needs3D = true;
     }
@@ -1286,6 +1288,12 @@ export function generateCode(workspace) {
   if (needsMath) imports.push('import math');
   for (const imp of pendingImports) imports.push(imp);
   pendingImports.clear();
+
+  // 中文标题需要 xelatex（latex 不支持 Unicode）
+  if (needsChineseTitle) {
+    imports.push('');
+    imports.push("config.tex_template = TexTemplate(tex_compiler='xelatex', output_format='.xdv', preamble=r'\\usepackage{xeCJK}')");
+  }
 
   // 生成 body：只处理「咬合」的积木链。
   // 规则：程序 = 通过 next 连接在一起的积木链。
