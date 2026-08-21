@@ -220,7 +220,9 @@ codeGens.object_label = (b, n) => {
   const target = _v(b, 'TARGET');
   const direction = _v(b, 'DIRECTION');
   const buff = _v(b, 'BUFF');
-  return indent(n) + `${varName} = MathTex("${esc(content)}").next_to(${target}, ${direction}, buff=${buff})`;
+  // 包含 { 时用 f-string 支持变量替换
+  const quote = content.includes('{') ? 'f"' : '"';
+  return indent(n) + `${varName} = MathTex(${quote}${esc(content)}${quote}).next_to(${target}, ${direction}, buff=${buff})`;
 };
 
 // ── 进阶形状 ──────────────────────────────────────────

@@ -1290,16 +1290,20 @@ const EXAMPLES = [
 <field name="EXPR">pos_a - pos_b</field><field name="VARS">t</field><field name="VAR">solutions</field><next>
 <block type="sympy_evalf">
 <field name="EXPR">solutions[0]</field><field name="VAR">meet_t</field><next>
+<block type="sympy_lambdify">
+<field name="EXPR">pos_a</field><field name="VARS">t</field><field name="VAR">a_func</field><next>
+<block type="sympy_lambdify">
+<field name="EXPR">pos_b</field><field name="VARS">t</field><field name="VAR">b_func</field><next>
 <block type="object_axes">
 <field name="VAR">ax</field><field name="XMIN">0</field><field name="XMAX">5</field><field name="YMIN">0</field><field name="YMAX">120</field><next>
-<block type="custom_code">
-<field name="CODE">a_line = ax.plot(lambda t: 30*t, color=BLUE)</field><next>
-<block type="custom_code">
-<field name="CODE">b_line = ax.plot(lambda t: 20*(t-1)+20, color=RED)</field><next>
+<block type="object_graph_func">
+<field name="VAR">a_line</field><field name="AXES">ax</field><field name="FUNC">a_func</field><field name="COLOR">BLUE</field><next>
+<block type="object_graph_func">
+<field name="VAR">b_line</field><field name="AXES">ax</field><field name="FUNC">b_func</field><field name="COLOR">RED</field><next>
 <block type="object_dot_axes">
 <field name="AXES">ax</field><field name="X">meet_t</field><field name="Y">30*meet_t</field><field name="COLOR">YELLOW</field><field name="VAR">dot</field><next>
-<block type="custom_code">
-<field name="CODE">label = MathTex(f"t={meet_t:.2f}s, s={30*meet_t:.1f}m").next_to(ax, RIGHT, buff=0.1).shift(LEFT * 0.5)</field><next>
+<block type="object_label">
+<field name="VAR">label</field><field name="CONTENT">t={meet_t:.2f}s, s={30*meet_t:.1f}m</field><field name="TARGET">dot</field><field name="DIRECTION">RIGHT</field><field name="BUFF">0.3</field><next>
 <block type="animate_create">
 <field name="VAR">ax</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
@@ -1308,10 +1312,10 @@ const EXAMPLES = [
 <field name="VAR">b_line</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
 <field name="VAR">dot</field><field name="DURATION">1.5</field><next>
-<block type="animate_create">
+<block type="animate_write">
 <field name="VAR">label</field><field name="DURATION">1.5</field><next>
 <block type="scene_wait">
-<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
+<field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 23 课 · 抛物线求根（SymPy）',
