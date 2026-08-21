@@ -1299,7 +1299,7 @@ const EXAMPLES = [
 <block type="object_dot_axes">
 <field name="AXES">ax</field><field name="X">meet_t</field><field name="Y">30*meet_t</field><field name="COLOR">YELLOW</field><field name="VAR">dot</field><next>
 <block type="custom_code">
-<field name="CODE">label = MathTex(f"t={meet_t:.2f}s, s={30*meet_t:.1f}m").next_to(dot, RIGHT, buff=0.3)</field><next>
+<field name="CODE">label = MathTex(f"t={meet_t:.2f}s, s={30*meet_t:.1f}m").next_to(ax, RIGHT, buff=0.5)</field><next>
 <block type="animate_create">
 <field name="VAR">ax</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
