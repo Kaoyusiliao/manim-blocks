@@ -16,10 +16,13 @@ import shutil
 import sys
 import tempfile
 import uuid
+import mimetypes
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse
 
 PORT = 3081
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DIST_DIR = os.path.join(SCRIPT_DIR, 'dist')
 
 
 def _free_port(port):
@@ -67,12 +70,51 @@ class RenderHandler(BaseHTTPRequestHandler):
         self._cors()
         self.end_headers()
 
-    # ── 渲染入口 ─────────────────────────────────
+    # ── 静态文件 + 健康检查 ─────────────────────
     def do_GET(self):
-        """健康检查"""
         path = urlparse(self.path).path
         if path == '/health':
             self._json(200, {'status': 'ok'})
+            return
+
+        # 安全路径规范化，防止目录遍历
+        if path == '/' or path == '':
+            path = '/index.html'
+        safe = os.path.normpath(path.lstrip('/'))
+        filepath = os.path.join(DIST_DIR, safe)
+        if not filepath.startswith(os.path.abspath(DIST_DIR)):
+            self._json(404, {'error': 'not found'})
+            return
+
+        if os.path.isfile(filepath):
+            mime, _ = mimetypes.guess_type(filepath)
+            if mime is None:
+                mime = 'application/octet-stream'
+            try:
+                with open(filepath, 'rb') as f:
+                    data = f.read()
+                self.send_response(200)
+                self._cors()
+                self.send_header('Content-Type', mime)
+                self.send_header('Content-Length', str(len(data)))
+                self.end_headers()
+                self.wfile.write(data)
+            except Exception:
+                self._json(500, {'error': 'read error'})
+        else:
+            # SPA fallback: 非文件路径返回 index.html
+            index = os.path.join(DIST_DIR, 'index.html')
+            if os.path.isfile(index):
+                with open(index, 'rb') as f:
+                    data = f.read()
+                self.send_response(200)
+                self._cors()
+                self.send_header('Content-Type', 'text/html; charset=utf-8')
+                self.send_header('Content-Length', str(len(data)))
+                self.end_headers()
+                self.wfile.write(data)
+            else:
+                self._json(404, {'error': 'not found'})
 
     def do_POST(self):
         path = urlparse(self.path).path
@@ -178,10 +220,11 @@ if __name__ == '__main__':
 
     print(f'🎬  Manim 渲染服务器')
     print(f'    地址: http://127.0.0.1:{PORT}')
-    print(f'    API:  POST /render  {{ code, scene }}')
-    print(f'    返回: video/mp4')
+    print(f'    Web GUI:  http://127.0.0.1:{PORT}')
+    print(f'    API:      POST /render  {{ code, scene }}')
+    print(f'    返回:     video/mp4')
     print()
-    print(f'    启动 Web GUI 后，点击「▶ 运行」即可一键渲染')
+    print(f'    浏览器打开 http://127.0.0.1:{PORT} 即可使用积木编程')
 
     server = ReusableHTTPServer(('127.0.0.1', PORT), RenderHandler)
     server.serve_forever()

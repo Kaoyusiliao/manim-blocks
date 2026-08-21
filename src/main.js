@@ -1953,7 +1953,11 @@ try {
 
 // ── ▶ 运行按钮 → 渲染服务器 ──────────────────────────
 
-const RENDER_URL = 'http://127.0.0.1:3081/render';
+// 渲染服务器 URL（可从 localStorage 或环境变量配置）
+const RENDER_BASE = localStorage.getItem('renderBase') || 'http://127.0.0.1:3081';
+const RENDER_URL = RENDER_BASE + '/render';
+const HEALTH_URL = RENDER_BASE + '/health';
+
 const runBtn = document.getElementById('runBtn');
 const qualitySelect = document.getElementById('qualitySelect');
 const videoContainer = document.getElementById('videoContainer');
@@ -1964,7 +1968,7 @@ const renderBadge = document.getElementById('renderBadge');
 // 检测服务器状态（仅作显示，不禁用按钮）
 async function checkRenderServer() {
   try {
-    const res = await fetch('http://127.0.0.1:3081/health', {
+    const res = await fetch(HEALTH_URL, {
       signal: AbortSignal.timeout(2000),
     });
     if (res.ok) {
@@ -1978,6 +1982,16 @@ async function checkRenderServer() {
     renderBadge.className = 'render-badge offline';
   }
 }
+
+// 点击状态徽章可配置服务器地址
+renderBadge.addEventListener('click', () => {
+  const url = prompt('渲染服务器地址（含端口号）：', RENDER_BASE);
+  if (url) {
+    localStorage.setItem('renderBase', url.replace(/\/+$/, ''));
+    location.reload();
+  }
+});
+renderBadge.title = '点击设置渲染服务器地址';
 
 checkRenderServer();
 setInterval(checkRenderServer, 10000);
