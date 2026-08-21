@@ -1410,7 +1410,7 @@ pause
 <block type="custom_code">
 <field name="CODE">riemann = ax.get_riemann_rectangles(graph, x_range=[0, 2], dx=0.5, stroke_color=WHITE)</field><next>
 <block type="custom_code">
-<field name="CODE">label = MathTex(f"\\\\int_0^2 x^2 \\\\, dx = {area_val:.4f}").next_to(ax, DOWN)</field><next>
+<field name="CODE">label = MathTex(f"\\\\int_0^2 x^2 \\\\, dx = {area_val:.4f}").to_edge(DOWN, buff=0.5)</field><next>
 <block type="animate_create">
 <field name="VAR">ax</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
@@ -1448,7 +1448,7 @@ pause
 <block type="object_dot_axes">
 <field name="AXES">ax</field><field name="X">meet_t</field><field name="Y">30*meet_t</field><field name="COLOR">YELLOW</field><field name="VAR">dot</field><next>
 <block type="custom_code">
-<field name="CODE">label = MathTex(f"t={meet_t:.2f}s, s={30*meet_t:.1f}m").next_to(ax, DOWN)</field><next>
+<field name="CODE">label = MathTex(f"t={meet_t:.2f}s, s={30*meet_t:.1f}m").to_edge(DOWN, buff=0.5)</field><next>
 <block type="animate_create">
 <field name="VAR">ax</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
