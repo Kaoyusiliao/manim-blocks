@@ -1206,16 +1206,20 @@ const EXAMPLES = [
 <field name="EXPR">f_sym</field><field name="VAR">x</field><field name="RESULT">df</field><next>
 <block type="sympy_subs">
 <field name="EXPR">df</field><field name="VAR">x</field><field name="VALUE">1</field><field name="RESULT">k_val</field><next>
-<block type="sympy_evalf">
-<field name="EXPR">k_val</field><field name="VAR">k</field><next>
+<block type="sympy_subs">
+<field name="EXPR">f_sym</field><field name="VAR">x</field><field name="VALUE">1</field><field name="RESULT">f1_val</field><next>
+<block type="sympy_expr">
+<field name="VAR">tangent_expr</field><field name="EXPR">k_val*(x-1) + f1_val</field><next>
 <block type="sympy_lambdify">
 <field name="EXPR">f_sym</field><field name="VARS">x</field><field name="VAR">f</field><next>
+<block type="sympy_lambdify">
+<field name="EXPR">tangent_expr</field><field name="VARS">x</field><field name="VAR">tangent_func</field><next>
 <block type="object_axes">
 <field name="VAR">ax</field><field name="XMIN">-1</field><field name="XMAX">3</field><field name="YMIN">-2</field><field name="YMAX">3</field><next>
 <block type="object_graph_func">
 <field name="AXES">ax</field><field name="FUNC">f</field><field name="COLOR">YELLOW</field><field name="VAR">graph</field><next>
-<block type="custom_code">
-<field name="CODE">tangent = ax.plot(lambda x: k*(x-1) + f(1), color=RED)</field><next>
+<block type="object_graph_func">
+<field name="AXES">ax</field><field name="FUNC">tangent_func</field><field name="COLOR">RED</field><field name="VAR">tangent</field><next>
 <block type="animate_create">
 <field name="VAR">ax</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
@@ -1223,7 +1227,7 @@ const EXAMPLES = [
 <block type="animate_create">
 <field name="VAR">tangent</field><field name="DURATION">2</field><next>
 <block type="scene_wait">
-<field name="SECONDS">3</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
+<field name="SECONDS">3</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
   {
     name: '第 21 课 · 积分面积（SymPy）',
@@ -1251,10 +1255,10 @@ const EXAMPLES = [
 <field name="VAR">ax</field><field name="XMIN">-1</field><field name="XMAX">3</field><field name="YMIN">-1</field><field name="YMAX">5</field><next>
 <block type="object_graph">
 <field name="AXES">ax</field><field name="VAR">graph</field><field name="FUNC">x**2</field><next>
-<block type="custom_code">
-<field name="CODE">riemann = ax.get_riemann_rectangles(graph, x_range=[0, 2], dx=0.5, stroke_color=WHITE)</field><next>
-<block type="custom_code">
-<field name="CODE">label = MathTex(f"\\\\int_0^2 x^2 \\\\, dx = {area_val:.4f}").to_edge(DOWN, buff=0.5)</field><next>
+<block type="custom_mobject">
+<field name="VAR">riemann</field><field name="CODE">ax.get_riemann_rectangles(graph, x_range=[0, 2], dx=0.5, stroke_color=WHITE)</field><next>
+<block type="object_label">
+<field name="VAR">label</field><field name="CONTENT">\\int_0^2 x^2 \\, dx = {area_val:.4f}</field><field name="TARGET">ax</field><field name="DIRECTION">DOWN</field><field name="BUFF">0.5</field><next>
 <block type="animate_create">
 <field name="VAR">ax</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
@@ -1343,10 +1347,10 @@ const EXAMPLES = [
 <field name="VAR">ax</field><field name="XMIN">-1</field><field name="XMAX">5</field><field name="YMIN">-2</field><field name="YMAX">5</field><next>
 <block type="object_graph">
 <field name="AXES">ax</field><field name="VAR">graph</field><field name="FUNC">x**2 - 4*x + 3</field><next>
-<block type="custom_code">
-<field name="CODE">root_dots = VGroup(*[Dot(ax.c2p(float(r), 0), color=RED) for r in roots])</field><next>
-<block type="custom_code">
-<field name="CODE">root_labels = VGroup(*[MathTex(f"x={float(r):.1f}").next_to(ax.c2p(float(r), 0), DOWN) for r in roots])</field><next>
+<block type="custom_mobject">
+<field name="VAR">root_dots</field><field name="CODE">VGroup(*[Dot(ax.c2p(float(r), 0), color=RED) for r in roots])</field><next>
+<block type="custom_mobject">
+<field name="VAR">root_labels</field><field name="CODE">VGroup(*[MathTex(f"x={float(r):.1f}").next_to(ax.c2p(float(r), 0), DOWN) for r in roots])</field><next>
 <block type="object_math_tex">
 <field name="VAR">formula</field><field name="TEX">f(x) = x^2 - 4x + 3</field><next>
 <block type="animate_create">
@@ -1384,14 +1388,14 @@ const EXAMPLES = [
 <field name="EXPR">root</field><field name="VAR">root_val</field><next>
 <block type="object_axes">
 <field name="VAR">ax</field><field name="XMIN">-1</field><field name="XMAX">5</field><field name="YMIN">-1</field><field name="YMAX">3</field><next>
-<block type="custom_code">
-<field name="CODE">sin_graph = ax.plot(lambda x: float(sin(x)), color=BLUE)</field><next>
-<block type="custom_code">
-<field name="CODE">line_graph = ax.plot(lambda x: x/2, color=RED)</field><next>
-<block type="custom_code">
-<field name="CODE">dot = Dot(ax.c2p(root_val, float(sin(root_val))), color=YELLOW)</field><next>
-<block type="custom_code">
-<field name="CODE">label = MathTex(f"x \\\\approx {root_val:.4f}").next_to(dot, UR)</field><next>
+<block type="custom_mobject">
+<field name="VAR">sin_graph</field><field name="CODE">sin_graph = ax.plot(lambda x: float(sin(x)), color=BLUE)</field><next>
+<block type="custom_mobject">
+<field name="VAR">line_graph</field><field name="CODE">line_graph = ax.plot(lambda x: x/2, color=RED)</field><next>
+<block type="custom_mobject">
+<field name="VAR">dot</field><field name="CODE">dot = Dot(ax.c2p(root_val, float(sin(root_val))), color=YELLOW)</field><next>
+<block type="custom_mobject">
+<field name="VAR">label</field><field name="CODE">label = MathTex(f"x \\\\approx {root_val:.4f}").next_to(dot, UR)</field><next>
 <block type="animate_create">
 <field name="VAR">ax</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
@@ -1433,8 +1437,8 @@ const EXAMPLES = [
 <field name="VAR">f2</field><field name="TEX">x^2 + 5x + 6 = (x+2)(x+3)</field><field name="X">0</field><field name="Y">0</field><next>
 <block type="object_math_tex">
 <field name="VAR">f3</field><field name="TEX">sin^2 x + cos^2 x = 1</field><field name="X">0</field><field name="Y">-1</field><next>
-<block type="custom_code">
-<field name="CODE">heading = Text("SymPy 自动公式推导", font_size=36).to_edge(UP)</field><next>
+<block type="custom_mobject">
+<field name="VAR">heading</field><field name="CODE">heading = Text("SymPy 自动公式推导", font_size=36).to_edge(UP)</field><next>
 <block type="animate_create">
 <field name="VAR">title</field><field name="DURATION">1.5</field><next>
 <block type="scene_play">
@@ -1466,16 +1470,16 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y</field><next>
-<block type="custom_code">
-<field name="CODE">sol = solve([0.5*x+1-y, -0.8*x+4-y], (x,y), dict=True)[0]; cx, cy = float(sol[x]), float(sol[y])</field><next>
+<block type="custom_mobject">
+<field name="VAR">sol</field><field name="CODE">sol = solve([0.5*x+1-y, -0.8*x+4-y], (x,y), dict=True)[0]; cx, cy = float(sol[x]), float(sol[y])</field><next>
 <block type="object_axes">
 <field name="VAR">ax</field><field name="XMIN">-1</field><field name="XMAX">5</field><field name="YMIN">-1</field><field name="YMAX">5</field><next>
-<block type="custom_code">
-<field name="CODE">l1 = ax.plot(lambda x: 0.5*x+1, color=BLUE)</field><next>
-<block type="custom_code">
-<field name="CODE">l2 = ax.plot(lambda x: -0.8*x+4, color=RED)</field><next>
-<block type="custom_code">
-<field name="CODE">dot = Dot(ax.c2p(cx, cy), color=YELLOW); label = MathTex(f"({cx:.2f}, {cy:.2f})").next_to(dot, UR)</field><next>
+<block type="custom_mobject">
+<field name="VAR">l1</field><field name="CODE">l1 = ax.plot(lambda x: 0.5*x+1, color=BLUE)</field><next>
+<block type="custom_mobject">
+<field name="VAR">l2</field><field name="CODE">l2 = ax.plot(lambda x: -0.8*x+4, color=RED)</field><next>
+<block type="custom_mobject">
+<field name="VAR">dot</field><field name="CODE">dot = Dot(ax.c2p(cx, cy), color=YELLOW); label = MathTex(f"({cx:.2f}, {cy:.2f})").next_to(dot, UR)</field><next>
 <block type="animate_create">
 <field name="VAR">ax</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
@@ -1507,12 +1511,12 @@ const EXAMPLES = [
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">t, k, m</field><next>
 <block type="object_axes">
 <field name="VAR">ax</field><field name="XMIN">0</field><field name="XMAX">10</field><field name="YMIN">-2</field><field name="YMAX">2</field><next>
-<block type="custom_code">
-<field name="CODE">x_fn = lambda t: float(cos(sqrt(2/1)*t)); graph = ax.plot(x_fn, color=YELLOW)</field><next>
-<block type="custom_code">
-<field name="CODE">tracker = ValueTracker(0); dot = always_redraw(lambda: Dot(ax.c2p(tracker.get_value(), x_fn(tracker.get_value())), color=RED))</field><next>
-<block type="custom_code">
-<field name="CODE">label = always_redraw(lambda: MathTex(f"t={tracker.get_value():.1f}").to_corner(UL))</field><next>
+<block type="custom_mobject">
+<field name="VAR">x_fn</field><field name="CODE">x_fn = lambda t: float(cos(sqrt(2/1)*t)); graph = ax.plot(x_fn, color=YELLOW)</field><next>
+<block type="custom_mobject">
+<field name="VAR">tracker</field><field name="CODE">tracker = ValueTracker(0); dot = always_redraw(lambda: Dot(ax.c2p(tracker.get_value(), x_fn(tracker.get_value())), color=RED))</field><next>
+<block type="custom_mobject">
+<field name="VAR">label</field><field name="CODE">label = always_redraw(lambda: MathTex(f"t={tracker.get_value():.1f}").to_corner(UL))</field><next>
 <block type="animate_create">
 <field name="VAR">ax</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
@@ -1521,8 +1525,8 @@ const EXAMPLES = [
 <field name="VAR">dot</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
 <field name="VAR">label</field><field name="DURATION">1.5</field><next>
-<block type="custom_code">
-<field name="CODE">self.play(tracker.animate.set_value(10), run_time=6, rate_func=linear)</field><next>
+<block type="custom_mobject">
+<field name="VAR">custom</field><field name="CODE">self.play(tracker.animate.set_value(10), run_time=6, rate_func=linear)</field><next>
 <block type="scene_wait">
 <field name="SECONDS">1</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
@@ -1572,14 +1576,14 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x</field><next>
-<block type="custom_code">
-<field name="CODE">x_int = float(solve(2*x+1, x)[0]); y_int = float(2*0+1)</field><next>
+<block type="custom_mobject">
+<field name="VAR">x_int</field><field name="CODE">x_int = float(solve(2*x+1, x)[0]); y_int = float(2*0+1)</field><next>
 <block type="object_axes">
 <field name="VAR">ax</field><field name="XMIN">-5</field><field name="XMAX">5</field><field name="YMIN">-5</field><field name="YMAX">5</field><next>
 <block type="object_graph">
 <field name="AXES">ax</field><field name="VAR">line</field><field name="FUNC">2*x+1</field><next>
-<block type="custom_code">
-<field name="CODE">x_dot = Dot(ax.c2p(x_int, 0), color=RED); y_dot = Dot(ax.c2p(0, y_int), color=GREEN)</field><next>
+<block type="custom_mobject">
+<field name="VAR">x_dot</field><field name="CODE">x_dot = Dot(ax.c2p(x_int, 0), color=RED); y_dot = Dot(ax.c2p(0, y_int), color=GREEN)</field><next>
 <block type="object_math_tex">
 <field name="VAR">label</field><field name="TEX">y = 2x + 1</field><field name="X">0</field><field name="Y">3.5</field><next>
 <block type="animate_create">
@@ -1611,12 +1615,12 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y</field><next>
-<block type="custom_code">
-<field name="CODE">sol = solve([Eq(x**2+y**2,25), Eq((x-4)**2+y**2,9)], (x,y)); C = [s for s in sol if s[1]>0][0]; C_pt = np.array([float(C[0]), float(C[1]), 0])</field><next>
-<block type="custom_code">
-<field name="CODE">tri = Polygon([0,0,0], [4,0,0], C_pt, color=YELLOW, fill_opacity=0.3)</field><next>
-<block type="custom_code">
-<field name="CODE">labels = VGroup(MathTex('A(0,0)').next_to([0,0,0], DL), MathTex('B(4,0)').next_to([4,0,0], DR), MathTex(f'C({float(C[0]):.1f},{float(C[1]):.1f})').next_to(C_pt, UP))</field><next>
+<block type="custom_mobject">
+<field name="VAR">sol</field><field name="CODE">sol = solve([Eq(x**2+y**2,25), Eq((x-4)**2+y**2,9)], (x,y)); C = [s for s in sol if s[1]>0][0]; C_pt = np.array([float(C[0]), float(C[1]), 0])</field><next>
+<block type="custom_mobject">
+<field name="VAR">tri</field><field name="CODE">tri = Polygon([0,0,0], [4,0,0], C_pt, color=YELLOW, fill_opacity=0.3)</field><next>
+<block type="custom_mobject">
+<field name="VAR">labels</field><field name="CODE">labels = VGroup(MathTex('A(0,0)').next_to([0,0,0], DL), MathTex('B(4,0)').next_to([4,0,0], DR), MathTex(f'C({float(C[0]):.1f},{float(C[1]):.1f})').next_to(C_pt, UP))</field><next>
 <block type="animate_create">
 <field name="VAR">tri</field><field name="DURATION">2</field><next>
 <block type="animate_write">
@@ -1797,20 +1801,20 @@ const EXAMPLES = [
 <field name="VAR">title</field><field name="DURATION">0.5</field><next>
 <block type="sympy_import" x="30" y="30">
 <field name="MODULES">from sympy import *</field><field name="SYMBOLS">x, y, k, b</field><next>
-<block type="custom_code">
-<field name="CODE">def get_line(p1,p2): sol=solve([Eq(p1[0]*k+b,p1[1]),Eq(p2[0]*k+b,p2[1])],(k,b),dict=True)[0]; return float(sol[k]),float(sol[b])</field><next>
-<block type="custom_code">
-<field name="CODE">def cross_point(l1k,l1b,l2k,l2b): sol=solve([Eq(l1k*x+l1b,y),Eq(l2k*x+l2b,y)],(x,y),dict=True)[0]; return np.array([float(sol[x]),float(sol[y]),0])</field><next>
-<block type="custom_code">
-<field name="CODE">pts = {"A":[-2.5,2,0],"B":[-2.5,-3,0],"C":[2.5,-3,0],"D":[2.5,2,0]}; rect = Polygon(*[pts[k] for k in ["A","B","C","D"]], stroke_width=3, color=GREEN)</field><next>
-<block type="custom_code">
-<field name="CODE">E = Dot([-0.52,2,0], color=BLUE); F = Dot([0.52,2,0], color=BLUE); H = Dot([0,0,0], color=YELLOW)</field><next>
-<block type="custom_code">
-<field name="CODE">F.add_updater(lambda z: z.become(Dot(pts["D"]-(E.get_center()-pts["A"]), color=BLUE))); H.add_updater(lambda z: z.become(Dot(cross_point(*get_line(pts["B"],E.get_center()),*get_line(pts["C"],F.get_center())), color=YELLOW)))</field><next>
-<block type="custom_code">
-<field name="CODE">self.play(Create(rect), Create(VGroup(E, F, H)))</field><next>
-<block type="custom_code">
-<field name="CODE">self.play(E.animate.shift(LEFT*1.5), run_time=3)</field><next>
+<block type="custom_mobject">
+<field name="VAR">custom</field><field name="CODE">def get_line(p1,p2): sol=solve([Eq(p1[0]*k+b,p1[1]),Eq(p2[0]*k+b,p2[1])],(k,b),dict=True)[0]; return float(sol[k]),float(sol[b])</field><next>
+<block type="custom_mobject">
+<field name="VAR">custom</field><field name="CODE">def cross_point(l1k,l1b,l2k,l2b): sol=solve([Eq(l1k*x+l1b,y),Eq(l2k*x+l2b,y)],(x,y),dict=True)[0]; return np.array([float(sol[x]),float(sol[y]),0])</field><next>
+<block type="custom_mobject">
+<field name="VAR">pts</field><field name="CODE">pts = {"A":[-2.5,2,0],"B":[-2.5,-3,0],"C":[2.5,-3,0],"D":[2.5,2,0]}; rect = Polygon(*[pts[k] for k in ["A","B","C","D"]], stroke_width=3, color=GREEN)</field><next>
+<block type="custom_mobject">
+<field name="VAR">E</field><field name="CODE">E = Dot([-0.52,2,0], color=BLUE); F = Dot([0.52,2,0], color=BLUE); H = Dot([0,0,0], color=YELLOW)</field><next>
+<block type="custom_mobject">
+<field name="VAR">custom</field><field name="CODE">F.add_updater(lambda z: z.become(Dot(pts["D"]-(E.get_center()-pts["A"]), color=BLUE))); H.add_updater(lambda z: z.become(Dot(cross_point(*get_line(pts["B"],E.get_center()),*get_line(pts["C"],F.get_center())), color=YELLOW)))</field><next>
+<block type="custom_mobject">
+<field name="VAR">custom</field><field name="CODE">self.play(Create(rect), Create(VGroup(E, F, H)))</field><next>
+<block type="custom_mobject">
+<field name="VAR">custom</field><field name="CODE">self.play(E.animate.shift(LEFT*1.5), run_time=3)</field><next>
 <block type="scene_wait">
 <field name="SECONDS">2</field></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></next></block></xml>`,
   },
