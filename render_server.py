@@ -17,7 +17,6 @@ import sys
 import tempfile
 import uuid
 import mimetypes
-import webbrowser
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse
 
@@ -225,8 +224,6 @@ if __name__ == '__main__':
     print(f'    返回:     video/mp4')
     print()
     print(f'    浏览器打开 http://127.0.0.1:{PORT} 即可使用积木编程')
-
-    webbrowser.open(f'http://127.0.0.1:{PORT}')
 
     server = ReusableHTTPServer(('127.0.0.1', PORT), RenderHandler)
     server.serve_forever()

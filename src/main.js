@@ -1965,22 +1965,28 @@ const videoPlayer = document.getElementById('videoPlayer');
 const videoStatus = document.getElementById('videoStatus');
 const renderBadge = document.getElementById('renderBadge');
 
+// 兼容旧浏览器的 AbortSignal.timeout 回退
+function fetchWithTimeout(url, ms) {
+  if (typeof AbortSignal.timeout === 'function') {
+    return fetch(url, { signal: AbortSignal.timeout(ms) });
+  }
+  const ctrl = new AbortController();
+  setTimeout(() => ctrl.abort(), ms);
+  return fetch(url, { signal: ctrl.signal });
+}
+
 // 检测服务器状态（仅作显示，不禁用按钮）
 async function checkRenderServer() {
   try {
-    const res = await fetch(HEALTH_URL, {
-      signal: AbortSignal.timeout(2000),
-    });
+    const res = await fetchWithTimeout(HEALTH_URL, 2000);
     if (res.ok) {
       renderBadge.textContent = '● 在线';
       renderBadge.className = 'render-badge online';
-    } else {
-      throw new Error('not ok');
+      return;
     }
-  } catch {
-    renderBadge.textContent = '● 离线';
-    renderBadge.className = 'render-badge offline';
-  }
+  } catch { /* fall through */ }
+  renderBadge.textContent = '● 离线';
+  renderBadge.className = 'render-badge offline';
 }
 
 // 点击状态徽章可配置服务器地址
