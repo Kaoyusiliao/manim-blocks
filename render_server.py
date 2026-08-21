@@ -14,6 +14,7 @@ import json
 import mimetypes
 import os
 import shutil
+import subprocess
 import sys
 import tempfile
 import uuid
