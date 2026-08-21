@@ -9,14 +9,14 @@ Manim Blocks 渲染服务器
 纯标准库，无需 pip install。
 """
 
+import errno
 import json
+import mimetypes
 import os
-import subprocess
 import shutil
 import sys
 import tempfile
 import uuid
-import mimetypes
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse
 
@@ -26,35 +26,6 @@ sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 PORT = int(os.environ.get('PORT', '3081'))
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DIST_DIR = os.path.join(SCRIPT_DIR, 'dist')
-
-
-def _free_port(port):
-    """释放被占用的端口（跨平台）"""
-    try:
-        if sys.platform == 'win32':
-            result = subprocess.run(
-                f'netstat -ano | findstr :{port}',
-                capture_output=True, text=True, timeout=5, shell=True
-            )
-            for line in result.stdout.splitlines():
-                parts = line.strip().split()
-                if len(parts) >= 5 and 'LISTENING' in line:
-                    pid = parts[-1]
-                    subprocess.run(['taskkill', '/F', '/PID', pid],
-                                   capture_output=True, timeout=3)
-                    print(f'  🧹 释放端口 {port}（已终止进程 {pid}）')
-        else:
-            # macOS / Linux: 用 lsof
-            result = subprocess.run(
-                ['lsof', '-ti', f':{port}'],
-                capture_output=True, text=True, timeout=5
-            )
-            for pid in result.stdout.strip().split():
-                if pid:
-                    subprocess.run(['kill', pid], capture_output=True, timeout=3)
-                    print(f'  🧹 释放端口 {port}（已终止旧进程 {pid}）')
-    except Exception:
-        pass  # 没有旧进程或工具不可用
 
 
 class ReusableHTTPServer(HTTPServer):
@@ -218,15 +189,26 @@ class RenderHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    _free_port(PORT)
+    # 自动找可用端口：从 PORT 开始尝试，被占则 +1
+    port = PORT
+    while True:
+        try:
+            server = ReusableHTTPServer(('127.0.0.1', port), RenderHandler)
+            break
+        except OSError as e:
+            if e.errno == 48 or e.errno == 98 or (hasattr(errno, 'WSAEADDRINUSE') and e.errno == errno.WSAEADDRINUSE):
+                port += 1
+            else:
+                raise
 
     print(f'🎬  Manim 渲染服务器')
-    print(f'    地址: http://127.0.0.1:{PORT}')
-    print(f'    Web GUI:  http://127.0.0.1:{PORT}')
+    print(f'    地址: http://127.0.0.1:{port}')
+    if port != PORT:
+        print(f'    ⚠️ 端口 {PORT} 被占用，自动使用 {port}')
+    print(f'    Web GUI:  http://127.0.0.1:{port}')
     print(f'    API:      POST /render  {{ code, scene }}')
     print(f'    返回:     video/mp4')
     print()
-    print(f'    浏览器打开 http://127.0.0.1:{PORT} 即可使用积木编程')
+    print(f'    浏览器打开 http://127.0.0.1:{port} 即可使用积木编程')
 
-    server = ReusableHTTPServer(('127.0.0.1', PORT), RenderHandler)
     server.serve_forever()
