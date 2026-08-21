@@ -210,6 +210,6 @@ if __name__ == '__main__':
     print(f'    API:      POST /render  {{ code, scene }}')
     print(f'    返回:     video/mp4')
     print()
-    print(f'    返回原网页或者打开 http://127.0.0.1:{port} 即可使用积木编程')
+    print(f'    返回原网页或者打开 http://127.0.0.1:{port} 即可使用Manim Blocks')
 
     server.serve_forever()
