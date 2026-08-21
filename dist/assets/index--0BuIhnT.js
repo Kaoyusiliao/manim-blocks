@@ -1455,8 +1455,8 @@ pause
 <field name="VAR">b_line</field><field name="AXES">ax</field><field name="FUNC">b_func</field><field name="COLOR">RED</field><next>
 <block type="object_dot_axes">
 <field name="AXES">ax</field><field name="X">meet_t</field><field name="Y">30*meet_t</field><field name="COLOR">YELLOW</field><field name="VAR">dot</field><next>
-<block type="object_label">
-<field name="VAR">label</field><field name="CONTENT">t={meet_t:.2f}s, s={30*meet_t:.1f}m</field><field name="TARGET">dot</field><field name="DIRECTION">RIGHT</field><field name="BUFF">0.3</field><next>
+<block type="custom_mobject">
+<field name="VAR">label</field><field name="CODE">MathTex(f"t={meet_t:.2f}s, s={30*meet_t:.1f}m").to_corner(UR)</field><next>
 <block type="animate_create">
 <field name="VAR">ax</field><field name="DURATION">1.5</field><next>
 <block type="animate_create">
