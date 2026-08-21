@@ -20,7 +20,10 @@ import mimetypes
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse
 
-PORT = 3081
+# Windows GBK 终端兼容 emoji
+sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
+PORT = int(os.environ.get('PORT', '3081'))
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 DIST_DIR = os.path.join(SCRIPT_DIR, 'dist')
 
