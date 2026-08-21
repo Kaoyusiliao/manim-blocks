@@ -30,9 +30,8 @@ def _free_port(port):
     """释放被占用的端口（跨平台）"""
     try:
         if sys.platform == 'win32':
-            # Windows: 用 netstat 找 PID
             result = subprocess.run(
-                ['netstat', '-ano', '|', 'findstr', f':{port}'],
+                f'netstat -ano | findstr :{port}',
                 capture_output=True, text=True, timeout=5, shell=True
             )
             for line in result.stdout.splitlines():
