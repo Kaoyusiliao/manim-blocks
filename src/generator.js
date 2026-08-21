@@ -217,12 +217,19 @@ codeGens.object_text = (b, n) =>
 codeGens.object_label = (b, n) => {
   const varName = _v(b, 'VAR');
   const content = _v(b, 'CONTENT');
-  const target = _v(b, 'TARGET');
+  const mode = _v(b, 'MODE') || 'next_to';
   const direction = _v(b, 'DIRECTION');
   const buff = _v(b, 'BUFF');
-  // 包含 { 时用 f-string 支持变量替换
   const quote = content.includes('{') ? 'f"' : '"';
-  return indent(n) + `${varName} = MathTex(${quote}${esc(content)}${quote}).next_to(${target}, ${direction}, buff=${buff})`;
+  const base = `${varName} = MathTex(${quote}${esc(content)}${quote})`;
+  if (mode === 'to_corner') {
+    return indent(n) + `${base}.to_corner(${direction}, buff=${buff})`;
+  }
+  if (mode === 'to_edge') {
+    return indent(n) + `${base}.to_edge(${direction}, buff=${buff})`;
+  }
+  const target = _v(b, 'TARGET') || 'ax';
+  return indent(n) + `${base}.next_to(${target}, ${direction}, buff=${buff})`;
 };
 
 // ── 进阶形状 ──────────────────────────────────────────
