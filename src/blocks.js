@@ -135,6 +135,26 @@ export const blockDefs = [
     colour: 260, tooltip: '创建普通文字，可设置坐标',
   },
 
+  // 标签（相对定位）
+  {
+    type: 'object_label',
+    message0: '创建标签 %1  内容 %2  相对于 %3  方向 %4  距离 %5',
+    args0: [
+      { type: 'field_variable', name: 'VAR', variable: 'label' },
+      { type: 'field_input', name: 'CONTENT', text: '标签文字' },
+      { type: 'field_variable', name: 'TARGET', variable: 'obj' },
+      {
+        type: 'field_dropdown', name: 'DIRECTION', options: [
+          ['上', 'UP'], ['下', 'DOWN'], ['左', 'LEFT'], ['右', 'RIGHT'],
+          ['右上', 'UR'], ['左上', 'UL'], ['右下', 'DR'], ['左下', 'DL'],
+        ],
+      },
+      { type: 'field_number', name: 'BUFF', value: 0.3, min: 0, max: 5, precision: 0.1 },
+    ],
+    previousStatement: null, nextStatement: null,
+    colour: 260, tooltip: '创建标签，自动放在目标对象旁边，避免重叠',
+  },
+
   // 进阶形状
   {
     type: 'object_rounded_rectangle',

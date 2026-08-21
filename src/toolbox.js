@@ -78,6 +78,7 @@ export const toolboxJson = {
         { kind: 'block', type: 'object_tex' },
         { kind: 'block', type: 'object_math_tex' },
         { kind: 'block', type: 'object_text' },
+        { kind: 'block', type: 'object_label' },
         { kind: 'block', type: 'object_markup_text' },
         { kind: 'block', type: 'object_title' },
         { kind: 'block', type: 'object_bulleted_list' },

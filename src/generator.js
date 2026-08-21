@@ -214,6 +214,15 @@ codeGens.object_math_tex = (b, n) =>
 codeGens.object_text = (b, n) =>
   indent(n) + `${_v(b, 'VAR')} = Text("${esc(_v(b, 'CONTENT'))}")` + maybeMoveTo(b, n);
 
+codeGens.object_label = (b, n) => {
+  const varName = _v(b, 'VAR');
+  const content = _v(b, 'CONTENT');
+  const target = _v(b, 'TARGET');
+  const direction = _v(b, 'DIRECTION');
+  const buff = _v(b, 'BUFF');
+  return indent(n) + `${varName} = MathTex("${esc(content)}").next_to(${target}, ${direction}, buff=${buff})`;
+};
+
 // ── 进阶形状 ──────────────────────────────────────────
 
 codeGens.object_rounded_rectangle = (b, n) =>
