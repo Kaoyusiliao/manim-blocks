@@ -11,15 +11,14 @@ import { platform } from 'os';
 import { existsSync } from 'fs';
 import { createServer } from 'vite';
 
-const PORT = 3080;
-const RENDER_PORT = 3081;
+const PORT = parseInt(process.env.PORT) || 3080;
+const RENDER_PORT = parseInt(process.env.RENDER_PORT) || 3081;
 
 // ── 跨平台 Python 检测 ──────────────────────────
 function findPython() {
-  // Windows: 优先 py 启动器，再试 python
   if (platform() === 'win32') {
-    // py -3 调用 Python 3.x
-    return ['py', '-3'];
+    // Conda/便携 Python 没有 py 启动器
+    return ['python'];
   }
   // macOS / Linux
   return ['python3'];
@@ -31,6 +30,16 @@ async function main() {
   const [pyCmd, ...pyArgs] = findPython();
   const render = spawn(pyCmd, [...pyArgs, 'render_server.py'], {
     stdio: ['ignore', 'inherit', 'inherit'],
+  });
+  render.on('error', (err) => {
+    if (err.code === 'ENOENT') {
+      console.error(`❌ 未找到 ${pyCmd}，请先安装 Python 3.8+`);
+      console.error('   下载: https://www.python.org/downloads/');
+      console.error('   安装时务必勾选 "Add Python to PATH"');
+    } else {
+      console.error(`❌ 启动渲染服务器失败: ${err.message}`);
+    }
+    process.exit(1);
   });
 
   // 等待渲染服务器就绪
