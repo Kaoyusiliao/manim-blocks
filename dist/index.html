@@ -6,7 +6,7 @@
   <title>Manim Blocks — 像搭积木一样做数学动画</title>
   <meta name="description" content="Manim Blocks：不用写代码，拖拖积木就能创作 Manim 数学动画。网页版 Beta 免费体验，Mac 桌面版下载即用。" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
-  <link rel="stylesheet" crossorigin href="./assets/main-B6jUQyqI.css">
+  <link rel="stylesheet" crossorigin href="./assets/main-POxb7Qnd.css">
 </head>
 <body>
 
@@ -49,7 +49,7 @@
           <a class="btn btn-primary btn-lg" href="#download">🍎 下载 Mac 桌面版</a>
           <a class="btn btn-outline btn-lg" href="./editor.html">🌐 试玩网页版 Beta →</a>
         </div>
-        <p class="hero-note">macOS 原生应用 · 网页版打开浏览器就能玩</p>
+        <p class="hero-note">macOS / Windows / Linux 桌面应用 · 网页版打开浏览器就能玩</p>
       </div>
 
       <!-- 纯 CSS 应用插画 -->
@@ -140,15 +140,15 @@
       </div>
 
       <div class="version-card featured">
-        <div class="version-tag tag-stable">🍎 桌面版 · 稳定发行</div>
+        <div class="version-tag tag-stable">🖥️ 桌面版 · 稳定发行</div>
         <h3>安心创作的选择</h3>
         <ul>
           <li>✅ 经过测试打磨的<b>稳定版本</b>，日常创作靠得住</li>
-          <li>📦 原生 Mac 应用：安装一次，启动台一点就开</li>
+          <li>📦 原生应用：安装一次，点开就用</li>
           <li>🐍 <b>开箱即用</b>：自动检测环境，缺什么补什么，已有的直接复用</li>
           <li>💾 作品保存在本地，随时继续</li>
         </ul>
-        <a class="btn btn-primary" href="#download">⬇️ 下载 Mac 版</a>
+        <a class="btn btn-primary" href="#download">⬇️ 下载桌面版</a>
       </div>
     </div>
 
@@ -157,15 +157,34 @@
 
   <!-- ═══ 下载 ═══ -->
   <section id="download" class="section">
-    <h2 class="section-title">三步装好 Mac 版</h2>
-    <p class="section-sub">当前稳定版 v1.0.0 · Apple Silicon（M 系列芯片）· Intel 版规划中</p>
+    <h2 class="section-title">下载 Manim Blocks</h2>
+    <p class="section-sub">当前稳定版 v1.0.0 · macOS / Windows / Linux 全平台</p>
 
+    <div class="platform-downloads">
+      <a class="platform-card" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">
+        <div class="platform-emoji">🍎</div>
+        <h4>macOS</h4>
+        <p>Apple Silicon（M 系列芯片）<br/>.dmg 安装包</p>
+      </a>
+      <a class="platform-card" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">
+        <div class="platform-emoji">🪟</div>
+        <h4>Windows</h4>
+        <p>Windows 10/11 · 64 位<br/>.exe 一键安装</p>
+      </a>
+      <a class="platform-card" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">
+        <div class="platform-emoji">🐧</div>
+        <h4>Linux</h4>
+        <p>AppImage（免安装）/ .deb<br/>x64 与 arm64</p>
+      </a>
+    </div>
+
+    <h3 class="steps-title">Mac 三步装好</h3>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-emoji">⬇️</div>
         <h4>下载 .dmg</h4>
-        <p>点下面蓝色按钮，从 GitHub Releases 下载安装包</p>
+        <p>点上面 🍎 卡片，从 GitHub Releases 下载安装包</p>
       </div>
       <div class="step-arrow">→</div>
       <div class="step">
@@ -185,7 +204,7 @@
 
     <div class="download-cta">
       <a class="btn btn-primary btn-xl" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">
-        ⬇️ 下载 Manim Blocks 1.0.0（macOS）
+        ⬇️ 前往 GitHub Releases 下载 1.0.0
       </a>
       <p class="download-sub">
         <a href="https://github.com/Kaoyusiliao/manim-blocks/releases" target="_blank" rel="noopener">历史版本与更新日志</a>
@@ -193,8 +212,12 @@
     </div>
 
     <div class="gatekeeper-note">
-      🔐 <b>首次打开提示「无法验证开发者」？</b>
+      🔐 <b>macOS 首次打开提示「无法验证开发者」？</b>
       当前版本尚未购买 Apple 签名——<b>右键点击应用 → 打开 → 再点「打开」</b>即可，之后就能正常启动。
+    </div>
+    <div class="gatekeeper-note">
+      🪟 <b>Windows 提示「已保护电脑」？</b>
+      应用未做代码签名——点「<b>更多信息</b>」→「<b>仍要运行</b>」即可。
     </div>
   </section>
 
@@ -208,11 +231,11 @@
       </details>
       <details class="faq-item">
         <summary>需要自己安装 Python / Manim 吗？</summary>
-        <p>不需要。桌面版首次启动会自动检测你电脑上的环境：已有的 Python / Manim / FFmpeg / LaTeX 直接复用，绝不重复安装；缺什么才自动补什么（装进应用自己的目录，不动你的系统）。就算是一台什么都没装过的新 Mac，也能开箱即用。</p>
+        <p>不需要。桌面版首次启动会自动检测你电脑上的环境：已有的 Python / Manim / FFmpeg / LaTeX 直接复用，绝不重复安装；缺什么才自动补什么（装进应用自己的目录，不动你的系统）。就算是一台什么都没装过的新电脑，也能开箱即用。Linux 上个别系统库（如 <code>libcairo</code>）桌面发行版一般已自带，若缺失应用会给出安装提示。</p>
       </details>
       <details class="faq-item">
-        <summary>有 Windows / Linux 版本吗？</summary>
-        <p>桌面版目前优先打磨 macOS 体验，Windows / Linux 打包已在规划中。网页版在任何平台的现代浏览器里都能打开。</p>
+        <summary>支持哪些平台？</summary>
+        <p>桌面版现已支持 <b>macOS（Apple Silicon）、Windows（64 位）、Linux（x64 / arm64）</b>三大平台，都是开箱即用。网页版则在任何平台的现代浏览器里都能打开。首次启动会自动补齐 Python / Manim / FFmpeg；LaTeX（公式渲染用）macOS 与 Linux 会自动安装，Windows 上会尝试自动安装，若未成功按提示装一个 MiKTeX 或 TeX Live 即可。</p>
       </details>
       <details class="faq-item">
         <summary>两个版本的作品互通吗？</summary>
@@ -230,7 +253,7 @@
     <h2>准备好搭出你的第一个动画了吗？</h2>
     <p>30 秒，从一块圆形积木开始。</p>
     <div class="hero-cta center">
-      <a class="btn btn-primary btn-lg" href="#download">🍎 下载 Mac 版</a>
+      <a class="btn btn-primary btn-lg" href="#download">🖥️ 下载桌面版</a>
       <a class="btn btn-outline-light btn-lg" href="./editor.html">🌐 网页版立即试玩</a>
     </div>
   </section>
