@@ -619,41 +619,10 @@ document.getElementById('downloadScriptWinBtn').addEventListener('click', downlo
 // ── 空白工作区提示 ──────────────────────────────────
 
 const emptyHint = document.getElementById('emptyHint');
-const emptyHintTitle = emptyHint.querySelector('h3');
-const emptyHintDesc = emptyHint.querySelector('p');
-const emptyHintBtn = document.getElementById('loadFirstExample');
 
 function updateEmptyHint() {
-  const topBlocks = workspace.getTopBlocks(true);
-
-  if (topBlocks.length === 0) {
-    // 完全空白 → 默认引导
-    emptyHintTitle.textContent = '从左边拖积木到这里开始';
-    emptyHintDesc.innerHTML = `试试这样：<br/>
-      <span class="hint-steps">1️⃣ 点左侧「🔵 物体」→ 拖「创建圆形」到这里<br/>
-      2️⃣ 再拖一个「🟠 动画」→「创建动画」<b>接在圆形下面</b><br/>
-      3️⃣ 右边立刻显示生成的代码！</span>
-      <br/><br/>
-      <span class="hint-quote">💬 不是只有伟大的艺术家才能做出好作品的。</span>`;
-    emptyHintBtn.style.display = '';
-    emptyHint.classList.remove('hidden');
-    return;
-  }
-
-  // 有积木：检查是否有「咬合的链」
-  const chainHeads = topBlocks.filter(b => b.getNextBlock());
-  if (chainHeads.length === 0) {
-    // 有积木但都没咬合 → 提示接起来
-    emptyHintTitle.textContent = '🧩 把积木上下拼在一起';
-    emptyHintDesc.innerHTML = `<span class="hint-steps">
-      积木要像乐高一样<b>上下拼接</b>才会成为程序。<br/>
-      把上面的积木拖到另一个积木的下面，出现凹槽对齐后松手。<br/><br/>
-      💡 或者点「🧩 示例」一键加载拼好的作品。</span>`;
-    emptyHintBtn.style.display = 'none';
-    emptyHint.classList.remove('hidden');
-  } else {
-    emptyHint.classList.add('hidden');
-  }
+  // 有积木立即隐藏，不挡住用户的积木；拼接引导由舞台提示承担
+  emptyHint.classList.toggle('hidden', workspace.getAllBlocks(false).length > 0);
 }
 
 // 在 changeListener 里也调用
