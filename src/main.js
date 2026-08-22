@@ -40,7 +40,7 @@ const workspace = Blockly.inject('blocklyDiv', {
     snap: false,
   },
   zoom: {
-    controls: true,
+    controls: false,   // 内置 SVG 控件渲染不稳定，改用自定义 HTML 按钮（见 #zoomControls）
     wheel: true,
     startScale: 1.0,
     maxScale: 3,
@@ -56,6 +56,12 @@ const workspace = Blockly.inject('blocklyDiv', {
   // 关闭右上角的帮助问号
   readOnly: false,
 });
+
+// ── 自定义缩放控制（替代 Blockly 内置不稳定的 SVG 控件）──
+document.getElementById('zoomInBtn')?.addEventListener('click', () => workspace.zoomCenter(1));
+document.getElementById('zoomOutBtn')?.addEventListener('click', () => workspace.zoomCenter(-1));
+document.getElementById('zoomFitBtn')?.addEventListener('click', () => workspace.zoomToFit());
+document.getElementById('zoomResetBtn')?.addEventListener('click', () => { workspace.setScale(1); workspace.scrollCenter(); });
 
 // ── 代码预览 ──────────────────────────────────────────
 

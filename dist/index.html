@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manim Blocks — 积木式数学动画创作</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
-  <script type="module" crossorigin src="./assets/index-jNP6kKw_.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-BJxPDD5I.css">
+  <script type="module" crossorigin src="./assets/index-CWyuKtMp.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-4S9aT_N6.css">
 </head>
 <body>
   <div id="app">
@@ -48,6 +48,13 @@
           <div id="searchResults" class="search-results hidden"></div>
         </div>
         <div id="blocklyDiv"></div>
+        <!-- 自定义缩放控制（替代 Blockly 内置的不稳定 SVG 控件）-->
+        <div id="zoomControls">
+          <button id="zoomInBtn"    class="zoom-btn" title="放大">＋</button>
+          <button id="zoomOutBtn"   class="zoom-btn" title="缩小">－</button>
+          <button id="zoomFitBtn"   class="zoom-btn" title="显示全部积木">⛶</button>
+          <button id="zoomResetBtn" class="zoom-btn" title="恢复 100%">⟲</button>
+        </div>
         <!-- 空白提示 -->
         <div id="emptyHint" class="empty-hint">
           <div class="empty-hint-card">

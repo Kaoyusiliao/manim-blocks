@@ -202,6 +202,36 @@ body {
   left: 0;
 }
 
+/* 自定义缩放控制（替代 Blockly 内置不稳定的 SVG 控件）*/
+#zoomControls {
+  position: absolute;
+  right: 14px;
+  bottom: 96px;      /* 避开右下角垃圾桶 */
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.zoom-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
+  background: var(--panel-bg);
+  color: var(--text);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: var(--shadow);
+  transition: all .12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.zoom-btn:hover { background: var(--blue); border-color: var(--blue); color: #fff; transform: translateY(-1px); }
+.zoom-btn:active { transform: translateY(1px); }
+
 /* ═══ 右侧面板 ═══ */
 
 #panel-section {
