@@ -6,7 +6,9 @@
   <title>Manim Blocks — 像搭积木一样做数学动画</title>
   <meta name="description" content="Manim Blocks：不用写代码，拖拖积木就能创作 Manim 数学动画。网页版 Beta 免费体验，Mac 桌面版下载即用。" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
-  <link rel="stylesheet" crossorigin href="./assets/main-POxb7Qnd.css">
+  <script type="module" crossorigin src="./assets/main-dnUsT2uG.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="./assets/main-_nUxkcNX.css">
 </head>
 <body>
 
@@ -158,67 +160,134 @@
   <!-- ═══ 下载 ═══ -->
   <section id="download" class="section">
     <h2 class="section-title">下载 Manim Blocks</h2>
-    <p class="section-sub">当前稳定版 v1.0.0 · macOS / Windows / Linux 全平台</p>
+    <p class="section-sub">当前稳定版 v1.0.0 · macOS / Windows / Linux 全平台 · 都是开箱即用</p>
 
-    <div class="platform-downloads">
-      <a class="platform-card" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">
-        <div class="platform-emoji">🍎</div>
-        <h4>macOS</h4>
-        <p>Apple Silicon（M 系列芯片）<br/>.dmg 安装包</p>
-      </a>
-      <a class="platform-card" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">
-        <div class="platform-emoji">🪟</div>
-        <h4>Windows</h4>
-        <p>Windows 10/11 · 64 位<br/>.exe 一键安装</p>
-      </a>
-      <a class="platform-card" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">
-        <div class="platform-emoji">🐧</div>
-        <h4>Linux</h4>
-        <p>AppImage（免安装）/ .deb<br/>x64 与 arm64</p>
-      </a>
+    <div class="platform-tabs" role="tablist" aria-label="选择你的系统">
+      <button class="platform-tab active" data-os="mac" role="tab" aria-selected="true">
+        <span class="platform-emoji">🍎</span>
+        <span class="pt-name">macOS</span>
+        <span class="pt-desc">Apple Silicon（M 芯片）</span>
+      </button>
+      <button class="platform-tab" data-os="win" role="tab" aria-selected="false">
+        <span class="platform-emoji">🪟</span>
+        <span class="pt-name">Windows</span>
+        <span class="pt-desc">Windows 10 / 11 · 64 位</span>
+      </button>
+      <button class="platform-tab" data-os="linux" role="tab" aria-selected="false">
+        <span class="platform-emoji">🐧</span>
+        <span class="pt-name">Linux</span>
+        <span class="pt-desc">x64 / arm64 · AppImage / deb</span>
+      </button>
     </div>
 
-    <h3 class="steps-title">Mac 三步装好</h3>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-emoji">⬇️</div>
-        <h4>下载 .dmg</h4>
-        <p>点上面 🍎 卡片，从 GitHub Releases 下载安装包</p>
+    <!-- ── macOS 面板 ── -->
+    <div class="platform-panel" data-os="mac">
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-emoji">⬇️</div>
+          <h4>下载 .dmg</h4>
+          <p>点下面蓝色按钮，从 GitHub Releases 下载安装包（约 120 MB）</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-emoji">🖱️</div>
+          <h4>拖进「应用程序」</h4>
+          <p>打开 .dmg，把 Manim Blocks 图标拖到 Applications 文件夹</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-emoji">🚀</div>
+          <h4>启动，开搭！</h4>
+          <p>启动台或 ⌘空格 搜索「Manim」，打开就能创作</p>
+        </div>
       </div>
-      <div class="step-arrow">→</div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-emoji">🖱️</div>
-        <h4>拖进「应用程序」</h4>
-        <p>打开 .dmg，把 Manim Blocks 图标拖到 Applications 文件夹</p>
+      <div class="panel-actions">
+        <a class="btn btn-primary btn-xl" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">⬇️ 下载 macOS 版（.dmg）</a>
       </div>
-      <div class="step-arrow">→</div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-emoji">🚀</div>
-        <h4>启动，开搭！</h4>
-        <p>启动台或 ⌘空格 搜索「Manim」，打开就能创作</p>
+      <div class="gatekeeper-note">
+        🔐 <b>首次打开提示「无法验证开发者」？</b>
+        当前版本尚未购买 Apple 签名——<b>右键点击应用 → 打开 → 再点「打开」</b>即可，之后就能正常启动。
       </div>
     </div>
 
-    <div class="download-cta">
-      <a class="btn btn-primary btn-xl" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">
-        ⬇️ 前往 GitHub Releases 下载 1.0.0
-      </a>
-      <p class="download-sub">
-        <a href="https://github.com/Kaoyusiliao/manim-blocks/releases" target="_blank" rel="noopener">历史版本与更新日志</a>
-      </p>
+    <!-- ── Windows 面板 ── -->
+    <div class="platform-panel" data-os="win" hidden>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-emoji">⬇️</div>
+          <h4>下载 .exe 安装包</h4>
+          <p>点下面蓝色按钮，从 GitHub Releases 下载（约 110 MB）</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-emoji">🖱️</div>
+          <h4>双击，自动安装</h4>
+          <p>运行安装包，一键完成，无需手动选择目录</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-emoji">🚀</div>
+          <h4>启动，开搭！</h4>
+          <p>从桌面快捷方式或开始菜单打开「Manim Blocks」</p>
+        </div>
+      </div>
+      <div class="panel-actions">
+        <a class="btn btn-primary btn-xl" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">⬇️ 下载 Windows 版（.exe）</a>
+      </div>
+      <div class="gatekeeper-note">
+        🪟 <b>弹出「Windows 已保护你的电脑」？</b>
+        应用未做代码签名——点「<b>更多信息</b>」→「<b>仍要运行</b>」即可，属正常现象。
+      </div>
+      <div class="gatekeeper-note info">
+        ℹ️ <b>关于公式渲染（LaTeX）</b>：首次启动会尝试自动安装；若未成功，手动装一个
+        <a href="https://miktex.org/download" target="_blank" rel="noopener">MiKTeX</a> 或 TeX Live 即可，其余功能不受影响。
+      </div>
     </div>
 
-    <div class="gatekeeper-note">
-      🔐 <b>macOS 首次打开提示「无法验证开发者」？</b>
-      当前版本尚未购买 Apple 签名——<b>右键点击应用 → 打开 → 再点「打开」</b>即可，之后就能正常启动。
+    <!-- ── Linux 面板 ── -->
+    <div class="platform-panel" data-os="linux" hidden>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-emoji">⬇️</div>
+          <h4>下载 AppImage</h4>
+          <p>按 CPU 选 x64（常见电脑）或 arm64（ARM 设备），免安装通用格式</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-emoji">🔧</div>
+          <h4>允许运行</h4>
+          <p>右键 → 属性 → 勾选「允许作为程序执行」；或终端里 <code>chmod +x</code></p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-emoji">🚀</div>
+          <h4>双击，开搭！</h4>
+          <p>无需安装，直接运行；Ubuntu / Debian 也可改用 .deb 包</p>
+        </div>
+      </div>
+      <div class="panel-actions">
+        <a class="btn btn-primary btn-xl" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">⬇️ 下载 Linux x64（AppImage）</a>
+        <a class="btn btn-outline btn-lg" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">.deb（Debian/Ubuntu）</a>
+        <a class="btn btn-outline btn-lg" href="https://github.com/Kaoyusiliao/manim-blocks/releases/latest" target="_blank" rel="noopener">arm64 版</a>
+      </div>
+      <div class="gatekeeper-note info">
+        🐧 <b>小提示</b>：桌面发行版（Ubuntu、Fedora 等）一般已自带所需图形库；如缺失，应用会提示你用
+        <code>sudo apt install libcairo2 libpango-1.0-0</code> 之类的命令补齐。LaTeX 公式渲染会自动安装，无需动手。
+      </div>
     </div>
-    <div class="gatekeeper-note">
-      🪟 <b>Windows 提示「已保护电脑」？</b>
-      应用未做代码签名——点「<b>更多信息</b>」→「<b>仍要运行</b>」即可。
-    </div>
+
+    <p class="download-sub center">
+      <a href="https://github.com/Kaoyusiliao/manim-blocks/releases" target="_blank" rel="noopener">历史版本与更新日志</a>
+    </p>
   </section>
 
   <!-- ═══ FAQ ═══ -->

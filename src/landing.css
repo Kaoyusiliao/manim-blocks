@@ -217,32 +217,49 @@ section { scroll-margin-top: 76px; }
 .version-quote { text-align: center; margin-top: 34px; font-size: 15px; color: var(--dim); }
 .version-quote b { color: var(--text); }
 
-/* ── 平台下载卡片 ── */
-.platform-downloads {
+/* ── 平台选项卡 ── */
+.platform-tabs {
   max-width: 860px; margin: 40px auto 0;
-  display: flex; justify-content: center; gap: 18px; flex-wrap: wrap;
+  display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;
 }
-.platform-card {
+.platform-tab {
   flex: 1; min-width: 220px; max-width: 270px;
-  display: block; text-align: center; text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
   background: var(--card); border: 2px solid var(--border); border-radius: var(--radius);
-  padding: 28px 20px 24px; box-shadow: var(--shadow);
-  transition: transform .18s, border-color .18s, box-shadow .18s;
+  padding: 22px 18px 18px; cursor: pointer; box-shadow: var(--shadow);
+  font-family: inherit; transition: transform .18s, border-color .18s, box-shadow .18s;
 }
-.platform-card:hover {
-  transform: translateY(-4px); border-color: var(--blue);
-  box-shadow: 0 12px 28px rgba(76,151,255,.22);
+.platform-tab:hover { transform: translateY(-3px); border-color: #B8D4FB; }
+.platform-tab.active {
+  border-color: var(--blue);
+  box-shadow: 0 10px 26px rgba(76,151,255,.26);
+  transform: translateY(-3px);
 }
-.platform-emoji { font-size: 44px; margin-bottom: 10px; }
-.platform-card h4 { font-size: 18px; font-weight: 900; margin-bottom: 6px; color: var(--text); }
-.platform-card p { font-size: 12.5px; color: var(--dim); line-height: 1.7; }
-.steps-title {
-  text-align: center; font-size: 19px; font-weight: 800; margin-top: 62px;
+.platform-tab .platform-emoji { font-size: 40px; line-height: 1.15; }
+.platform-tab .pt-name { font-size: 18px; font-weight: 900; color: var(--text); }
+.platform-tab .pt-desc { font-size: 12px; color: var(--dim); }
+.platform-tab.active .pt-name { color: var(--blue-dark); }
+
+/* ── 平台指引面板 ── */
+.platform-panel { max-width: 1020px; margin: 0 auto; }
+.platform-panel[hidden] { display: none; }
+.panel-actions {
+  display: flex; justify-content: center; align-items: center;
+  gap: 14px; flex-wrap: wrap; margin-top: 44px;
 }
+.gatekeeper-note.info {
+  background: #EFF6FF; border-color: #C7DDFB; color: #2B5C9E;
+}
+.gatekeeper-note.info a { color: var(--blue-dark); font-weight: 700; }
+.gatekeeper-note code {
+  background: rgba(76,151,255,.12); border-radius: 6px; padding: 1px 7px;
+  font-family: "SF Mono", Menlo, monospace; font-size: 12px;
+}
+.download-sub.center { text-align: center; margin-top: 34px; }
 
 /* ── 下载步骤 ── */
 .steps {
-  max-width: 980px; margin: 46px auto 0;
+  max-width: 980px; margin: 34px auto 0;
   display: flex; align-items: stretch; justify-content: center; gap: 12px;
 }
 .step {
