@@ -190,17 +190,20 @@ class RenderHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    # 自动找可用端口：从 PORT 开始尝试，被占则 +1
-    port = PORT
-    while True:
+    # ── 自动找可用端口 ────────────────────────
+    max_port = PORT + 100
+    while port <= max_port:
         try:
             server = ReusableHTTPServer(('127.0.0.1', port), RenderHandler)
             break
         except OSError as e:
-            if e.errno == 48 or e.errno == 98 or (hasattr(errno, 'WSAEADDRINUSE') and e.errno == errno.WSAEADDRINUSE):
+            if e.errno in (48, 98) or (hasattr(errno, 'WSAEADDRINUSE') and e.errno == errno.WSAEADDRINUSE):
                 port += 1
             else:
                 raise
+    else:
+        print(f'❌ 端口 {PORT}~{max_port} 全部被占用，请释放端口后重试')
+        sys.exit(1)
 
     print(f'🎬  Manim 渲染服务器')
     print(f'    地址: http://127.0.0.1:{port}')
