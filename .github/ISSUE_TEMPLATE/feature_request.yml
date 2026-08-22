@@ -1,0 +1,22 @@
+name: ✨ 功能建议
+description: 想要新积木、新课程或新功能？提个想法
+title: "[建议] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: 想要什么功能？
+      description: 尽量具体，说说使用场景
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: 为什么有用？
+      description: 解决什么问题，或带来什么乐趣
+  - type: textarea
+    id: how
+    attributes:
+      label: 你设想怎么用？（可选）
+      description: 界面长什么样、怎么交互，有参考更好

@@ -1,0 +1,47 @@
+name: 🐛 问题反馈
+description: 发现 bug 或运行出错？到这里来
+title: "[问题] "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: version
+    attributes:
+      label: 你用的是哪个版本？
+      options:
+        - 网页版（浏览器）
+        - 桌面版 macOS
+        - 桌面版 Windows
+        - 桌面版 Linux
+        - 本地克隆开发版
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: 发生了什么？
+      description: 期望的行为是什么，实际的行为是什么
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      description: 怎么操作能稳定出现这个问题？
+      placeholder: |
+        1. 打开编辑器
+        2. 拖入「……」积木
+        3. 点渲染 → 报错
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: 环境信息
+      description: 浏览器/系统版本；本地渲染的话附上 Python、Manim 版本
+      placeholder: 例如：Safari 18 / macOS 15；Python 3.12、manim 0.21.0
+  - type: textarea
+    id: logs
+    attributes:
+      label: 报错信息 / 截图
+      description: 终端报错、浏览器控制台输出或截图都可以
+      render: shell
