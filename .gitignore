@@ -6,3 +6,4 @@ media/
 # SSH 部署密钥（不提交）
 github_deploy_key*
 .deploy_key*
+.pnpm-store/
