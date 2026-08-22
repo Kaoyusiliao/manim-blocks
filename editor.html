@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manim Blocks — 积木式数学动画创作</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧊</text></svg>" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ═══ 顶部导航栏 ═══ -->
+    <header id="header">
+      <div class="header-left">
+        <span class="logo">🧊</span>
+        <h1>Manim Blocks</h1>
+        <span class="badge">Beta</span>
+      </div>
+      <div class="header-center">
+        <span class="subtitle">像搭积木一样做数学动画，同时学习数学与编程</span>
+      </div>
+      <div class="header-right">
+        <a id="homeBtn" class="btn btn-home" href="./index.html" title="回到官网">🏠 官网</a>
+        <button id="examplesBtn" class="btn btn-examples">🧩 教程</button>
+        <button id="discussBtn" class="btn btn-discuss">💬 讨论</button>
+        <button id="sponsorBtn" class="btn btn-sponsor">💖 赞助</button>
+        <button id="downloadBtn" class="btn btn-primary">📥 下载 .py</button>
+        <button id="importBtn" class="btn btn-import">📤 导入 .py</button>
+        <input type="file" id="importFile" accept=".py" class="hidden-input" />
+        <button id="githubBtn" class="btn btn-github" title="转到 GitHub 仓库" aria-label="GitHub 仓库">
+          <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+        </button>
+        <button id="clearBtn" class="btn btn-outline">🗑️ 清空</button>
+      </div>
+    </header>
+
+    <!-- ═══ 主内容区 ═══ -->
+    <main id="main">
+
+      <!-- 左侧：Blockly 工作区 -->
+      <section id="workspace-section">
+        <!-- 搜索积木 -->
+        <div id="searchBar">
+          <input id="searchInput" type="text" placeholder="🔍 搜索积木…（如：圆 / 旋转 / 坐标）" autocomplete="off" />
+          <div id="searchResults" class="search-results hidden"></div>
+        </div>
+        <div id="blocklyDiv"></div>
+        <!-- 自定义缩放控制（替代 Blockly 内置的不稳定 SVG 控件）-->
+        <div id="zoomControls">
+          <button id="zoomInBtn"    class="zoom-btn" title="放大">＋</button>
+          <button id="zoomOutBtn"   class="zoom-btn" title="缩小">－</button>
+          <button id="zoomFitBtn"   class="zoom-btn" title="显示全部积木">⛶</button>
+          <button id="zoomResetBtn" class="zoom-btn" title="恢复 100%">⟲</button>
+          <button id="trashBtn"     class="zoom-btn trash" title="垃圾桶：把积木拖到这里删除，或点击删除选中的积木">🗑</button>
+        </div>
+        <!-- 空白提示 -->
+        <div id="emptyHint" class="empty-hint">
+          <div class="empty-hint-card">
+            <div class="empty-hint-emoji">🖐️</div>
+            <h3>从左边拖积木到这里开始</h3>
+            <p>试试这样：<br/>
+            <span class="hint-steps">1️⃣ 点左侧「🔵 物体」→ 拖「创建圆形」到这里<br/>
+            2️⃣ 再拖一个「🟠 动画」→「创建动画」接在下面<br/>
+            3️⃣ 右边立刻显示生成的代码！</span><br/><br/>
+            <span class="hint-quote">💬 不是只有伟大的艺术家才能做出好作品的。</span></p>
+            <button id="loadFirstExample" class="btn btn-primary">✨ 打开第 1 课（推荐）</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 右侧：面板（标签切换） -->
+      <aside id="panel-section">
+        <div class="panel-tabs">
+          <button class="panel-tab active" data-tab="preview">📄 代码预览</button>
+          <button class="panel-tab" data-tab="guide">📖 新手教程</button>
+        </div>
+
+        <!-- 代码预览标签 -->
+        <div class="panel-content active" id="tab-preview">
+          <div class="panel-toolbar">
+            <span class="panel-title">Python 代码</span>
+            <button id="copyCodeBtn" class="btn btn-tiny">📋 复制代码</button>
+          </div>
+          <pre id="codePreview"><code class="language-python"># 从左侧拖拽积木开始创作
+# 或点顶部「🧩 教程」一键加载现成作品</code></pre>
+
+          <!-- 一键渲染（可折叠） -->
+          <details class="render-section" id="renderSection">
+            <summary class="render-summary">
+              <span class="render-summary-text">🎬 一键渲染</span>
+              <span id="renderBadge" class="render-badge">检测中…</span>
+            </summary>
+            <div class="render-body">
+              <div class="render-guide">
+                <p class="render-guide-main">
+                  在本地运行渲染服务器，即可在浏览器中直接渲染动画，无需复制代码到终端。
+                </p>
+
+                <details class="render-guide-details">
+                  <summary>📖 查看设置步骤</summary>
+                  <ol class="render-guide-steps">
+                    <li><b>下载项目</b><br/>
+                      从 <a href="https://github.com/Kaoyusiliao/manim-blocks" target="_blank">GitHub</a>
+                      下载或克隆到本地</li>
+                    <li><b>在项目目录下启动渲染服务器</b><br/>
+                      Mac/Linux：<code class="inline-code">python3 render_server.py</code><br/>
+                      Windows：<code class="inline-code">py -3 render_server.py</code></li>
+                    <li><b>刷新本页面</b><br/>
+                      状态变为 <b>● 在线</b> 后，点「▶ 运行」即可</li>
+                  </ol>
+                </details>
+
+                <p class="render-guide-hint">
+                  💡 没装过Python 和 Manim？先看右侧「📖 新手教程」第 1–3 步。<br/>
+                </p>
+              </div>
+
+              <div class="render-controls">
+                <select id="qualitySelect" class="quality-select">
+                  <option value="l">⚡ 快速 (480p)</option>
+                  <option value="m" selected>🔶 中等 (720p)</option>
+                  <option value="h">🔷 高清 (1080p)</option>
+                  <option value="k">💎 4K (2160p)</option>
+                </select>
+                <button id="runBtn" class="btn btn-tiny btn-run">▶ 运行</button>
+              </div>
+              <div id="videoContainer" class="hidden">
+                <video id="videoPlayer" controls playsinline></video>
+                <div id="videoStatus"></div>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <!-- 新手教程标签 -->
+        <div class="panel-content" id="tab-guide">
+
+          <div class="guide-hero">
+            <div class="guide-hero-title">👋 第一次用？跟着做，5 分钟跑通</div>
+            <p>把动画做出来总共 6 步。每一步都写了详细说明，照着点就行。</p>
+          </div>
+
+          <!-- 第 0 步：认识你的电脑 -->
+          <div class="guide-section step">
+            <div class="step-num">0</div>
+            <div class="step-body">
+              <h3>🔍 先认识你的电脑</h3>
+              <p class="guide-desc">先搞清楚你用的是什么系统，下面所有操作都分系统讲解：</p>
+              <div class="sys-detect">
+                <span>看这里：</span>
+                <button class="btn btn-tiny sys-btn" data-sys="mac">🍎 我是 Mac</button>
+                <button class="btn btn-tiny sys-btn" data-sys="win">🪟 我是 Windows</button>
+              </div>
+              <p class="guide-hint">💡 Mac 看屏幕左上角苹果图标；Windows 按「开始」按钮旁边写着的系统名。</p>
+            </div>
+          </div>
+
+          <!-- 准备工作检查清单 -->
+          <div class="guide-section guide-tips" style="margin-bottom:16px">
+            <h3>📋 准备工作检查清单</h3>
+            <p class="guide-desc" style="margin-bottom:6px">开始之前，先确认以下工具是否已装好。没装的全在下面几步里，跟着装就行。</p>
+            <table class="checklist-table">
+              <tr><th>工具</th><th>用途</th><th>检查命令</th><th>必须？</th></tr>
+              <tr>
+                <td><b>Python 3.9+</b></td>
+                <td>运行 Manim</td>
+                <td><code>python3 --version</code>（Mac/Linux）<br/><code>py -3 --version</code>（Windows）</td>
+                <td class="chk-required">✅ 必须</td>
+              </tr>
+              <tr>
+                <td><b>Manim</b></td>
+                <td>动画渲染引擎</td>
+                <td><code>pip show manim</code></td>
+                <td class="chk-required">✅ 必须</td>
+              </tr>
+              <tr>
+                <td><b>ffmpeg</b></td>
+                <td>合成视频文件</td>
+                <td><code>ffmpeg -version</code></td>
+                <td class="chk-required">✅ 必须</td>
+              </tr>
+              <tr>
+                <td><b>LaTeX</b></td>
+                <td>排版数学公式</td>
+                <td><code>latex --version</code></td>
+                <td class="chk-optional">▢ 仅公式需要</td>
+              </tr>
+            </table>
+            <p class="guide-hint" style="margin-top:6px">💡 每一步下面都有详细安装方法，跟着走就行。</p>
+          </div>
+
+          <!-- 第 1 步：装 Python -->
+          <div class="guide-section step">
+            <div class="step-num">1</div>
+            <div class="step-body">
+              <h3>🐍 检查并安装 Python（只要一次）</h3>
+              <p class="guide-desc">Manim 是用 Python 写的，所以要先装 Python。别怕，装一次以后都不用管。</p>
+
+              <details class="guide-det" open>
+                <summary>🍎 Mac 用户看这里</summary>
+                <ol class="guide-ol">
+                  <li>打开「启动台」→ 搜索「终端」(Terminal)，点开</li>
+                  <li>输入下面这行，按回车，检查是否已装 Python：</li>
+                </ol>
+                <div class="code-block">
+                  <code>python3 --version</code>
+                  <button class="btn btn-tiny copy-inline" data-copy="python3 --version">复制</button>
+                </div>
+                <p class="guide-hint">✅ 显示 <code class="inline-code">Python 3.9 或更高</code> → 跳过安装，去第 2 步<br/>
+                ❌ 显示 <code class="inline-code">command not found</code> → 到 <b>python.org/downloads</b> 下载安装包，双击安装，一路「继续」即可</p>
+              </details>
+
+              <details class="guide-det">
+                <summary>🪟 Windows 用户看这里</summary>
+                <ol class="guide-ol">
+                  <li>按键盘 <code class="inline-code">Win + R</code>，输入 <code class="inline-code">cmd</code>，按回车打开命令行</li>
+                  <li>输入下面这行，按回车：</li>
+                </ol>
+                <div class="code-block">
+                  <code>python --version</code>
+                  <button class="btn btn-tiny copy-inline" data-copy="python --version">复制</button>
+                </div>
+                <p class="guide-hint">✅ 显示 <code class="inline-code">Python 3.9 或更高</code> → 去第 2 步<br/>
+                ❌ 提示找不到 → 到 <b>python.org/downloads</b> 下载，安装时<b>务必勾选「Add Python to PATH」</b>（重要！）</p>
+              </details>
+            </div>
+          </div>
+
+          <!-- 第 2 步：装 Manim -->
+          <div class="guide-section step">
+            <div class="step-num">2</div>
+            <div class="step-body">
+              <h3>📦 安装 Manim 引擎（只要一次）</h3>
+              <p class="guide-desc">在刚才那个「终端 / 命令行」窗口里，粘贴下面这行，按回车，等它跑完（约 1-3 分钟）：</p>
+              <div class="code-block">
+                <code>pip install manim sympy</code>
+                <button class="btn btn-tiny copy-inline" data-copy="pip install manim sympy">复制</button>
+              </div>
+              <p class="guide-hint">🐢 如果太慢或失败（国内网络常见），改用清华镜像源：</p>
+              <div class="code-block">
+                <code>pip install manim sympy -i https://pypi.tuna.tsinghua.edu.cn/simple</code>
+                <button class="btn btn-tiny copy-inline" data-copy="pip install manim sympy -i https://pypi.tuna.tsinghua.edu.cn/simple">复制</button>
+              </div>
+              <p class="guide-hint">✅ 看到 <code class="inline-code">Successfully installed manim</code> 就成功了！<br/>📐 顺带装了 <b>sympy</b>（数学公式推导库），进阶课程的「自定义代码」会用到它。</p>
+              <p class="guide-hint">🆕 <b>升级提醒：</b>如果之前装过旧版，可运行 <code class="inline-code">pip install -U manim</code> 升级到最新版（本工具适配 Manim CE 0.19+，建议升级）。</p>
+            </div>
+          </div>
+
+          <!-- 第 2.5 步：检查 ffmpeg / LaTeX -->
+          <div class="guide-section step">
+            <div class="step-num">+</div>
+            <div class="step-body">
+              <h3>🎥 检查两个幕后工具：ffmpeg 和 LaTeX</h3>
+              <p class="guide-desc">Manim 渲染视频还需要两个工具，不是电脑自带的，需要手动安装：</p>
+              <ul class="guide-ul">
+                <li><b>ffmpeg</b> — 把动画合成视频（mp4）。<b>必须装</b>，没它渲染会失败。</li>
+                <li><b>LaTeX</b> — 排版数学公式。<b>如果用到公式积木或 SymPy 课程就需要装</b>，只用文字/图形可以不管它。</li>
+              </ul>
+              <p class="guide-hint">在终端输入下面命令检查 ffmpeg：</p>
+              <div class="code-block">
+                <code>ffmpeg -version</code>
+                <button class="btn btn-tiny copy-inline" data-copy="ffmpeg -version">复制</button>
+              </div>
+              <p class="guide-hint">✅ 显示一堆版本信息 → 已装好，跳过。<br/>
+              ❌ 提示找不到 → 到 <b>ffmpeg.org/download.html</b> 下载安装，或 Mac 用 <code class="inline-code">brew install ffmpeg</code>。</p>
+              <p class="guide-hint">💡 LaTeX 缺失时，用到公式才会报错；装 <b>MiKTeX</b>（Windows）或 <b>MacTeX</b>（Mac）即可解决。</p>
+            </div>
+          </div>
+
+          <!-- 第 3 步：搭积木 -->
+          <div class="guide-section step">
+            <div class="step-num">3</div>
+            <div class="step-body">
+              <h3>🧩 搭积木（就是现在！）</h3>
+              <p class="guide-desc">从左侧工具箱拖积木到中间空白区，然后<b>上下拼接</b>（像乐高）。</p>
+              <ul class="guide-ul">
+                <li>🔵 物体 = 造东西（圆形、方形、文字…）</li>
+                <li>🟠 动画 = 让东西动起来（出现、旋转、消失…）</li>
+                <li><b>积木上下拼在一起才是一段程序</b> — 没拼的积木是「草稿」，不会运行</li>
+                <li>拼好后积木从上往下执行，顺序就是动画顺序</li>
+              </ul>
+              <p class="guide-hint">💡 不会搭？点顶部 <b>「🧩 教程」</b>，从课程 1 开始跟着搭！</p>
+            </div>
+          </div>
+
+          <!-- 第 4 步：一键渲染（推荐） -->
+          <div class="guide-section step">
+            <div class="step-num">4</div>
+            <div class="step-body">
+              <h3>▶ 一键渲染（推荐）</h3>
+              <p class="guide-desc">搭好积木后，点工具栏的绿色 <b>「▶ 运行」</b> 按钮，选择画质，几秒后动画直接在浏览器里播放！</p>
+              <p class="guide-hint">💡 首次使用需要先启动渲染服务器：<br/>
+                Mac / Linux 运行 <code class="inline-code">python3 render_server.py</code>，<br/>
+                Windows 运行 <code class="inline-code">py -3 render_server.py</code><br/>
+                或双击项目文件夹里的 <code>start.command</code>（Mac）/ <code>start.bat</code>（Windows）/ <code>start.sh</code>（Linux）</p>
+              <p class="guide-hint">⚡ 快速 (480p) 渲染最快，适合调试；🔶 中等 (720p) 是默认选项；高清和 4K 较慢。</p>
+            </div>
+          </div>
+
+          <!-- 第 5 步：传统方式（下载 .py + 终端运行） -->
+          <div class="guide-section step">
+            <div class="step-num">5</div>
+            <div class="step-body">
+              <h3>📥 传统方式：下载 .py 文件</h3>
+              <p class="guide-desc">如果不想用渲染服务器，也可以点顶部蓝色按钮 <b>「📥 下载 .py」</b>，然后在终端手动运行：</p>
+
+              <details class="guide-det" open>
+                <summary>🍎 Mac 用户</summary>
+                <div class="code-block"><code>cd ~/Downloads</code><button class="btn btn-tiny copy-inline" data-copy="cd ~/Downloads">复制</button></div>
+                <div class="code-block"><code>manim -pql manim_scene.py MyScene</code><button class="btn btn-tiny copy-inline" data-copy="manim -pql manim_scene.py MyScene">复制</button></div>
+              </details>
+
+              <details class="guide-det">
+                <summary>🪟 Windows 用户</summary>
+                <div class="code-block"><code>cd %USERPROFILE%\Downloads</code><button class="btn btn-tiny copy-inline" data-copy="cd %USERPROFILE%\Downloads">复制</button></div>
+                <div class="code-block"><code>manim -pql manim_scene.py MyScene</code><button class="btn btn-tiny copy-inline" data-copy="manim -pql manim_scene.py MyScene">复制</button></div>
+              </details>
+
+              <p class="guide-hint">⏳ 等几十秒，动画会自动弹窗播放！🎉</p>
+            </div>
+          </div>
+
+          <!-- 一键安装脚本 -->
+          <div class="guide-section step">
+            <div class="step-num">🆓</div>
+            <div class="step-body">
+              <h3>🔄 偷懒方案：一键安装脚本</h3>
+              <p class="guide-desc">第 1、2 步不想手动做？下载脚本双击/运行，自动装好 Python 环境 + Manim：</p>
+              <div class="script-buttons">
+                <button id="downloadScriptBtn" class="btn btn-small btn-primary">🍎 Mac 安装脚本</button>
+                <button id="downloadScriptWinBtn" class="btn btn-small btn-outline">🪟 Windows 安装脚本</button>
+              </div>
+              <p class="guide-hint">⚠️ 建议：新手先手动按教程装一遍，理解流程；装过就不用再装。</p>
+            </div>
+          </div>
+
+          <!-- 常见问题 -->
+          <div class="guide-section guide-tips">
+            <h3>❓ 卡住了？看这里（对照你的报错）</h3>
+            <details>
+              <summary>提示 <code class="inline-code">'manim' 不是内部或外部命令 / command not found</code></summary>
+              <p>Manim 没装上，或装错了地方。回到第 2 步重新执行安装命令，看到 <b>Successfully installed</b> 才算成功。</p>
+            </details>
+            <details>
+              <summary>提示 <code class="inline-code">pip 不是内部或外部命令</code></summary>
+              <p>Python 没装上或没加入 PATH。Windows 重装 Python 时务必勾选「Add Python to PATH」；Mac 用 <code class="inline-code">python3 -m pip install manim</code> 试试。</p>
+            </details>
+            <details>
+              <summary>安装卡住 / 特别慢 / 报网络错误</summary>
+              <p>用清华镜像源：<code class="inline-code">pip install manim -i https://pypi.tuna.tsinghua.edu.cn/simple</code>，速度立刻变快。</p>
+            </details>
+            <details>
+              <summary>提示 <code class="inline-code">No module named 'manim'</code></summary>
+              <p>运行和安装用了不同的 Python。用同一方式确认：先 <code class="inline-code">pip --version</code> 再 <code class="inline-code">pip install manim</code>。</p>
+            </details>
+            <details>
+              <summary>LaTeX 报错 / 中文字符报错（Unicode character）？</summary>
+              <p><b>文字</b>（🔵 物体 → 创建文字）支持中文，随便用。<br/>
+              但 <b>公式类</b>（LaTeX 公式 / MathTex / 列表 / 段落）走 LaTeX 排版，<b>默认不支持中文</b>，输入中文会报错。公式请用英文和数学符号，例如 <code class="inline-code">x^2 + y^2 = 1</code>。<br/><br/>
+              💡 <b>想在公式里用中文？</b>（合集有专门文章）需要配置中文字体：在「🛠 通用 → 自定义代码」里加 <code class="inline-code">Tex.set_default(tex_template=TexTemplateLibrary.ctex)</code> 并安装 LaTeX 的 ctex 宏包。新手建议先避开。</p>
+            </details>
+            <details>
+              <summary>为什么不能在浏览器里直接播放动画？</summary>
+              <p>Manim 需要电脑上的 Python + FFmpeg + LaTeX 来渲染视频，浏览器提供不了这些。<br/><br/><strong>未来：</strong>架一台服务器渲染再传回视频，就能像 Scratch 一样网页直接看。目前纯前端做不到，需要花钱租服务器，需要的话跟我说。</p>
+            </details>
+            <details>
+              <summary>代码看不懂怎么办？</summary>
+              <p>完全不需要看懂！积木就是你的「编程语言」，右边代码只是自动翻译给 Manim 听的。你只管拖积木。</p>
+            </details>
+          </div>
+
+          <div class="guide-footer">
+            <p>🎉 到这里你已经会用了！以后就是：搭积木 → 下载 → 运行。</p>
+          </div>
+        </div>
+
+      </aside>
+    </main>
+
+    <!-- ═══ 教程弹窗 ═══ -->
+    <div id="examplesModal" class="modal hidden">
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>🧩 教程课程</h3>
+          <button class="modal-close" data-close-modal>✕</button>
+        </div>
+        <p class="modal-desc">跟着课程搭建积木，右边自动生成代码，每课都能直接运行！</p>
+        <div class="course-tabs">
+          <button class="course-tab active" data-level="basic">📘 基础</button>
+          <button class="course-tab" data-level="advanced">🚀 进阶</button>
+          <button class="course-tab" data-level="sympy">🧮 SymPy</button>
+        </div>
+        <div class="course-subtitle" id="sympyNote" style="display:none;font-size:12px;color:#888;margin:4px 0 8px;padding:0 8px;line-height:1.4;">
+          ⚡ SymPy 系列需要电脑安装 <code style="font-size:12px;background:#eee;padding:1px 5px;border-radius:3px;">sympy</code>（<code style="font-size:12px;background:#eee;padding:1px 5px;border-radius:3px;">pip install sympy</code>），
+          使用「自定义代码（多行）」积木直接运行完整 Python 代码。适合有一定 Manim 基础的用户。
+          点击课程卡片自动加载，右键复制代码到本地运行。
+        </div>
+        <div class="modal-grid" id="examplesGrid">
+          <!-- 由 JS 动态生成 -->
+        </div>
+        <p class="course-credit">
+          课程改编自 wang_yb 的 <a href="https://www.cnblogs.com/wang_yb/collections/13744" target="_blank" rel="noopener">《Manim 动画教程》合集</a>，特此鸣谢，如有侵权请告知。
+        </p>
+      </div>
+    </div>
+
+    <!-- ═══ 赞助弹窗 ═══ -->
+    <div id="sponsorModal" class="modal hidden">
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-card sponsor-card">
+        <div class="modal-header">
+          <h3>💖 赞助支持</h3>
+          <button class="modal-close" data-close-modal>✕</button>
+        </div>
+        <p class="modal-desc">如果 Manim Blocks 帮到了你，欢迎扫码支持开发者继续维护 ❤️</p>
+        <div class="sponsor-single">
+          <div class="sponsor-qr-large">
+            <img src="./sponsor/defund.png" alt="收款码（微信/支付宝）"
+                 onerror="this.style.display='none';this.nextElementSibling.style.display='block';" />
+            <div class="qr-placeholder" style="display:none">📷<br/>请将收款码图片放到<br/><code>public/sponsor/defund.png</code></div>
+          </div>
+          <p class="sponsor-qr-hint">微信 / 支付宝 均可扫码</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

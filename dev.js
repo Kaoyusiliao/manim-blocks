@@ -49,7 +49,7 @@ async function main() {
   console.log('🌐 启动 Web GUI...\n');
   const server = await createServer({
     root: '.',
-    server: { port: PORT, open: true },
+    server: { port: PORT, open: '/editor.html' },
   });
   await server.listen();
 

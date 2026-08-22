@@ -939,6 +939,12 @@ body {
 .example-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
 .example-desc { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
 
+.btn-home {
+  background: var(--blue);
+  color: #fff;
+}
+.btn-home:hover { background: var(--blue-dark); transform: scale(1.02); }
+
 .btn-examples {
   background: var(--purple);
   color: #fff;
