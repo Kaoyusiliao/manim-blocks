@@ -47,7 +47,7 @@ const workspace = Blockly.inject('blocklyDiv', {
     minScale: 0.3,
     scaleSpeed: 1.2,
   },
-  trashcan: true,
+  trashcan: false,   // 内置垃圾桶也是不稳定的 SVG，改用自定义 HTML 按钮（见 #trashBtn）
   move: {
     scrollbars: true,
     drag: true,
@@ -62,6 +62,32 @@ document.getElementById('zoomInBtn')?.addEventListener('click', () => workspace.
 document.getElementById('zoomOutBtn')?.addEventListener('click', () => workspace.zoomCenter(-1));
 document.getElementById('zoomFitBtn')?.addEventListener('click', () => workspace.zoomToFit());
 document.getElementById('zoomResetBtn')?.addEventListener('click', () => { workspace.setScale(1); workspace.scrollCenter(); });
+
+// ── 自定义垃圾桶（拖入删除 + 点击删除选中积木）──
+const trashBtn = document.getElementById('trashBtn');
+if (trashBtn) {
+  // 点击：删除当前选中的积木
+  trashBtn.addEventListener('click', () => {
+    const sel = Blockly.getSelected();
+    if (sel) sel.dispose(true, true);
+  });
+  // 拖拽：松手时若积木落在垃圾桶上就删除
+  workspace.addChangeListener(e => {
+    if (e.type !== Blockly.Events.BLOCK_DRAG) return;
+    trashBtn.classList.toggle('drag-over', e.isStart);   // 拖拽中高亮提示
+    if (e.isStart) return;
+    const block = workspace.getBlockById(e.blockId);
+    if (!block || block.isInFlyout || block.isShadow()) return;
+    const root = block.getSvgRoot();
+    const ctm = root && root.getScreenCTM();
+    if (!ctm) return;
+    const r = trashBtn.getBoundingClientRect();
+    const pad = 24; // 吸附容差，更容易拖中
+    if (ctm.e > r.left - pad && ctm.e < r.right + pad && ctm.f > r.top - pad && ctm.f < r.bottom + pad) {
+      block.dispose(false, true);
+    }
+  });
+}
 
 // ── 代码预览 ──────────────────────────────────────────
 

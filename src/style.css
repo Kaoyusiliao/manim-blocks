@@ -206,7 +206,7 @@ body {
 #zoomControls {
   position: absolute;
   right: 14px;
-  bottom: 96px;      /* 避开右下角垃圾桶 */
+  bottom: 14px;
   z-index: 40;
   display: flex;
   flex-direction: column;
@@ -231,6 +231,9 @@ body {
 }
 .zoom-btn:hover { background: var(--blue); border-color: var(--blue); color: #fff; transform: translateY(-1px); }
 .zoom-btn:active { transform: translateY(1px); }
+.zoom-btn.trash { margin-top: 6px; font-size: 20px; }
+.zoom-btn.trash:hover { background: var(--red); border-color: var(--red); }
+.zoom-btn.trash.drag-over { background: var(--red); border-color: var(--red); color: #fff; transform: scale(1.15); }
 
 /* ═══ 右侧面板 ═══ */
 
