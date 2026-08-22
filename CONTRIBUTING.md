@@ -2,7 +2,9 @@
 
 感谢你愿意帮助改进 **Manim Blocks**！🎉
 
-本项目是一个纯前端的积木式 Manim 动画创作工具。无论你是开发者、设计师还是用户，都可以参与。
+本仓库是 **网页版（Beta）** 的开源代码：官网 + 积木编辑器 + 本地渲染服务器。桌面版（macOS / Windows / Linux 稳定发行）基于同一套积木引擎打包，网页版被合入的新功能会定期进入桌面稳定版——你的贡献会同时惠及两边。
+
+无论你是开发者、设计师还是用户，都可以参与。
 
 ---
 
@@ -48,23 +50,26 @@ pnpm dev        # 本地开发，自动启动 Web GUI + 渲染服务器
 pnpm build      # 构建到 dist/
 ```
 
-> 渲染服务器需要 Python 3.8+ 和 [Manim](https://docs.manim.community/)。
-> 如果只需前端开发，可单独运行 `pnpm build` 后打开 `dist/index.html`，无需渲染服务器。
+> 渲染服务器需要 Python 3.9+ 和 [Manim](https://docs.manim.community/)。
+> 如果只需前端开发，可单独运行 `pnpm build` 后打开 `dist/editor.html`（编辑器）或 `dist/index.html`（官网），无需渲染服务器。
 
 ## 代码结构
 
 ```
-├── index.html         # 主页面 HTML
+├── index.html         # 官网（落地页）
+├── editor.html        # 编辑器主页面 HTML
 ├── dev.js             # 开发启动器（同时启动 Vite + 渲染服务器）
 ├── render_server.py   # 渲染服务器（接收代码 → 跑 manim → 返回视频）
 ├── start.command      # macOS 双击启动文件
 ├── package.json
 ├── src/
-│   ├── main.js        # 入口：Blockly 初始化、按钮事件、示例模板
+│   ├── main.js        # 编辑器入口：Blockly 初始化、按钮事件、示例模板
 │   ├── blocks.js      # 全部积木的 JSON 定义（类型、参数、颜色）
 │   ├── toolbox.js     # 工具箱分类编排
 │   ├── generator.js   # 积木 → Python 代码的生成器
-│   └── style.css      # 样式
+│   ├── style.css      # 编辑器样式
+│   ├── landing.css    # 官网样式
+│   └── landing.js     # 官网交互（下载区平台选项卡）
 └── dist/              # 构建输出（GitHub Pages 部署）
 ```
 

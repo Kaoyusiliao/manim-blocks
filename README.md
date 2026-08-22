@@ -4,9 +4,22 @@
 
 在线使用：**https://kaoyusiliao.github.io/manim-blocks/**
 
-## 准备工作
+## 两个版本
 
-使用前需要安装以下工具。没装的全在下面几步里，跟着装就行。
+| | 🖥 桌面版（稳定发行） | 🌐 网页版（Beta） |
+|---|---|---|
+| 定位 | 打磨好的稳定版本，日常创作 | 开源社区前沿，新功能第一时间上线 |
+| 平台 | macOS / Windows / Linux | 任何现代浏览器 |
+| 渲染 | **开箱即用**：首次启动自动检测并补齐 Python / Manim / FFmpeg / LaTeX | 需本地渲染服务（见下文），或直接复制代码自己跑 |
+| 获取 | [GitHub Releases](https://github.com/Kaoyusiliao/manim-blocks/releases) 下载 | 打开官网即用 |
+
+> 本仓库是网页版的开源代码（MIT）。桌面版基于同一套积木引擎打包，网页版社区贡献的新功能会定期并入桌面稳定版。
+
+## 准备工作（仅网页版本地渲染需要）
+
+> 💡 **桌面版用户跳过本节**——应用首次启动会自动搞定一切，已有的环境直接复用、缺什么才补什么。
+
+网页版要在本地渲染动画的话，需要以下工具。没装的全在下面几步里，跟着装就行。
 
 | 工具 | 用途 | 检查命令 | 必须？ |
 |------|------|---------|--------|
@@ -17,7 +30,11 @@
 
 ## 怎么用
 
-### 🖥 网页版
+### 🖥 桌面版（推荐：开箱即用）
+
+到 [Releases](https://github.com/Kaoyusiliao/manim-blocks/releases) 下载对应系统的安装包（macOS `.dmg` / Windows `.exe` / Linux `.AppImage`、`.deb`），安装后打开就能直接创作、渲染——首次启动会自动检测并补齐所需环境，全程无需动手。
+
+### 🌐 网页版
 
 直接打开 [https://kaoyusiliao.github.io/manim-blocks/](https://kaoyusiliao.github.io/manim-blocks/)，拖积木 → 复制代码 → 终端运行：
 
@@ -26,11 +43,11 @@ pip install manim sympy  # 首次需要
 manim -pql manim_scene.py MyScene
 ```
 
-### ⚡ 本地版（推荐：一键渲染）
+### ⚡ 网页版本地渲染（一键渲染）
 
 搭好积木后，点「▶ 运行」按钮，动画直接在浏览器里播放，无需复制代码。
 
-**需要：** Python 3.8+，[Manim](https://docs.manim.community/) 已安装
+**需要：** Python 3.9+，[Manim](https://docs.manim.community/) 已安装
 
 ```bash
 # 1. 克隆项目
@@ -108,28 +125,28 @@ manim -pql manim_scene.py MyScene    # Mac/Linux
 ```bash
 # 需要 Node.js 18+ 和 pnpm
 pnpm install
-pnpm dev       # 启动 Web GUI + 渲染服务器（自动），http://localhost:5173
+pnpm dev       # 启动 Web GUI + 渲染服务器（自动），编辑器在 http://localhost:3080/editor.html
 pnpm build     # 输出到 dist/
 ```
 
 `pnpm dev` 通过 `dev.js` 同时启动：
-- **Vite 开发服务器**（端口 3080，提供 Web GUI）
+- **Vite 开发服务器**（端口 3080，提供官网 `index.html` 与编辑器 `editor.html`）
 - **Python 渲染服务器**（端口 3081，接收代码 → 运行 manim → 返回视频）
 
 按 Ctrl+C 同时退出两个进程。
 
-> 渲染服务器需要 Python 3.8+ 和 Manim。
+> 渲染服务器需要 Python 3.9+ 和 Manim。
 > 也可单独运行：Mac/Linux 用 `python3 render_server.py`，Windows 用 `py -3 render_server.py`
 
 ## 部署
 
-仓库已配置 GitHub Actions，推送 `main` 分支自动构建并部署到 GitHub Pages。
+仓库已配置 GitHub Actions，推送 `main` 分支自动构建并部署到 GitHub Pages（官网 + 网页版编辑器）。
 
 ## 技术栈
 
 - [Google Blockly](https://developers.google.com/blockly) — 积木编辑器
 - [highlight.js](https://highlightjs.org/) — 代码高亮
-- [Vite](https://vitejs.dev/) — 构建
+- [Vite](https://vitejs.dev/) — 构建（多页：`index.html` 官网 + `editor.html` 编辑器）
 - `render_server.py` — 本地渲染服务器（Python 标准库，零依赖）
 - `dev.js` — 开发服务器启动器（同时启动 Vite + 渲染服务器）
 - 前端 + 本地渲染服务器，搭积木到动画一站式完成
