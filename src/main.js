@@ -1961,10 +1961,7 @@ try {
 
 // ── ▶ 运行按钮 → 渲染服务器 ──────────────────────────
 
-// 检测是否在 Electron 中运行
-const isElectron = typeof window.electronAPI !== 'undefined';
-
-// 渲染服务器 URL（仅在网页版使用）
+// 渲染服务器 URL（可从 localStorage 或环境变量配置）
 const RENDER_BASE = localStorage.getItem('renderBase') || 'http://127.0.0.1:3081';
 const RENDER_URL = RENDER_BASE + '/render';
 const HEALTH_URL = RENDER_BASE + '/health';
@@ -1988,17 +1985,6 @@ function fetchWithTimeout(url, ms) {
 
 // 检测服务器状态（仅作显示，不禁用按钮）
 async function checkRenderServer() {
-  if (isElectron) {
-    const status = await window.electronAPI.render.status();
-    if (status.online) {
-      renderBadge.textContent = '● 在线';
-      renderBadge.className = 'render-badge online';
-    } else {
-      renderBadge.textContent = '● 离线';
-      renderBadge.className = 'render-badge offline';
-    }
-    return;
-  }
   try {
     const res = await fetchWithTimeout(HEALTH_URL, 2000);
     if (res.ok) {
@@ -2042,30 +2028,22 @@ runBtn.addEventListener('click', async () => {
   videoStatus.className = '';
 
   try {
-    let blob;
-    if (isElectron) {
-      const result = await window.electronAPI.render.code({
+    const res = await fetch(RENDER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         code,
+        scene: 'MyScene',
         quality: qualitySelect.value,
-      });
-      if (result.error) throw new Error(result.error);
-      blob = new Blob([result.video], { type: 'video/mp4' });
-    } else {
-      const res = await fetch(RENDER_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          code,
-          scene: 'MyScene',
-          quality: qualitySelect.value,
-        }),
-      });
-      if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || `HTTP ${res.status}`);
-      }
-      blob = await res.blob();
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || `HTTP ${res.status}`);
     }
+
+    const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     videoPlayer.src = url;
     videoPlayer.load();
@@ -2087,92 +2065,3 @@ runBtn.addEventListener('click', async () => {
 
 // ── 快速开始复制按钮 ──────────────────────────────
 // 已通过 .copy-inline 按钮统一处理
-
-// ── Electron 菜单动作 ────────────────────────────
-if (isElectron) {
-  window.electronAPI.onMenuAction((action) => {
-    switch (action) {
-      case 'newProject':
-        window.electronAPI.project.create('新项目').then((project) => {
-          if (project) {
-            workspace.clear();
-            currentProject = project;
-            updateTitle();
-          }
-        });
-        break;
-      case 'openProject':
-        window.electronAPI.project.open().then((project) => {
-          if (project) {
-            loadProject(project);
-          }
-        });
-        break;
-      case 'saveProject':
-        if (currentProject) {
-          const xml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
-          const code = generateCode(workspace);
-          window.electronAPI.project.save({
-            ...currentProject,
-            workspaceXml: xml,
-            lastCode: code,
-          }).then((saved) => {
-            if (saved) currentProject = saved;
-          });
-        }
-        break;
-      case 'saveAsProject':
-        // 同 save 但弹出路径选择
-        saveProjectAs();
-        break;
-      case 'importProject':
-        window.electronAPI.project.importFile().then((project) => {
-          if (project) loadProject(project);
-        });
-        break;
-      case 'exportPy':
-        const code = generateCode(workspace);
-        window.electronAPI.project.exportPy(code);
-        break;
-      case 'render':
-        runBtn.click();
-        break;
-      case 'closeProject':
-        workspace.clear();
-        currentProject = null;
-        updateTitle();
-        break;
-    }
-  });
-}
-
-let currentProject = null;
-
-function updateTitle() {
-  const name = currentProject?.name || '未命名';
-  document.title = `${name} — Manim Blocks`;
-}
-
-function loadProject(project) {
-  currentProject = project;
-  if (project.workspaceXml) {
-    try {
-      const xml = Blockly.Xml.textToDom(project.workspaceXml);
-      Blockly.Xml.domToWorkspace(xml, workspace);
-    } catch (e) {
-      console.error('加载积木失败:', e);
-    }
-  }
-  updateTitle();
-}
-
-async function saveProjectAs() {
-  const xml = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(workspace));
-  const code = generateCode(workspace);
-  const result = await window.electronAPI.project.saveAs({
-    ...currentProject,
-    workspaceXml: xml,
-    lastCode: code,
-  });
-  if (result) currentProject = result;
-}
