@@ -191,6 +191,7 @@ class RenderHandler(BaseHTTPRequestHandler):
 
 if __name__ == '__main__':
     # ── 自动找可用端口 ────────────────────────
+    port = PORT
     max_port = PORT + 100
     while port <= max_port:
         try:
